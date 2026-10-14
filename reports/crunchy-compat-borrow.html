@@ -1,0 +1,326 @@
+<title>Crunchy Compatibility and Ideas to Borrow</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: left-aligned 1120px column; hero + priority grid up top, then filterable recommendation cards; purple = Percona, PostgreSQL blue marks docs */
+@font-face{font-family:'Ardela Edge';src:url('fonts/ArdelaEdge-Bold.woff2') format('woff2');font-weight:700;font-style:normal;font-display:swap}
+:root{
+  --bg:#ffffff; --fg:#282727; --muted:#5e5d5d; --hair:#e9e9e9; --hair2:#d4d4d4; --tint:#f0ecfe; --tint2:#e0d8fd; --panel:#fafafa;
+  --purple:#653df4; --purple-ink:#4a2db3; --yellow:#f6fe54; --pg:#005ed6; --pg-tint:#e6f0fc;
+  --good:#1fa23a; --warn:#ed9118; --bad:#d6362a;
+  --display:'Ardela Edge','Poppins',ui-sans-serif,system-ui,sans-serif;
+  --body:'Poppins',ui-sans-serif,system-ui,-apple-system,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#1f1e1e; --fg:#f2f1f1; --muted:#b3b1b1; --hair:#363434; --hair2:#4a4848; --tint:#2a2440; --tint2:#3a2f66; --panel:#262525;
+  --purple:#8f73ff; --purple-ink:#b5a3ff; --pg:#5aa0ff; --pg-tint:#1b2a40; --good:#3cc25a; --warn:#f2a640; --bad:#f0625a; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#1f1e1e; --fg:#f2f1f1; --muted:#b3b1b1; --hair:#363434; --hair2:#4a4848; --tint:#2a2440; --tint2:#3a2f66; --panel:#262525;
+  --purple:#8f73ff; --purple-ink:#b5a3ff; --pg:#5aa0ff; --pg-tint:#1b2a40; --good:#3cc25a; --warn:#f2a640; --bad:#f0625a; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:15px;line-height:1.6;padding-inline:20px}
+.wrap{max-width:1120px;margin:0 auto}
+a{color:var(--purple-ink)} a:hover{opacity:.7}
+:focus-visible{outline:2px solid var(--purple);outline-offset:2px}
+code{font-family:var(--mono);font-size:.85em;background:var(--panel);border:1px solid var(--hair);border-radius:4px;padding:0 .3em;overflow-wrap:anywhere}
+.h{font-family:var(--display);font-weight:700;text-transform:uppercase;letter-spacing:-.02em;line-height:.9;font-variant-ligatures:none;text-wrap:balance;margin:0}
+.label{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:500}
+.top{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-block:20px 0}
+.logo{width:132px;height:auto;color:var(--fg)}
+.meta{font-size:13px;color:var(--muted);text-align:right}
+.hero{padding-block:48px 40px;border-bottom:1px solid var(--hair);position:relative;overflow:hidden}
+.hero .h{font-size:clamp(40px,7vw,78px);max-width:16ch}
+.hero .h em{font-style:normal;color:var(--purple)}
+.lede{font-size:clamp(17px,2vw,20px);line-height:1.45;letter-spacing:-.01em;max-width:64ch;margin:24px 0 0}
+.slash{position:absolute;right:-70px;top:-60px;width:240px;height:560px;background:var(--yellow);transform:rotate(30deg);z-index:-1}
+@media (max-width:760px){.slash{display:none}}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-top:32px}
+.stat{border:1px solid var(--hair);border-radius:8px;padding:18px;background:var(--bg)}
+.stat .n{font-family:var(--display);font-size:40px;line-height:.9;letter-spacing:-.02em;font-variant-numeric:tabular-nums;color:var(--purple)}
+.stat p{margin:8px 0 0;font-size:13.5px;color:var(--muted)}
+section{padding-block:56px 8px;scroll-margin-top:60px}
+section>.h{font-size:clamp(28px,4vw,42px);margin-bottom:12px}
+.kicker{margin:0 0 20px;max-width:72ch;font-size:16px}
+p{max-width:74ch}
+nav.rail{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--hair);margin-inline:-20px;padding-inline:20px}
+nav.rail ul{list-style:none;margin:0 auto;padding:10px 0;display:flex;gap:6px;overflow-x:auto;max-width:1120px;scrollbar-width:none}
+nav.rail a{display:block;white-space:nowrap;text-decoration:none;color:var(--fg);font-size:13px;padding:5px 12px;border-radius:999px;border:1px solid var(--hair)}
+nav.rail a:hover{background:var(--tint);opacity:1}
+/* priority grid */
+.matrix{display:grid;grid-template-columns:28px 1fr 1fr;grid-template-rows:1fr 1fr 28px;gap:10px;margin-top:8px}
+.axis-y{grid-row:1/3;grid-column:1;writing-mode:vertical-rl;transform:rotate(180deg);text-align:center;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.axis-x{grid-row:3;grid-column:2/4;text-align:center;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);align-self:center}
+.quad{border:1px solid var(--hair);border-radius:8px;padding:16px;min-width:0;background:var(--bg)}
+.quad.win{background:var(--tint);border-color:var(--tint2)}
+.quad h3{margin:0;font-size:15px}
+.quad .q-sub{font-size:12.5px;color:var(--muted);margin:2px 0 12px}
+.quad .chips{display:flex;flex-wrap:wrap;gap:6px}
+.qchip{font:inherit;font-size:12.5px;text-decoration:none;color:var(--fg);border:1px solid var(--hair2);background:var(--bg);border-radius:999px;padding:3px 10px 3px 4px;display:inline-flex;align-items:center;gap:6px;max-width:100%}
+.qchip:hover{opacity:1;border-color:var(--purple)}
+.qchip b{font-family:var(--mono);font-size:11px;font-weight:500;border-radius:999px;padding:1px 6px;color:#fff;background:var(--purple)}
+.qchip.d b{background:var(--pg)}
+.qchip span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+@media (max-width:640px){.matrix{grid-template-columns:1fr;grid-template-rows:none}.axis-y,.axis-x{display:none}}
+/* plan */
+.plan{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+.phase{border:1px solid var(--hair);border-radius:8px;padding:18px 20px;min-width:0}
+.phase.now{border-top:4px solid var(--purple)} .phase.next{border-top:4px solid var(--fg)} .phase.later{border-top:4px solid var(--hair2)}
+.phase h3{margin:0;font-size:16px} .phase .when{font-size:12.5px;color:var(--muted);margin:2px 0 10px}
+.phase ul{list-style:none;margin:0;padding:0}
+.phase li{display:flex;gap:8px;padding:5px 0;border-bottom:1px solid var(--hair);font-size:13.5px}
+.phase li:last-child{border-bottom:none}
+.id{font-family:var(--mono);font-size:11.5px;font-weight:500;min-width:30px;color:var(--purple-ink)}
+.id.d{color:var(--pg)}
+/* filters + cards */
+.filters{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:16px}
+.filters .grp{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-right:12px}
+.filters .lab{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-right:2px}
+.filters button{font:inherit;font-size:13px;padding:4px 13px;border-radius:999px;border:1px solid var(--hair2);background:var(--bg);color:var(--fg);cursor:pointer;transition:background-color .12s ease}
+.filters button[aria-pressed="true"]{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+.count{font-size:13px;color:var(--muted)}
+.recs{display:grid;gap:16px}
+.rec{border:1px solid var(--hair);border-radius:8px;padding:22px 24px;scroll-margin-top:70px;display:grid;grid-template-columns:minmax(0,1fr);gap:12px}
+.rec.prod{border-left:4px solid var(--purple)} .rec.doc{border-left:4px solid var(--pg)}
+.rec:target{box-shadow:0 0 0 2px var(--purple)}
+.rhead{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 14px}
+.rhead .id{font-size:13px}
+.rhead h3{margin:0;font-size:18px;line-height:1.3;flex:1 1 360px;text-wrap:balance}
+.tags{display:flex;flex-wrap:wrap;gap:6px}
+.tag{font-size:12px;font-weight:500;padding:1px 10px;border-radius:999px;border:1px solid var(--hair2);white-space:nowrap;color:var(--fg)}
+.tag.now{background:var(--purple);border-color:var(--purple);color:#fff}
+.tag.next{background:var(--fg);border-color:var(--fg);color:var(--bg)}
+.tag.hi{border-color:var(--bad);color:var(--bad)} .tag.md{border-color:var(--warn);color:var(--warn)}
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px 28px}
+.cols>div{min-width:0}
+.cols h4{margin:0 0 4px;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:500}
+.cols p,.cols ul{margin:0;font-size:14px}
+.cols ul{padding-left:18px} .cols li{margin:3px 0}
+.foot{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:13px;color:var(--muted);border-top:1px solid var(--hair);padding-top:10px}
+.foot a{font-weight:500}
+.ptr{display:inline-block;width:0;height:0;border-left:7px solid var(--purple);border-top:5px solid transparent;border-bottom:5px solid transparent;margin-right:6px;vertical-align:middle}
+.tbl{overflow-x:auto;border:1px solid var(--hair);border-radius:8px}
+table{border-collapse:collapse;width:100%;font-size:14px;min-width:620px}
+th,td{text-align:left;vertical-align:top;padding:10px 14px;border-bottom:1px solid var(--hair)}
+th{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:500;background:var(--panel)}
+tr:last-child td{border-bottom:none}
+td.num{font-variant-numeric:tabular-nums;white-space:nowrap}
+footer{border-top:1px solid var(--hair);margin-top:56px;padding-block:24px 40px;font-size:13px;color:var(--muted);display:flex;flex-wrap:wrap;gap:12px 32px;justify-content:space-between}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style><style>.v{font-size:11px;color:var(--good);font-weight:700;margin-left:4px}.tag.st-same{border-color:var(--good);color:var(--good)}.tag.st-tr{border-color:var(--pg);color:var(--pg)}.tag.st-diff{border-color:var(--warn);color:var(--warn)}.tag.st-gap{border-color:var(--bad);color:var(--bad)}.filters{margin-bottom:12px}</style><div class="wrap">
+  <header class="top">
+    <svg class="logo" viewBox="0 0 1130 235.3" role="img" aria-label="Percona"><g fill="currentColor"><path d="M356.5,152.6h-18.8v33.6H313v-112h45.9c26.8,0,43,15.8,43,38.7v0.3C401.9,139.1,381.7,152.6,356.5,152.6L356.5,152.6z M376.9,113.4c0-11-7.7-17-20.1-17h-19.1v34.2h19.6c12.4,0,19.6-7.4,19.6-17V113.4L376.9,113.4z"/><polygon points="415.7,186.2 415.7,74.2 500.5,74.2 500.5,96.1 440.3,96.1 440.3,118.9 493.3,118.9 493.3,140.8 440.3,140.8 440.3,164.3 501.3,164.3 501.3,186.3 415.7,186.3"/><path d="M588.9,186.2l-24.1-35.8h-19.4v35.8h-24.7v-112H572c26.5,0,42.4,13.9,42.4,37v0.3c0,18.1-9.8,29.5-24.1,34.7l27.5,40H588.9L588.9,186.2z M589.4,112.4c0-10.6-7.4-16-19.4-16h-24.6v32.2h25.1c12,0,18.9-6.4,18.9-15.8V112.4L589.4,112.4z"/><path d="M685.3,189.2c-33.5,0-58.4-25.8-58.4-58.4v-0.3c0-32.3,24.4-58.7,59.4-58.7c21.5,0,34.3,7.1,44.9,17.5l-15.9,18.3c-8.8-8-17.7-12.8-29.1-12.8c-19.2,0-33,15.9-33,35.4v0.3c0,19.5,13.5,35.7,33,35.7c13,0,21-5.2,29.9-13.3l15.9,16C720.3,181.4,707.3,189.2,685.3,189.2L685.3,189.2z"/><path d="M798.2,189.2c-35.2,0-60.4-26.1-60.4-58.4v-0.3c0-32.3,25.5-58.7,60.7-58.7c35.1,0,60.4,26.1,60.4,58.4v0.3C858.8,162.8,833.3,189.2,798.2,189.2 M832.7,130.5c0-19.5-14.3-35.7-34.5-35.7S764,110.7,764,130.2v0.3c0,19.5,14.3,35.7,34.5,35.7s34.2-15.9,34.2-35.4V130.5z"/><polygon points="994.9,186.3 1050.3,71.8 1105.6,186.3 1077.8,186.3 1050.3,129.3 1022.8,186.3"/><polygon points="984.7,74.2 984.7,189.2 900.4,121.1 900.4,186.1 874.1,186.1 874.1,71.8 958.5,139.6 958.5,74.2"/><path d="M96.2,107.2l63.5,110.1h-127L96.2,107.2z M166,49.9c10.3-4.9,21.8-6,33-3c12.3,3.3,22.6,11.2,29,22.3c12.6,21.8,6,49.4-14.4,63.3L166,49.9z M106.6,89.1l30.6-53l0,0l104.5,181.2h-61.2L106.6,89.1z M96.2,71.1L1.5,235.3H273l-50.3-87.2c29-18.9,38.4-57.6,20.9-88c-8.8-15.2-23-26.1-40-30.7c-15.7-4.2-32.2-2.5-46.6,4.8L137.2,0L96.2,71.1z"/></g></svg>
+    <div class="meta">Crunchy PGO 5.8 / 6.0.3 and Percona Operator for PostgreSQL 3.1.0<br>Lab-verified 14 Oct 2026</div>
+  </header>
+  <div class="hero">
+    <div class="slash" aria-hidden="true"></div>
+    <div class="label">Same roots, different branches</div>
+    <h1 class="h" style="margin-top:14px">Crunchy compatibility <em>and ideas to borrow</em></h1>
+    <p class="lede">Percona's operator and Crunchy PGO share most of their code. The data on disk and the running cluster are fully compatible, verified by restoring, streaming from and reusing the volumes of a Crunchy v6.0.3 cluster. The CRD differs mostly in naming. The two products diverge in their images and operational tooling. Crunchy has also built several features since the fork that would help every Percona user, not only migrating ones.</p>
+    <div class="stats">
+      <div class="stat"><div class="n">2 of 5</div><p>layers identical, verified hands-on: data on disk and cluster runtime</p></div>
+      <div class="stat"><div class="n">17</div><p>Crunchy features worth borrowing, 9 of them useful to every Percona user</p></div>
+      <div class="stat"><div class="n">1 switch</div><p>proposed <code>compatibility: crunchy</code> mode would remove three of the seven migration traps found</p></div>
+    </div>
+  </div>
+</div>
+
+<nav class="rail" aria-label="Sections"><ul>
+  <li><a href="#layers">Layers</a></li><li><a href="#matrix">Compatibility matrix</a></li><li><a href="#borrow">Ideas to borrow</a></li><li><a href="#mode">Compatibility mode</a></li><li><a href="#ahead">Where Percona leads</a></li><li><a href="#sources">Sources</a></li>
+</ul></nav>
+
+<main class="wrap">
+<section id="layers">
+  <h2 class="h">Compatible from the bottom up</h2>
+  <p class="kicker">The lower the layer, the more identical the two operators are. Migration is cheap where they match; the work sits in the top two layers.</p>
+  <figure style="margin:0;border:1px solid var(--hair);border-radius:8px;padding:16px">
+    <div style="overflow-x:auto">
+    <svg viewBox="0 0 760 420" width="100%" style="min-width:560px;display:block" role="img" aria-label="Compatibility by layer between Crunchy PGO and Percona Operator">
+      <g font-size="13">
+      <text x="24" y="28" font-size="15" font-weight="700" fill="var(--fg)">Identical at the bottom, diverging at the top</text>
+      <text x="24" y="47" font-size="11.5" fill="var(--muted)">Crunchy PGO 6.0.3 vs Percona Operator 3.1.0, layer by layer</text>
+      <!-- layer 5 ops -->
+      <rect x="24" y="64" width="712" height="62" rx="8" fill="var(--bad)" fill-opacity=".09" stroke="var(--bad)" stroke-width="1.5"/>
+      <text x="40" y="88" font-weight="700" fill="var(--fg)">Operations</text>
+      <text x="40" y="108" font-size="11.5" fill="var(--muted)">monitoring stack, OpenTelemetry, pgAdmin, auto-grow defaults, schedules</text>
+      <text x="720" y="92" text-anchor="end" font-weight="700" fill="var(--bad)">Diverged</text>
+      <text x="720" y="110" text-anchor="end" font-size="11.5" fill="var(--muted)">borrow or bridge</text>
+      <!-- layer 4 images -->
+      <rect x="24" y="134" width="712" height="62" rx="8" fill="var(--warn)" fill-opacity=".10" stroke="var(--warn)" stroke-width="1.5"/>
+      <text x="40" y="158" font-weight="700" fill="var(--fg)">Images</text>
+      <text x="40" y="178" font-size="11.5" fill="var(--muted)">9 Crunchy-only extensions, PostGIS 3.6 vs 3.5.7, same OS and glibc (RHEL 9.8, 2.34)</text>
+      <text x="720" y="162" text-anchor="end" font-weight="700" fill="var(--warn)">Partly compatible</text>
+      <text x="720" y="180" text-anchor="end" font-size="11.5" fill="var(--muted)">extensions decide</text>
+      <!-- layer 3 API -->
+      <rect x="24" y="204" width="712" height="62" rx="8" fill="var(--pg)" fill-opacity=".09" stroke="var(--pg)" stroke-width="1.5"/>
+      <text x="40" y="228" font-weight="700" fill="var(--fg)">API (CRD)</text>
+      <text x="40" y="248" font-size="11.5" fill="var(--muted)">PostgresCluster v1beta1/v1 vs PerconaPGCluster v2: most fields keep their names, about 10 are renamed or moved</text>
+      <text x="720" y="232" text-anchor="end" font-weight="700" fill="var(--pg)">Translate</text>
+      <text x="720" y="250" text-anchor="end" font-size="11.5" fill="var(--muted)">mechanical</text>
+      <!-- layer 2 runtime -->
+      <rect x="24" y="274" width="712" height="62" rx="8" fill="var(--good)" fill-opacity=".10" stroke="var(--good)" stroke-width="1.5"/>
+      <text x="40" y="298" font-weight="700" fill="var(--fg)">Cluster runtime</text>
+      <text x="40" y="318" font-size="11.5" fill="var(--muted)">Patroni + K8s DCS, Services, Secrets, roles, pgBouncer config, failover timing</text>
+      <text x="720" y="302" text-anchor="end" font-weight="700" fill="var(--good)">Identical</text>
+      <text x="720" y="320" text-anchor="end" font-size="11.5" fill="var(--muted)">except role label, CA scope</text>
+      <!-- layer 1 data -->
+      <rect x="24" y="344" width="712" height="62" rx="8" fill="var(--good)" fill-opacity=".18" stroke="var(--good)" stroke-width="1.5"/>
+      <text x="40" y="368" font-weight="700" fill="var(--fg)">Data on disk</text>
+      <text x="40" y="388" font-size="11.5" fill="var(--muted)">PGDATA layout, WAL, pgBackRest stanza db and repo format</text>
+      <text x="720" y="372" text-anchor="end" font-weight="700" fill="var(--good)">Identical</text>
+      <text x="720" y="390" text-anchor="end" font-size="11.5" fill="var(--muted)">restored, streamed, reused ✓</text>
+      </g>
+    </svg>
+    </div>
+  </figure>
+</section>
+
+<section id="matrix">
+  <h2 class="h">Compatibility matrix</h2>
+  <p class="kicker">Each row says how a Crunchy user's setup carries over. <span class="v">✓</span> marks rows verified in the lab; the rest come from the CRD schemas, source code and docs at Crunchy v5.8.9 / v6.0.3 and Percona v3.1.0.</p>
+  <div class="filters" role="group" aria-label="Filter rows">
+    <div class="grp"><span class="lab">Status</span>
+      <button id="fs-all" data-v="all" aria-pressed="true">All</button>
+      <button id="fs-same" data-v="same" aria-pressed="false">Identical</button>
+      <button id="fs-tr" data-v="tr" aria-pressed="false">Translate</button>
+      <button id="fs-diff" data-v="diff" aria-pressed="false">Behaves differently</button>
+      <button id="fs-gap" data-v="gap" aria-pressed="false">Missing in Percona</button></div>
+    <span class="count" id="count"></span>
+  </div>
+  <div class="tbl"><table>
+    <thead><tr><th>Area</th><th>Crunchy PGO</th><th>Percona 3.1.0</th><th>Status</th></tr></thead>
+    <tbody id="mx"></tbody>
+  </table></div>
+</section>
+
+<section id="borrow">
+  <h2 class="h">Ideas to borrow</h2>
+  <p class="kicker">Features Crunchy built since the fork, judged by what they would do for Percona users in general. Migration value is noted separately.</p>
+  <div class="filters" role="group" aria-label="Filter ideas">
+    <div class="grp"><span class="lab">Benefit</span>
+      <button id="fb-all" data-v="all" aria-pressed="true">All</button>
+      <button id="fb-every" data-v="every" aria-pressed="false">Every Percona user</button>
+      <button id="fb-mig" data-v="mig" aria-pressed="false">Mainly migration</button></div>
+    <span class="count" id="bcount"></span>
+  </div>
+  <div class="recs" id="ideas"></div>
+</section>
+
+<section id="mode">
+  <h2 class="h">One switch for compatibility</h2>
+  <p class="kicker">Three of the seven migration traps (dropped extensions, dormant cron jobs, and most of the smaller behaviour changes) come from Percona defaults that differ from Crunchy's. Rather than ask every migrating user to find them, bundle the Crunchy behaviour behind one field.</p>
+  <div class="tbl"><table>
+    <thead><tr><th><code>compatibility: crunchy</code> would set</th><th>Percona default today</th><th>Trap it removes</th></tr></thead>
+    <tbody>
+      <tr><td>Built-in extensions unmanaged unless explicitly enabled or disabled</td><td>Disabled built-ins dropped in all databases</td><td><a href="https://github.com/percona/percona-postgresql-operator/issues/1859">#1859</a> extensions lost</td></tr>
+      <tr><td><code>cron.database_name</code> taken from the user's configuration</td><td>Forced to <code>postgres</code></td><td><a href="https://github.com/percona/percona-postgresql-operator/issues/1860">#1860</a> dormant cron jobs</td></tr>
+      <tr><td><code>autoCreateUserSchema: false</code></td><td><code>true</code></td><td>New tables in a per-user schema</td></tr>
+      <tr><td>Primary pod also labelled <code>role=master</code></td><td><code>role=primary</code> only</td><td>Broken NetworkPolicies, alerts, scripts</td></tr>
+      <tr><td>Logs in <code>/pgdata/logs/postgres</code></td><td><code>log</code> inside PGDATA</td><td>Log shipping paths change</td></tr>
+      <tr><td>Accept the namespace CA (<code>pgo-root-cacert</code>) as the cluster root CA</td><td>Per-cluster CA</td><td><code>verify-full</code> clients break after cutover</td></tr>
+    </tbody>
+  </table></div>
+  <p style="font-size:14px">The same field gives a migration assistant (<a href="https://github.com/percona/percona-postgresql-operator/issues/1863">#1863</a>) and in-place adoption (<a href="https://github.com/percona/percona-postgresql-operator/issues/1864">#1864</a>) one thing to set. Users can switch it off once their applications are updated.</p>
+</section>
+
+<section id="ahead">
+  <h2 class="h">Where Percona already leads</h2>
+  <p class="kicker">Not everything should flow one way. These are reasons for a Crunchy user to move, beyond Crunchy's final planned releases.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>Percona 3.1.0</th><th>Crunchy PGO</th></tr></thead>
+    <tbody>
+      <tr><td><code>pg_tde</code> transparent data encryption (PG 17/18)</td><td>No TDE in the Kubernetes product</td></tr>
+      <tr><td>PMM with query analytics; <code>pg_stat_monitor</code></td><td>pgMonitor metrics and dashboards, no query analytics</td></tr>
+      <tr><td>Images free for production use</td><td>Developer Portal terms: 50+ employee organisations need a subscription</td></tr>
+      <tr><td>Declarative <code>PerconaPGBackup</code> / <code>PerconaPGRestore</code> objects with status and latest restorable time</td><td>Spec + annotation triggers</td></tr>
+      <tr><td>Custom extensions as tarballs, no image rebuild</td><td>Rebuild images (v6 ships PGDG build recipes)</td></tr>
+      <tr><td>Persistent logs with Fluent Bit and rotation</td><td>OTel logs (alpha, gated)</td></tr>
+      <tr><td>OpenEverest (CNCF Sandbox) web UI and DBaaS layer</td><td>None (Crunchy Bridge is a hosted service)</td></tr>
+      <tr><td>Releases planned beyond 2026</td><td>Final planned releases around 31 Dec 2026</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section id="sources">
+  <h2 class="h">Sources</h2>
+  <ul style="max-width:80ch">
+    <li>Lab: Crunchy PGO v6.0.3 and Percona 3.1.0 side by side on k3s, three migrations, failover and split-brain tests: <a href="https://github.com/Percona-Lab/pgk8s-eval">Percona-Lab/pgk8s-eval</a></li>
+    <li>CRD schemas and source at <a href="https://github.com/CrunchyData/postgres-operator/tree/v6.0.3">CrunchyData/postgres-operator v6.0.3</a> and v5.8.9, <a href="https://github.com/percona/percona-postgresql-operator/tree/v3.1.0">percona/percona-postgresql-operator v3.1.0</a></li>
+    <li><a href="https://info.crunchydata.com/crunchy-postgres-for-kubernetes-notice-of-final-planned-releases">Crunchy notice of final planned releases</a>, <a href="https://www.crunchydata.com/developers/terms-of-use">Crunchy Developer Program terms</a></li>
+    <li>Issues filed: operator <a href="https://github.com/percona/percona-postgresql-operator/issues/1859">#1859</a>–<a href="https://github.com/percona/percona-postgresql-operator/issues/1865">#1865</a>, docs <a href="https://github.com/percona/k8spg-docs/issues/453">#453</a>–<a href="https://github.com/percona/k8spg-docs/issues/457">#457</a></li>
+  </ul>
+</section>
+</main>
+<div class="wrap"><footer><span>Crunchy compatibility and ideas to borrow</span><span>Percona Operator for PostgreSQL 3.1.0 · 14 Oct 2026</span></footer></div>
+
+<script>
+(function(){
+const OP='https://github.com/percona/percona-postgresql-operator/issues/';
+const ST={same:['Identical','good'],tr:['Translate','pg'],diff:['Behaves differently','warn'],gap:['Missing in Percona','bad']};
+/* area, crunchy, percona, status, lab-verified */
+const M=[
+['PGDATA layout, WAL, timelines','PG 14–18, <code>/pgdata/pg18</code>','Same','same',1],
+['pgBackRest stanza and repo format','Stanza <code>db</code>, repo paths, archive','Same: Percona restored and streamed from Crunchy\'s S3 repo','same',1],
+['HA engine','Patroni (4.1.x), Kubernetes endpoints as DCS','Patroni 4.1.5, same DCS','same',1],
+['Failover and split-brain behaviour','Pod delete 2.4 s, partition: no overlap','Pod delete 2.4 s, partition: no overlap','same',1],
+['Services','<code>-primary</code>, <code>-ha</code>, <code>-replicas</code>, <code>-pgbouncer</code>, <code>-pods</code>','Same names','same',1],
+['User Secrets','<code>&lt;cluster&gt;-pguser-&lt;user&gt;</code> with uri, jdbc-uri, pgbouncer-uri, verifier…','Same name and keys; a pre-copied Secret is kept','same',1],
+['Internal roles','<code>_crunchyrepl</code>, <code>_crunchypgbouncer</code>','Same roles','same',1],
+['Default PostgreSQL settings','pgaudit preload, scram, ssl, wal_level logical…','Identical defaults','same',1],
+['pgBouncer configuration','auth_query, TLS verify-full to backend','Identical, plus <code>admin_users</code>','same',1],
+['Labels prefix','<code>postgres-operator.crunchydata.com/*</code>','Same prefix','same',1],
+['Base OS and glibc','UBI 9 / RHEL 9.8, glibc 2.34 (v5.8+)','Same (UBI 8 and 10 variants also offered)','same',1],
+['Manual switchover','<code>patroni.switchover</code> + trigger annotation','Same procedure','same',1],
+['Coexistence in one Kubernetes cluster','<code>postgres-operator.crunchydata.com</code> CRDs','<code>pgv2.percona.com</code> + <code>upstream.pgv2.percona.com</code>; ran side by side for 3 h','same',1],
+['Cluster kind / API','<code>PostgresCluster</code> v1beta1 (5.8), v1 + v1beta1 (6.0)','<code>PerconaPGCluster</code> v2 + <code>crVersion</code>','tr',0],
+['Exposure','<code>service</code>, <code>replicaService</code>','<code>expose</code>, <code>exposeReplicas</code>','tr',0],
+['Shutdown / pause reconcile','<code>shutdown</code> / <code>paused</code>','<code>pause</code> / <code>unmanaged</code>','tr',0],
+['TLS secrets','Top-level <code>customTLSSecret</code>…','Under <code>secrets.*</code>; cert-manager options','tr',0],
+['Manual backup and restore','Spec + <code>pgbackrest-backup</code>/<code>pgbackrest-restore</code> annotations','<code>PerconaPGBackup</code> / <code>PerconaPGRestore</code> objects','tr',0],
+['Backup schedules','Kubernetes CronJobs','Operator\'s in-process scheduler creating backup objects','tr',0],
+['Major upgrade','<code>PGUpgrade</code> (transferMethod: Link, Clone, Copy, CopyFileRange)','<code>PerconaPGUpgrade</code>, no transfer method choice','tr',0],
+['Image selection','Optional; chosen by <code>postgresVersion</code> + <code>postGISVersion</code>','<code>image</code> set explicitly','tr',0],
+['Primary pod label','<code>role=master</code>','<code>role=primary</code>','diff',1],
+['Extension management','Never drops; pgMonitor creates pg_stat_statements','Drops disabled built-ins in all databases (#1859)','diff',1],
+['pg_cron database','User-set <code>cron.database_name</code>','Forced to <code>postgres</code> (#1860)','diff',1],
+['Per-user schema','Off (opt-in annotation)','On by default','diff',1],
+['Log location','<code>/pgdata/logs/postgres</code> (v6)','<code>log</code> in PGDATA, Fluent Bit sidecar','diff',1],
+['Root CA','One per namespace (<code>pgo-root-cacert</code>)','One per cluster','diff',0],
+['Install scope','Cluster-wide by default','Namespace-scoped by default','diff',1],
+['Auto-grow','On by default (v6), trigger 75% and maxGrow','Feature gate off, no thresholds','diff',0],
+['Image extensions','pg_partman+bgw, pg_jobmon, timescaledb, orafce, plpython3u (+3), hypopg, passwordpolicy, pg_parquet, pgnodemx','Missing (plpython3u call failed after migration)','gap',1],
+['PostGIS','3.6 on PG 17/18','3.5.7','gap',0],
+['Metrics exporter','pgMonitor sidecar (<code>ccp_*</code>) + Prometheus/Grafana/Alertmanager stack','PMM; postgres_exporter as manual sidecar','gap',0],
+['OpenTelemetry','<code>instrumentation</code> for logs and metrics (gated)','None','gap',0],
+['pgAdmin','<code>PGAdmin</code> CRD with server groups (ran in lab)','CRD shipped, no controller (#1708)','gap',1],
+['Extra and temp volumes','<code>volumes.additional</code> on any container, <code>volumes.temp</code>','<code>extraVolumes</code> on database container; no temp volume','gap',0],
+['Service policies','traffic policies, IP families','Not exposed','gap',0],
+['Patroni logging, scheduling opt-out','<code>patroni.logging</code>, <code>disableDefaultPodScheduling</code>','Not available','gap',0]];
+const tb=document.getElementById('mx'),cnt=document.getElementById('count');
+function rm(f){const r=M.filter(x=>f==='all'||x[3]===f);tb.innerHTML=r.map(x=>`<tr><td>${x[0]}${x[4]?'<span class="v" title="Verified in the lab">✓</span>':''}</td><td>${x[1]}</td><td>${x[2]}</td><td><span class="tag st-${x[3]}">${ST[x[3]][0]}</span></td></tr>`).join('');cnt.textContent=`${r.length} of ${M.length} rows`;}
+/* id, title, crunchy does, why for percona, migration value, who(every|mig), effort, link */
+const I=[
+['B1','Upgrade with hard links','<code>PGUpgrade.transferMethod</code> offers Link, Clone, Copy and CopyFileRange.','Percona\'s major upgrade copies data, needs double the disk and a manual <code>rm -rf</code> of the old version. Link mode makes upgrades minutes long on large databases with no extra disk.','Parity for v6 users','every','Low',''],
+['B2','Auto-grow on by default, with thresholds','<code>autoGrow.trigger</code> (default 75%, 50–90) and <code>maxGrow</code>; the gate is on in v6.','Disk-full is the most common self-inflicted Postgres outage. Percona has auto-grow but off by default and without a ceiling.','v6 users expect it on','every','Low',OP+'1865'],
+['B3','OpenTelemetry output','<code>instrumentation</code> ships logs and metrics through an OTel collector sidecar.','A vendor-neutral path into Datadog, Grafana Cloud, Splunk and others, next to PMM. Removes the "Percona means PMM" objection.','Keeps v6 observability pipelines','every','Medium',OP+'1865'],
+['B4','Prometheus metrics without a PMM server','pgMonitor exporter sidecar plus a kustomize Prometheus/Grafana/Alertmanager stack.','Platform teams that standardise on Prometheus get metrics and alerts out of the box. CloudNativePG offers the same, so this is a gap for every evaluation.','Existing dashboards keep working if metric names match','every','Medium',OP+'1865'],
+['B5','Node metrics from SQL (pgnodemx)','The pgnodemx extension exposes cgroup, disk and network stats as SQL functions.','Lets PMM and SQL users see container memory and volume usage next to query stats, without node-exporter access.','Removes a missing-extension error','every','Low',''],
+['B6','Standalone pgAdmin','<code>PGAdmin</code> CRD (pgAdmin 9.x) with server groups that select clusters by label, OAuth2 and LDAP.','A browser UI per namespace or team, provisioned declaratively. Percona already ships the CRD with no controller (#1708).','Parity for v6 users','every','Medium','https://github.com/percona/percona-postgresql-operator/issues/1708'],
+['B7','Pick the image from the version','<code>image</code> is optional; the operator picks the right image from <code>postgresVersion</code> and <code>postGISVersion</code>.','Fewer copy-paste errors (the v3.1.0 <code>cr.yaml</code> pinned stale images, #1852) and simple PostGIS selection.','Converted manifests need no image mapping','every','Low',''],
+['B8','Stricter validation at admission','v6 <code>v1</code> API adds CEL rules (instance count, log paths, removed fields rejected with clear messages).','Errors at <code>kubectl apply</code> instead of a cluster stuck in <code>initializing</code>, which was the main troubleshooting complaint in our tests.','None','every','Medium',''],
+['B9','Logs outside PGDATA, temp volumes','Logs under <code>/pgdata/logs/postgres</code>; <code>volumes.temp</code> mounts a separate volume for temporary files.','Keeps backups and PGDATA clean and lets temp files use fast or ephemeral storage.','Paths stay the same after migration','every','Low',OP+'1865'],
+['B10','Broader extension set','pg_partman with its background worker, pg_jobmon, orafce, plpython3u, hypopg, TimescaleDB (Apache edition), pg_parquet.','Shows real demand from Kubernetes Postgres users: partitioning, Oracle compatibility and analytics.','Blocker for users of these extensions','mig','Medium',OP+'1865'],
+['B11','Leave user extensions alone','The operator never drops extensions it did not create.','Prevents silent loss for anyone who runs <code>CREATE EXTENSION</code> by hand, not only migrants.','Removes trap T1','mig','Low',OP+'1859'],
+['B12','Honour cron.database_name','pg_cron runs wherever the user configures it.','Common pattern for partition maintenance inside the application database.','Removes trap T2','mig','Low',OP+'1860'],
+['B13','Namespace-wide trust root','One CA per namespace (<code>pgo-root-cacert</code>) signs all clusters.','Clients trust one CA for every cluster in a namespace; simpler sidecars and service meshes. Offer it as an option next to per-cluster CAs.','Keeps verify-full clients working','mig','Low',''],
+['B14','Schedules as native CronJobs','Backup schedules are Kubernetes CronJobs, visible with <code>kubectl get cronjobs</code> and suspendable.','Native visibility and suspend. At minimum, show next and last run in status; #1731 shows the dual-scheduler risk.','Schedules look the same after migration','mig','Medium','https://github.com/percona/percona-postgresql-operator/issues/1731'],
+['B15','Build-your-own image recipes','v6 ships <code>components/</code> with Dockerfiles for postgres, pgbackrest, pgbouncer, exporter, pgadmin and collector from PGDG packages.','Percona 3.1 supports community images; publishing equivalent build recipes would make custom extension images a documented path.','Customers with custom Crunchy images can rebuild','mig','Low',''],
+['B16','Service traffic and IP-family policies','<code>externalTrafficPolicy</code>, <code>internalTrafficPolicy</code>, <code>ipFamilies</code> on Services.','Needed for source-IP preservation and dual-stack clusters.','Parity','mig','Low',OP+'1865'],
+['B17','Patroni logging and scheduling opt-out','<code>patroni.logging</code> (level, storage limit), <code>disableDefaultPodScheduling</code>.','Debug Patroni without exec; full control over scheduling for strict platforms.','Parity','mig','Low',OP+'1865']];
+const ib=document.getElementById('ideas'),bc=document.getElementById('bcount');
+function ri(f){const r=I.filter(x=>f==='all'||x[5]===f);ib.innerHTML=r.map(x=>`<article class="rec ${x[5]==='every'?'prod':'doc'}" id="${x[0]}"><div class="rhead"><span class="id${x[5]==='every'?'':' d'}">${x[0]}</span><h3>${x[1]}</h3><div class="tags"><span class="tag ${x[5]==='every'?'now':'next'}">${x[5]==='every'?'Every Percona user':'Mainly migration'}</span><span class="tag">Effort ${x[6].toLowerCase()}</span></div></div><div class="cols"><div><h4>What Crunchy does</h4><p>${x[2]}</p></div><div><h4>Why Percona should</h4><p>${x[3]}</p></div></div><div class="foot"><span><strong style="color:var(--fg);font-weight:500">Migration value:</strong> ${x[4]}</span>${x[7]?`<span><a href="${x[7]}"><span class="ptr"></span>${x[7].includes('1708')?'#1708':x[7].includes('1731')?'#1731':'#'+x[7].split('/').pop()}</a></span>`:''}</div></article>`).join('');bc.textContent=`${r.length} of ${I.length} ideas`;}
+function wire(prefix,fn){document.querySelectorAll(`[id^="${prefix}"]`).forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll(`[id^="${prefix}"]`).forEach(x=>x.setAttribute('aria-pressed',x===b));fn(b.dataset.v);}));}
+wire('fs-',rm);wire('fb-',ri);rm('all');ri('all');
+})();
+</script>

@@ -108,7 +108,7 @@ footer{border-top:1px solid var(--hair);margin-top:56px;padding-block:24px 40px;
 <div class="wrap">
   <header class="top">
     <svg class="logo" viewBox="0 0 1130 235.3" role="img" aria-label="Percona"><g fill="currentColor"><path d="M356.5,152.6h-18.8v33.6H313v-112h45.9c26.8,0,43,15.8,43,38.7v0.3C401.9,139.1,381.7,152.6,356.5,152.6L356.5,152.6z M376.9,113.4c0-11-7.7-17-20.1-17h-19.1v34.2h19.6c12.4,0,19.6-7.4,19.6-17V113.4L376.9,113.4z"/><polygon points="415.7,186.2 415.7,74.2 500.5,74.2 500.5,96.1 440.3,96.1 440.3,118.9 493.3,118.9 493.3,140.8 440.3,140.8 440.3,164.3 501.3,164.3 501.3,186.3 415.7,186.3"/><path d="M588.9,186.2l-24.1-35.8h-19.4v35.8h-24.7v-112H572c26.5,0,42.4,13.9,42.4,37v0.3c0,18.1-9.8,29.5-24.1,34.7l27.5,40H588.9L588.9,186.2z M589.4,112.4c0-10.6-7.4-16-19.4-16h-24.6v32.2h25.1c12,0,18.9-6.4,18.9-15.8V112.4L589.4,112.4z"/><path d="M685.3,189.2c-33.5,0-58.4-25.8-58.4-58.4v-0.3c0-32.3,24.4-58.7,59.4-58.7c21.5,0,34.3,7.1,44.9,17.5l-15.9,18.3c-8.8-8-17.7-12.8-29.1-12.8c-19.2,0-33,15.9-33,35.4v0.3c0,19.5,13.5,35.7,33,35.7c13,0,21-5.2,29.9-13.3l15.9,16C720.3,181.4,707.3,189.2,685.3,189.2L685.3,189.2z"/><path d="M798.2,189.2c-35.2,0-60.4-26.1-60.4-58.4v-0.3c0-32.3,25.5-58.7,60.7-58.7c35.1,0,60.4,26.1,60.4,58.4v0.3C858.8,162.8,833.3,189.2,798.2,189.2 M832.7,130.5c0-19.5-14.3-35.7-34.5-35.7S764,110.7,764,130.2v0.3c0,19.5,14.3,35.7,34.5,35.7s34.2-15.9,34.2-35.4V130.5z"/><polygon points="994.9,186.3 1050.3,71.8 1105.6,186.3 1077.8,186.3 1050.3,129.3 1022.8,186.3"/><polygon points="984.7,74.2 984.7,189.2 900.4,121.1 900.4,186.1 874.1,186.1 874.1,71.8 958.5,139.6 958.5,74.2"/><path d="M96.2,107.2l63.5,110.1h-127L96.2,107.2z M166,49.9c10.3-4.9,21.8-6,33-3c12.3,3.3,22.6,11.2,29,22.3c12.6,21.8,6,49.4-14.4,63.3L166,49.9z M106.6,89.1l30.6-53l0,0l104.5,181.2h-61.2L106.6,89.1z M96.2,71.1L1.5,235.3H273l-50.3-87.2c29-18.9,38.4-57.6,20.9-88c-8.8-15.2-23-26.1-40-30.7c-15.7-4.2-32.2-2.5-46.6,4.8L137.2,0L96.2,71.1z"/></g></svg>
-    <div class="meta">Competitive evaluation · hands-on lab<br>Tested 13–14 Oct 2026 · Updated with split-brain tests</div>
+    <div class="meta">Competitive evaluation · hands-on lab<br>Tested 13–14 Oct 2026 · Updated with split-brain and cross-site DR tests</div>
   </header>
 
   <div class="hero">
@@ -124,7 +124,7 @@ footer{border-top:1px solid var(--hair);margin-top:56px;padding-block:24px 40px;
 </div>
 
 <nav class="rail" aria-label="Sections"><ul>
-  <li><a href="#verdict">Verdict</a></li><li><a href="#failover">Failover</a></li><li><a href="#splitbrain">Split-brain</a></li><li><a href="#architecture">Architecture</a></li>
+  <li><a href="#verdict">Verdict</a></li><li><a href="#failover">Failover</a></li><li><a href="#splitbrain">Split-brain</a></li><li><a href="#dr">Cross-site DR</a></li><li><a href="#architecture">Architecture</a></li>
   <li><a href="#install">Install</a></li><li><a href="#backup">Backup &amp; PITR</a></li><li><a href="#troubleshooting">Troubleshooting</a></li>
   <li><a href="#docs">Docs</a></li><li><a href="#features">Features</a></li><li><a href="#market">Market</a></li>
   <li><a href="#recommendations">Recommendations</a></li><li><a href="#issues">Issues filed</a></li><li><a href="#method">Method</a></li>
@@ -134,7 +134,7 @@ footer{border-top:1px solid var(--hair);margin-top:56px;padding-block:24px 40px;
 
 <section id="verdict">
   <h2 class="h">The verdict</h2>
-  <p class="kicker">CloudNativePG takes 7 of the 14 scored areas and Percona 6, with 1 even. Percona's six are the ones that decide whether data and writes survive a bad day.</p>
+  <p class="kicker">CloudNativePG takes 7 of the 15 scored areas and Percona 6, with 2 even. Percona's six are the ones that decide whether data and writes survive a bad day.</p>
   <div class="verdict">
     <div class="stat"><div class="n p">7 of 8</div><p>failure scenarios where Percona restored writes faster (direct to the primary)</p></div>
     <div class="stat"><div class="n p">3.4 s</div><p>Percona failover with its operator scaled to zero. CloudNativePG did not fail over: 101 s outage</p></div>
@@ -243,6 +243,22 @@ footer{border-top:1px solid var(--hair);margin-top:56px;padding-block:24px 40px;
     <div class="card c"><h4>Why CloudNativePG splits</h4><p style="margin:0">Its isolation check only fails the liveness probe. The kubelet then triggers a <em>smart</em> shutdown, which refuses new sessions but lets open ones keep committing for up to <code>smartShutdownTimeout</code> (180 s). Meanwhile the operator promotes a replica. Setting <code>smartShutdownTimeout: 0</code> or quorum sync closes the window today.</p></div>
     <div class="card p"><h4>Why Percona doesn't</h4><p style="margin:0">Patroni must renew its leader key in the Kubernetes API. When it can't, it demotes the primary itself, which ends open sessions, after 10–19 s. A replica can only take the key after the 30 s TTL, so demotion always comes first. Writes acknowledged before demotion are still lost with async replication.</p></div>
   </div>
+</section>
+
+
+<section id="dr">
+  <h2 class="h">Cross-site DR</h2>
+  <p class="kicker">CloudNativePG's DR advantage is narrower than its feature list suggests. Its demotion and promotion token made a planned site switch over object storage alone lose nothing and rejoin cleanly; Percona's old primary diverged in that setup. With streaming between sites, Percona switched in 1.9 s with no loss and repaired the old primary automatically. Full results: <a href="cross-site-dr.html">Cross-Site DR Comparison</a>.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>Planned switch (one run each)</th><th>Downtime</th><th>Acked writes lost</th><th>Old primary</th></tr></thead>
+    <tbody>
+      <tr><td>CloudNativePG, object storage, with token</td><td class="num">8.5 s</td><td class="num">0</td><td>Rejoined</td></tr>
+      <tr><td>CloudNativePG, leftover token blocked the demotion</td><td class="num">two primaries 170 s</td><td class="num">5,604</td><td>Diverged; status "healthy"; rebuilt</td></tr>
+      <tr><td>Percona, object storage, careful manual wait</td><td class="num">24.7 s</td><td class="num">0</td><td>Diverged; rebuild needed</td></tr>
+      <tr><td>Percona, streaming, careful</td><td class="num">24.2 s</td><td class="num">0</td><td>Rejoined</td></tr>
+      <tr><td>Percona, streaming, immediate</td><td class="num">1.9 s</td><td class="num">0</td><td>Rejoined after automatic pg_rewind</td></tr>
+    </tbody>
+  </table></div>
 </section>
 
 <section id="architecture">
@@ -459,6 +475,7 @@ footer{border-top:1px solid var(--hair);margin-top:56px;padding-block:24px 40px;
       <tr><td>"CloudNativePG is the CNCF standard"</td><td>OpenEverest, built on Percona's operator, is also CNCF Sandbox. CloudNativePG's maintainers all work at EDB.</td></tr>
       <tr><td>"Patroni in a pod is legacy"</td><td>Patroni failed over in 3.4 s with the operator down; CloudNativePG could not. It was also fastest on node loss (27–31 s vs 74–98 s).</td></tr>
       <tr><td>"CloudNativePG has no split-brain"</td><td>On 1.30.1 with defaults it ran two primaries for 129 s and lost 3,680 acknowledged writes during the overlap. The fix ships in 1.31; until then users must set <code>smartShutdownTimeout: 0</code> or quorum sync.</td></tr>
+      <tr><td>"CloudNativePG has better cross-cluster DR"</td><td>Only for planned switches over object storage alone. With streaming, Percona switched with zero loss in 1.9 s and repaired the old primary automatically. CloudNativePG archives WAL every 5 minutes by default, Percona every minute.</td></tr>
       <tr><td>"CloudNativePG backups are fine"</td><td>They need cert-manager, a v0.x plugin and an object store first. In-tree removal in 1.31 forces a migration, and there is no in-place restore.</td></tr>
       <tr><td>"CloudNativePG is easier to operate"</td><td>True for tooling: plugin, Events, native metrics. Percona should close this gap.</td></tr>
     </tbody>
@@ -494,7 +511,7 @@ footer{border-top:1px solid var(--hair);margin-top:56px;padding-block:24px 40px;
 
 <section id="issues">
   <h2 class="h">Issues filed</h2>
-  <p class="kicker">Eleven GitHub issues filed on 14 Oct 2026, each with reproduction steps and measured timings. Split-brain results were added to <a href="https://github.com/cloudnative-pg/cloudnative-pg/issues/11280#issuecomment-6165732927">cloudnative-pg #11280</a>, <a href="https://github.com/cloudnative-pg/cloudnative-pg/issues/11656#issuecomment-6165733300">#11656</a> and <a href="https://github.com/percona/k8spg-docs/issues/450#issuecomment-6165733819">k8spg-docs #450</a>.</p>
+  <p class="kicker">Issues filed on 14 Oct 2026, each with reproduction steps and measured timings. Follow-ups: Crunchy migration (operator <a href="https://github.com/percona/percona-postgresql-operator/issues/1859">#1859</a>–<a href="https://github.com/percona/percona-postgresql-operator/issues/1865">#1865</a>, docs <a href="https://github.com/percona/k8spg-docs/issues/453">#453</a>–<a href="https://github.com/percona/k8spg-docs/issues/457">#457</a>) and cross-site DR (operator <a href="https://github.com/percona/percona-postgresql-operator/issues/1867">#1867</a>–<a href="https://github.com/percona/percona-postgresql-operator/issues/1870">#1870</a>, docs <a href="https://github.com/percona/k8spg-docs/issues/458">#458</a>). Split-brain results were added to <a href="https://github.com/cloudnative-pg/cloudnative-pg/issues/11280#issuecomment-6165732927">cloudnative-pg #11280</a>, <a href="https://github.com/cloudnative-pg/cloudnative-pg/issues/11656#issuecomment-6165733300">#11656</a> and <a href="https://github.com/percona/k8spg-docs/issues/450#issuecomment-6165733819">k8spg-docs #450</a>.</p>
   <div class="issues">
     <div class="card p"><h4>Percona operator</h4><ol>
       <li><a href="https://github.com/percona/percona-postgresql-operator/issues/1848">#1848</a><span>Repo-host loss stalls promotion for minutes</span></li>
@@ -565,6 +582,7 @@ const score=[
  ['Documentation','t','7.4/10 each; different strengths'],
  ['Day-2 feature breadth','c','Fencing, hibernation, delayed replicas, Database/Role CRDs'],
  ['Enterprise and compliance','p','pg_tde, OpenShift and RKE2 release-tested, storage auto-grow'],
+ ['Cross-site DR','t','CNPG safer for planned switches over object storage alone; Percona faster (1.9 s) and self-repairing with streaming'],
  ['Community and ecosystem','c','9,443 vs 385 stars; 1,497 vs 366 merged PRs in 12 months']];
 const chip={p:'<span class="chip p">Percona</span>',c:'<span class="chip c">CloudNativePG</span>',t:'<span class="chip t">Even</span>'};
 document.getElementById('scorecard').innerHTML=score.map(r=>`<tr><td>${r[0]}</td><td>${chip[r[1]]}</td><td>${r[2]}</td></tr>`).join('');
@@ -640,7 +658,11 @@ const F=[
  ['Extensions without a custom image','Tarballs from S3, any PG','ImageVolume, PG 18+ and K8s 1.35+','p',0],
  ['In-place major upgrade','PerconaPGUpgrade CR (offline)','Change imageName (offline pg_upgrade)','t',0],
  ['Online major upgrade via logical replication','No CRDs','Publication / Subscription CRDs','c',0],
- ['Cross-cluster DR','Standby cluster (repo / streaming)','Replica clusters + distributed topology','c',0],
+ ['Cross-site planned switch, object storage only','No handshake; old primary diverged and needed a rebuild','Demotion/promotion token: 0 lost, old primary rejoined','c',1],
+ ['Cross-site planned switch with streaming','0 lost in 1.9–24 s; old primary rejoined','Not tested','t',1],
+ ['Automatic repair of a diverged old primary','Patroni pg_rewind (with streaming)','None without the token; status stayed "healthy"','p',1],
+ ['Guard against two primaries across sites','None','None; token procedure can be bypassed (170 s dual primary)','t',1],
+ ['Default WAL archive interval (object-storage RPO)','1 min','5 min','p',1],
  ['Delayed replicas','No','Yes','c',0],
  ['Fencing / hibernation','spec.pause only','Per-instance fencing + hibernation','c',0],
  ['Declarative databases and roles','Inline spec.users','Database and DatabaseRole CRDs','c',0],

@@ -402,7 +402,7 @@ URL: https://cloudnative-pg.io/docs/1.30/ (Docusaurus, migrated in 2026; about 6
 | 28 | Major upgrade, online/logical | Partial. Logical replicas (tech preview), not positioned for upgrades | Yes. Documented Publication/Subscription blue-green |
 | 29 | Minor upgrade | Yes. Image change, rolling | Yes. Image or catalog change, rolling |
 | 30 | Cross-k8s DR replica cluster | Yes. Standby cluster (repo/streaming/both) | Yes. Replica clusters |
-| 31 | Declarative cross-cluster switchover (no re-clone) | No. Promote by disabling standby; old primary must be rebuilt | Yes. Distributed topology |
+| 31 | Declarative cross-cluster switchover (no re-clone) | Partial (**corrected after lab test**): no handshake or documented procedure. With a streaming standby the old primary rejoined and Patroni auto-rewound it; over object storage only it diverged and needed a rebuild | Yes. Distributed topology with demotion/promotion token (0 lost, rejoin measured) |
 | 32 | Delayed replicas | No (documented limitation) | Yes |
 | 33 | Declarative roles | Partial. `spec.users` inline | Yes. Inline managed roles plus DatabaseRole CRD |
 | 34 | Declarative databases | Partial. Via `spec.users[].databases` | Yes. Database CRD (extensions, schemas, FDWs) |

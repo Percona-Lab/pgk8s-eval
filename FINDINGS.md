@@ -87,7 +87,7 @@ Both run Patroni with the Kubernetes API as DCS and behaved the same under fault
 | Method (Percona docs, written for 5.8.x) | Result | Traps found |
 |---|---|---|
 | Backup and restore from Crunchy S3 repo | Ready in 50 s; all data | Crunchy S3 repo was `repo2`, so it must be mapped to dataSource `repo1`; `pg_stat_statements` and `set_user` **dropped in all DBs** (disabled built-ins are dropped); pg_cron not preloaded, and when enabled `cron.database_name` is forced to `postgres`, so jobs in the app DB never run; plpython3u function fails; `autoCreateUserSchema` default sends new tables to a per-user schema |
-| Standby cluster + promote | Streaming in 55 s; **13 s** write downtime; zero loss | **Password rotated** at promotion unless the Secret is pre-copied; Crunchy-issued certificate kept (Crunchy hostnames, not renewed); **documented rollback replays Percona's WAL** from the shared repo, then both clusters archive into one repo on diverging timelines |
+| Standby cluster + promote | Streaming in 55 s; **13 s** write downtime; zero loss | **Password rotated** at promotion unless the Secret is pre-copied; Crunchy-issued certificate kept (Crunchy hostnames, not renewed); with the shared repo, post-cutover Percona writes **do** come back to Crunchy on rollback (the guide says they don't); when we skipped the guide's demote-Percona step, both clusters archived into one repo on diverging timelines with no error |
 | Reuse data volume | ~45 s once working; all data | PVC `selector` deadlocks on `WaitForFirstConsumer` storage (pod scheduled away from the PV, provisioner rejects the selector): hung 10 min until the instance was pinned to the PV's node; Crunchy deleted without a clean-shutdown step |
 
 ## Crunchy v6 features Percona 3.1 lacks

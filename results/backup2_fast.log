@@ -1,0 +1,7 @@
+perconapgbackup.pgv2.percona.com/backup-s3-fast created
+backup.postgresql.cnpg.io/cnpg-full-fast created
+percona=Succeeded 43s cnpg=completed 19s
+2026-10-13T22:18:28Z 2026-10-13T22:18:38Z
+        full backup: 20261013-221831F
+            timestamp start/stop: 2026-10-13 22:18:31+00 / 2026-10-13 22:18:49+00
+            wal start/stop: 0000000A000000000000005C / 0000000A000000000000005C

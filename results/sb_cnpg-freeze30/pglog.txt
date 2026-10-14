@@ -1,0 +1,3 @@
+pod/cluster-example-1 
+pod/cluster-example-2 
+pod/cluster-example-3 

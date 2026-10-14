@@ -1,0 +1,37 @@
+Instance cluster-example-3 of cluster cluster-example is destroyed
+cluster1-instance1-px4v-pgdata   Bound    pvc-fb604f5a-32fc-49f7-8929-d8cfd5efa847   1Gi        RWO            local-path     <unset>                 62m
+cluster1-repo1                   Bound    pvc-a9ea4620-efd2-47bc-99f4-83cfc2ceaf18   1Gi        RWO            local-path     <unset>                 62m
+pod "cluster1-repo-host-0" force deleted from postgres-operator namespace
+persistentvolumeclaim "cluster1-instance1-px4v-pgdata" deleted from postgres-operator namespace
+persistentvolumeclaim "cluster1-repo1" deleted from postgres-operator namespace
+pod "cluster1-repo-host-0" force deleted from postgres-operator namespace
+cnpg 3 ready after nevers; percona 3 inst+repo running after 24s
+cluster-example-1   2/2     Running       1 (30m ago)   41m   10.42.2.17   pk-w2   <none>           <none>
+cluster-example-2   2/2     Running       3 (38m ago)   58m   10.42.1.25   pk-w1   <none>           <none>
+cluster-example-3   2/2     Terminating   1 (20m ago)   59m   10.42.3.14   pk-w3   <none>           <none>
+cluster1-instance1-7z2t-0                      6/6     Running       0             43m     10.42.2.15   pk-w2   <none>           <none>
+cluster1-instance1-px4v-0                      6/6     Running       0             5m32s   10.42.1.29   pk-w1   <none>           <none>
+cluster1-instance1-txcs-0                      6/6     Running       6 (38m ago)   50m     10.42.1.24   pk-w1   <none>           <none>
+cluster1-repo-host-0                           2/2     Running       0             5m32s   10.42.2.19   pk-w2   <none>           <none>
+NAME       ENDPOINT                                   STATUS   POSTGRES   PGBOUNCER   AGE
+cluster1   cluster1-pgbouncer.postgres-operator.svc   ready    3          3           68m
+NAME              AGE   INSTANCES   READY   STATUS                                       PRIMARY
+cluster-example   64m   2           2       Waiting for the instances to become active   cluster-example-1
+cluster-example-1   Bound         pvc-4ff917b2-9de2-4975-a3aa-888fc5c0d3bc   1Gi        RWO            local-path     <unset>                 64m
+cluster-example-2   Bound         pvc-f1440478-5d73-46e5-acae-66d8b711a6b2   1Gi        RWO            local-path     <unset>                 63m
+cluster-example-3   Terminating   pvc-31edac3d-7886-4c79-89b7-a3346b0346ee   1Gi        RWO            local-path     <unset>                 63m
+pod "cluster-example-3" force deleted from default namespace
+cnpg 3 ready after 32s
+cluster-example-1   2/2     Running   1 (31m ago)   42m   10.42.2.17   pk-w2   <none>           <none>
+cluster-example-2   2/2     Running   3 (39m ago)   59m   10.42.1.25   pk-w1   <none>           <none>
+cluster-example-3   2/2     Running   0             17s   10.42.2.23   pk-w2   <none>           <none>
+NAME              AGE   INSTANCES   READY   STATUS                     PRIMARY
+cluster-example   64m   3           3       Cluster in healthy state   cluster-example-1
+stanza: db
+    status: ok
+    cipher: none
+
+    db (current)
+        wal archive min/max (18): 000000020000000000000009/000000090000000000000048
+
+        full backup: 20261013-210046F

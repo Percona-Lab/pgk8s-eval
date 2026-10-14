@@ -1,0 +1,9 @@
+cluster.postgresql.cnpg.io/cluster-pitr created
++33s ready= phase=Setting up primary
++66s ready=1 phase=Creating a new replica
++99s ready=2 phase=Creating a new replica
+DONE primary usable +61s, 3 ready +126s
+cluster-pitr-1      1/1     Running   0             14s
+cluster-pitr-2      1/1     Running   0             51s
+cluster-pitr-3      1/1     Running   0             27s
+2000000|2000000

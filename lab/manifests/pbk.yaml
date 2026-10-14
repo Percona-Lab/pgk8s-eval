@@ -1,0 +1,7 @@
+apiVersion: pgv2.percona.com/v2
+kind: PerconaPGBackup
+metadata: {name: backup-s3-full}
+spec:
+  pgCluster: cluster1
+  repoName: repo2
+  options: ["--type=full"]

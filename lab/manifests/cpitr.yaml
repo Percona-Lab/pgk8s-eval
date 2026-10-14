@@ -1,0 +1,18 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata: {name: cluster-pitr}
+spec:
+  instances: 3
+  storage: {size: 1Gi}
+  bootstrap:
+    recovery:
+      source: origin
+      recoveryTarget:
+        targetTime: "2026-10-13 22:20:10+00"
+  externalClusters:
+  - name: origin
+    plugin:
+      name: barman-cloud.cloudnative-pg.io
+      parameters:
+        barmanObjectName: cluster-example-backup
+        serverName: cluster-example

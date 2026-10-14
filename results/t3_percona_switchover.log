@@ -1,0 +1,21 @@
+T=1791925959402
+primary cluster1-instance1-px4v-0 -> target cluster1-instance1-7z2t
+perconapgcluster.pgv2.percona.com/cluster1 patched
+perconapgcluster.pgv2.percona.com/cluster1 annotated
+primary now cluster1-instance1-7z2t-0 at +11s
+perconapgcluster.pgv2.percona.com/cluster1 patched
++ Cluster: cluster1-ha (7696257670115754102) -------------------------+---------+-----------+----+-------------+-----+------------+-----+
+|           Member          |                   Host                  |   Role  |   State   | TL | Receive LSN | Lag | Replay LSN | Lag |
++---------------------------+-----------------------------------------+---------+-----------+----+-------------+-----+------------+-----+
+| cluster1-instance1-7z2t-0 | cluster1-instance1-7z2t-0.cluster1-pods | Leader  | running   |  4 |             |     |            |     |
+| cluster1-instance1-px4v-0 | cluster1-instance1-px4v-0.cluster1-pods | Replica | streaming |  4 |  0/22013AA0 |   0 | 0/22013AA0 |   0 |
+| cluster1-instance1-txcs-0 | cluster1-instance1-txcs-0.cluster1-pods | Replica | streaming |  4 |  0/22013AA0 |   0 | 0/22013AA0 |   0 |
++---------------------------+-----------------------------------------+---------+-----------+----+-------------+-----+------------+-----+
+== pdirect
+first_fail +9.9s; write outage 2.4s (last OK before -> first OK after); failed attempts 9; primary 10.42.3.13 -> 10.42.2.12
+   6x Is the server running on that host and accepting TCP/IP conn
+   3x psql: error: connection to server at "cluster1-primary.postg
+== pbouncer
+first_fail +10.0s; write outage 15.6s (last OK before -> first OK after); failed attempts 15; primary 10.42.3.13 -> 10.42.2.12
+   14x connection to server at "cluster1-pgbouncer.postgres-operato
+   1x psql: error: connection to server at "cluster1-pgbouncer.pos

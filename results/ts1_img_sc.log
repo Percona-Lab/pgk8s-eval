@@ -1,0 +1,146 @@
+perconapgcluster.pgv2.percona.com/ts-img created
+perconapgcluster.pgv2.percona.com/ts-sc created
+cluster.postgresql.cnpg.io/ts-img created
+cluster.postgresql.cnpg.io/ts-sc created
+===== PERCONA kubectl get pg
+NAME     ENDPOINT                                 STATUS         POSTGRES   PGBOUNCER   AGE
+ts-img   ts-img-pgbouncer.postgres-operator.svc   initializing   0          1           2m31s
+ts-sc    ts-sc-pgbouncer.postgres-operator.svc    initializing   0          1           2m31s
+===== PERCONA describe pg ts-img status/events
+Status:
+  Conditions:
+    Last Transition Time:  2026-10-13T22:26:46Z
+    Message:               
+    Observed Generation:   1
+    Reason:                PGBackRestReplicaCreate
+    Status:                False
+    Type:                  ReadyForBackup
+    Last Transition Time:  2026-10-13T22:26:45Z
+    Message:               certManagementPolicy is auto
+    Observed Generation:   1
+    Reason:                TLSSecretsFound
+    Status:                True
+    Type:                  TLSSecretsReady
+    Last Transition Time:  2026-10-13T22:26:59Z
+    Message:               pgBackRest dedicated repository host is ready
+    Observed Generation:   1
+    Reason:                RepoHostReady
+    Status:                True
+    Type:                  PGBackRestRepoHostReady
+    Last Transition Time:  2026-10-13T22:26:49Z
+    Message:               pgBackRest replica create repo is not ready for backups
+    Observed Generation:   1
+    Reason:                StanzaNotCreated
+    Status:                False
+    Type:                  PGBackRestReplicaRepoReady
+    Last Transition Time:  2026-10-13T22:26:49Z
+    Message:               pgBackRest replica creation is not currently possible
+    Observed Generation:   1
+    Reason:                RepoBackupNotComplete
+    Status:                False
+    Type:                  PGBackRestReplicaCreate
+    Last Transition Time:  2026-10-13T22:27:04Z
+    Message:               Deployment has minimum availability.
+    Observed Generation:   1
+    Reason:                MinimumReplicasAvailable
+    Status:                True
+    Type:                  ProxyAvailable
+  Host:                    ts-img-pgbouncer.postgres-operator.svc
+  Installed Custom Extensions:
+===== PERCONA describe pg ts-sc status/events
+Status:
+  Conditions:
+    Last Transition Time:  2026-10-13T22:26:46Z
+    Message:               
+    Observed Generation:   1
+    Reason:                PGBackRestReplicaCreate
+    Status:                False
+    Type:                  ReadyForBackup
+    Last Transition Time:  2026-10-13T22:26:46Z
+    Message:               certManagementPolicy is auto
+    Observed Generation:   1
+    Reason:                TLSSecretsFound
+    Status:                True
+    Type:                  TLSSecretsReady
+    Last Transition Time:  2026-10-13T22:27:00Z
+    Message:               pgBackRest dedicated repository host is ready
+    Observed Generation:   1
+    Reason:                RepoHostReady
+    Status:                True
+    Type:                  PGBackRestRepoHostReady
+    Last Transition Time:  2026-10-13T22:26:50Z
+    Message:               pgBackRest replica create repo is not ready for backups
+    Observed Generation:   1
+    Reason:                StanzaNotCreated
+    Status:                False
+    Type:                  PGBackRestReplicaRepoReady
+    Last Transition Time:  2026-10-13T22:26:50Z
+    Message:               pgBackRest replica creation is not currently possible
+    Observed Generation:   1
+    Reason:                RepoBackupNotComplete
+===== PERCONA pods
+ts-img-instance1-7jhv-0                        0/4     Init:ImagePullBackOff   0             2m28s
+ts-img-pgbouncer-754b5c4fcb-hl5hv              2/2     Running                 0             2m27s
+ts-img-repo-host-0                             2/2     Running                 0             2m27s
+ts-sc-instance1-zghz-0                         0/4     Pending                 0             2m26s
+ts-sc-pgbouncer-748b4ddf5-97xzk                2/2     Running                 0             2m25s
+ts-sc-repo-host-0                              2/2     Running                 0             2m26s
+===== PERCONA operator log errors
+2026-10-13T22:26:46.554Z	ERROR	Reconciler error	{"controller": "postgrescluster", "controllerGroup": "upstream.pgv2.percona.com", "controllerKind": "PostgresCluster", "PostgresCluster": {"name":"ts-img","namespace":"postgres-operator"}, "namespace": "postgres-operator", "name": "ts-img", "reconcileI
+2026-10-13T22:26:46.780Z	ERROR	Reconciler error	{"controller": "postgrescluster", "controllerGroup": "upstream.pgv2.percona.com", "controllerKind": "PostgresCluster", "PostgresCluster": {"name":"ts-img","namespace":"postgres-operator"}, "namespace": "postgres-operator", "name": "ts-img", "reconcileI
+2026-10-13T22:26:47.419Z	ERROR	Reconciler error	{"controller": "postgrescluster", "controllerGroup": "upstream.pgv2.percona.com", "controllerKind": "PostgresCluster", "PostgresCluster": {"name":"ts-sc","namespace":"postgres-operator"}, "namespace": "postgres-operator", "name": "ts-sc", "reconcileID"
+===== CNPG get cluster
+NAME     AGE     INSTANCES   READY   STATUS               PRIMARY
+ts-img   2m32s   1                   Setting up primary   
+ts-sc    2m32s   1                   Setting up primary   
+===== CNPG status ts-img
+Cluster Summary
+Primary server is initializing
+Name               default/ts-img
+PostgreSQL Image:  ghcr.io/cloudnative-pg/postgresql:18.99-system-trixie
+Primary instance:   (switching to ts-img-1)
+Status:            Setting up primary 
+Instances:         1
+Ready instances:   0
+Size:              container not found
+
+Continuous Backup not configured
+
+Physical backups
+Primary instance not found
+
+Streaming Replication status
+Not configured
+
+Instances status
+Name  Current LSN  Replication role  Status  QoS  Manager Version  Node
+----  -----------  ----------------  ------  ---  ---------------  ----
+
+===== CNPG status ts-sc
+Cluster Summary
+Primary server is initializing
+Name               default/ts-sc
+PostgreSQL Image:  ghcr.io/cloudnative-pg/postgresql:18.6-system-trixie
+Primary instance:   (switching to ts-sc-1)
+Status:            Setting up primary 
+Instances:         1
+Ready instances:   0
+Size:              container not found
+
+Continuous Backup not configured
+
+Physical backups
+Primary instance not found
+
+Streaming Replication status
+Not configured
+
+Instances status
+Name  Current LSN  Replication role  Status  QoS  Manager Version  Node
+----  -----------  ----------------  ------  ---  ---------------  ----
+
+===== CNPG pods
+pod/ts-img-1-initdb-f8js4   0/1     ImagePullBackOff   0             2m30s
+pod/ts-sc-1-initdb-tghqt    0/1     Pending            0             2m30s
+persistentvolumeclaim/ts-img-1            Bound     pvc-f0074771-b91f-45f2-b763-6b5f910fce76   1Gi        RWO            local-path     <unset>                 2m30s
+persistentvolumeclaim/ts-sc-1             Pending                                                                        fast-ssd       <unset>                 2m30s

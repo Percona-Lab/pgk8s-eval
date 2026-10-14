@@ -1,0 +1,32 @@
+percona containers: database replication-cert-copy logs logrotate pgbackrest pgbackrest-config
+cnpg containers: postgres
+cnpg metrics lines: 482
+cnpg_collector_last_failed_backup_timestamp 0
+cnpg_collector_up{cluster="cluster-example"} 1
+cnpg_pg_replication_lag 0
+cnpg_pg_stat_archiver_archived_count 61
+percona :9187 -> 0
+percona :9100 -> 0
+percona :8008 -> # HELP patroni_version Patroni semver without periods.
+# TYPE patroni_version gauge
+patroni_version{scope="cluster1-ha",0
+backups.postgresql.cnpg.io
+clusterimagecatalogs.postgresql.cnpg.io
+clusters.postgresql.cnpg.io
+crunchybridgeclusters.upstream.pgv2.percona.com
+databaseroles.postgresql.cnpg.io
+databases.postgresql.cnpg.io
+failoverquorums.postgresql.cnpg.io
+imagecatalogs.postgresql.cnpg.io
+objectstores.barmancloud.cnpg.io
+perconapgbackups.pgv2.percona.com
+perconapgclusters.pgv2.percona.com
+perconapgrestores.pgv2.percona.com
+perconapgupgrades.pgv2.percona.com
+pgadmins.upstream.pgv2.percona.com
+pgupgrades.upstream.pgv2.percona.com
+poolers.postgresql.cnpg.io
+postgresclusters.upstream.pgv2.percona.com
+publications.postgresql.cnpg.io
+scheduledbackups.postgresql.cnpg.io
+subscriptions.postgresql.cnpg.io

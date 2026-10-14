@@ -1,0 +1,27 @@
+Working WAL archiving:          OK
+Last Archived WAL:              000000090000000000000034   @   2026-10-13T22:35:45.026733Z
+NAME                READY   STATUS    RESTARTS   AGE
+cluster-example-1   2/2     Running   0          50s
+cluster-example-2   2/2     Running   0          64s
+cluster-example-3   2/2     Running   0          78s
+== percona top
+cluster1-instance1-7z2t-0                      36m    77Mi   
+cluster1-instance1-px4v-0                      31m    78Mi   
+cluster1-instance1-txcs-0                      168m   94Mi   
+cluster1-pgbouncer-7bbb49875b-82b4l            4m     8Mi    
+cluster1-pgbouncer-7bbb49875b-kxgbm            4m     3Mi    
+cluster1-pgbouncer-7bbb49875b-t84vk            5m     3Mi    
+cluster1-repo-host-0                           11m    4Mi    
+percona-postgresql-operator-6d5d77b89c-fn6lv   10m    48Mi   
+TOTAL cpu(m)=269 mem(Mi)=315
+== cnpg top
+cluster-example-1   70m   67Mi   
+cluster-example-2   10m   59Mi   
+cluster-example-3   12m   62Mi   
+barman-cloud-948bbf569-jjq9g               2m    16Mi   
+cnpg-controller-manager-79f95c5b5f-lfr2g   5m    33Mi   
+TOTAL cpu(m)=99 mem(Mi)=237
+10
+cert-manager-7dd5fd898d-xxlt5            1m    30Mi   
+cert-manager-cainjector-f555478d-h9cv7   2m    34Mi   
+cert-manager-webhook-69d4696bcf-49qcr    1m    17Mi   

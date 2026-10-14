@@ -1,0 +1,35 @@
+apiVersion: pgv2.percona.com/v2
+kind: PerconaPGCluster
+metadata: {name: ts-s3, namespace: postgres-operator}
+spec:
+  crVersion: 3.1.0
+  image: docker.io/percona/percona-distribution-postgresql:18.6.1-1
+  postgresVersion: 18
+  instances: [{name: instance1, replicas: 1, dataVolumeClaimSpec: {accessModes: [ReadWriteOnce], resources: {requests: {storage: 1Gi}}}}]
+  proxy: {pgBouncer: {replicas: 1, image: docker.io/percona/percona-pgbouncer:1.25.2-6}}
+  backups:
+    pgbackrest:
+      image: docker.io/percona/percona-pgbackrest:2.59.0-1
+      configuration: [{secret: {name: ts-s3-secret}}]
+      global: {repo1-path: /pgbackrest/ts-s3/repo1, repo1-s3-uri-style: path, repo1-storage-port: "9000"}
+      repos: [{name: repo1, s3: {bucket: percona, endpoint: minio.minio.svc, region: us-east-1}}]
+---
+apiVersion: barmancloud.cnpg.io/v1
+kind: ObjectStore
+metadata: {name: bad-store}
+spec:
+  configuration:
+    destinationPath: s3://cnpg/bad/
+    endpointURL: https://minio.minio.svc:9000
+    endpointCA: {name: s3-ca, key: ca.crt}
+    s3Credentials:
+      accessKeyId: {name: bad-creds, key: ACCESS_KEY_ID}
+      secretAccessKey: {name: bad-creds, key: ACCESS_SECRET_KEY}
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata: {name: ts-s3}
+spec:
+  instances: 1
+  storage: {size: 1Gi}
+  plugins: [{name: barman-cloud.cloudnative-pg.io, isWALArchiver: true, parameters: {barmanObjectName: bad-store}}]

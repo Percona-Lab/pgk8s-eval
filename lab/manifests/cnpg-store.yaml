@@ -1,0 +1,15 @@
+apiVersion: barmancloud.cnpg.io/v1
+kind: ObjectStore
+metadata:
+  name: cluster-example-backup
+spec:
+  retentionPolicy: "7d"
+  configuration:
+    destinationPath: s3://cnpg/
+    endpointURL: https://minio.minio.svc:9000
+    endpointCA: {name: s3-ca, key: ca.crt}
+    s3Credentials:
+      accessKeyId: {name: s3-creds, key: ACCESS_KEY_ID}
+      secretAccessKey: {name: s3-creds, key: ACCESS_SECRET_KEY}
+    wal:
+      compression: gzip

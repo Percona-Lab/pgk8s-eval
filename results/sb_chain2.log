@@ -1,0 +1,48 @@
+pct primary cluster1-instance1-px4v-0 pk-w3
+fault at 1791967994980: 1791967994980 ISOLATE pod=cluster1-instance1-px4v-0 pid=45423
+command terminated with exit code 143
+old primary 10.42.3.49; acks before partition 634, after 9343 (by old primary 371, by new primary 8972); client reconnects 21; client errors 42
+OLD primary acknowledged writes until +19.2s after the partition
+writers' first ack from new primary at +35.1s
+acknowledged writes LOST: 368 of 9977 acknowledged (368 acked by the isolated old primary after the partition)
+   lost writes were acknowledged between +0.2s and +19.2s
+cluster-example   12h   3     3     Cluster in healthy state   cluster-example-3
+cnpg replicas 10.42.2.37 10.42.1.44
+fault at 1791968600672: 1791968600672 BLINDSPOT pod=cluster-example-3 pid=48808
+command terminated with exit code 143
+old primary 10.42.3.51; acks before partition 619, after 13305 (by old primary 13305, by new primary 0); client reconnects 0; client errors 0
+OLD primary acknowledged writes until +465.6s after the partition
+acknowledged writes LOST: 0 of 13924 acknowledged (0 acked by the isolated old primary after the partition)
+pct primary cluster1-instance1-7z2t-0 pk-w2 replicas 10.42.3.49 10.42.1.45
+fault at 1791969097448: 1791969097448 BLINDSPOT pod=cluster1-instance1-7z2t-0 pid=165490
+command terminated with exit code 143
+error: Internal error occurred: unable to upgrade connection: container not found ("database")
+old primary 10.42.2.36; acks before partition 634, after 12464 (by old primary 306, by new primary 12158); client reconnects 57; client errors 64
+OLD primary acknowledged writes until +10.5s after the partition
+writers' first ack from new primary at +22.3s
+acknowledged writes LOST: 13098 of 13098 acknowledged (306 acked by the isolated old primary after the partition)
+   lost writes were acknowledged between +-22.2s and +446.6s
+pod "cluster1-instance1-7z2t-0" deleted from postgres-operator namespace
+cluster-example   12h   3     3     Cluster in healthy state   cluster-example-3
+fault at 1791969701929: 1791969701929 FREEZE pod=cluster-example-3 cgroup=/sys/fs/cgroup/kubepods.slice/kubepods-besteffort.slice/kubepods-besteffort-pod225e8e4e_3cca_47ef_a0d6_5ef20ef3e7a1.slice
+command terminated with exit code 143
+old primary 10.42.3.51; acks before partition 626, after 7628 (by old primary 7628, by new primary 0); client reconnects 0; client errors 0
+OLD primary acknowledged writes until +267.0s after the partition
+acknowledged writes LOST: 0 of 8254 acknowledged (0 acked by the isolated old primary after the partition)
+cluster-example   12h   3     3     Cluster in healthy state   cluster-example-3
+fault at 1791970027867: 1791970027867 FREEZE pod=cluster-example-3 cgroup=/sys/fs/cgroup/kubepods.slice/kubepods-besteffort.slice/kubepods-besteffort-pod225e8e4e_3cca_47ef_a0d6_5ef20ef3e7a1.slice
+command terminated with exit code 143
+old primary 10.42.3.51; acks before partition 623, after 8311 (by old primary 409, by new primary 7902); client reconnects 3; client errors 9
+OLD primary acknowledged writes until +121.9s after the partition
+writers' first ack from new primary at +122.4s
+acknowledged writes LOST: 408 of 8934 acknowledged (408 acked by the isolated old primary after the partition)
+   lost writes were acknowledged between +120.1s and +121.9s
+pct primary cluster1-instance1-px4v-0 pk-w3
+fault at 1791970456034: 1791970456034 FREEZE pod=cluster1-instance1-px4v-0 cgroup=/sys/fs/cgroup/kubepods.slice/kubepods-besteffort.slice/kubepods-besteffort-pode11f6eab_9e0b_4767_aae3_fca8a2109a4b.slice
+command terminated with exit code 143
+old primary 10.42.3.49; acks before partition 627, after 7587 (by old primary 53, by new primary 7534); client reconnects 3; client errors 19
+OLD primary acknowledged writes until +121.1s after the partition
+writers' first ack from new primary at +121.6s
+acknowledged writes LOST: 53 of 8214 acknowledged (53 acked by the isolated old primary after the partition)
+   lost writes were acknowledged between +120.6s and +121.1s
+CHAIN2 DONE

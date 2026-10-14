@@ -1,0 +1,4 @@
+perconapgcluster.pgv2.percona.com/cluster2 created
++33s state=initializing cluster2-instance1-f4bc-0:Init:2/3 cluster2-pgbackrest-restore-4g2xr:Completed cluster2-pgbouncer-66db64b45-7mk9z:Running cluster2-repo-host-0:PodInitializing 
+DONE +43s state=ready
+2000000|2000000

@@ -1,0 +1,13 @@
+perconapgbackup.pgv2.percona.com/backup-s3-full created
+backup/cnpg-full-1 created
+percona=Succeeded 323s cnpg=completed 299s
+NAME                         CLUSTER    REPO    DESTINATION                                                STATUS      TYPE   COMPLETED   AGE
+backup-s3-full               cluster1   repo2   s3://percona/pgbackrest/postgres-operator/cluster1/repo2   Succeeded   full   18s         5m22s
+cluster1-backup-6p28-6rt25   cluster1   repo1                                                              Succeeded   full   12m         15m
+NAME          AGE     CLUSTER           METHOD   PHASE       ERROR
+cnpg-full-1   5m22s   cluster-example   plugin   completed   
+        full backup: 20261013-210046F
+            timestamp start/stop: 2026-10-13 21:00:46+00 / 2026-10-13 21:05:43+00
+            wal start/stop: 00000002000000000000001A / 00000002000000000000001B
+            database size: 336.9MB, database backup size: 336.9MB
+            repo2: backup set size: 21.1MB, backup size: 21.1MB

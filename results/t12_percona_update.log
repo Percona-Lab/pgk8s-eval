@@ -1,0 +1,32 @@
+T=1791930792652
+perconapgcluster.pgv2.percona.com/cluster1 patched
+rolled 3 instances in 112s state=ready
+cluster1-instance1-7z2t-0 cluster1-instance1-7z2t-0.cluster1-pods Replica
+cluster1-instance1-px4v-0 cluster1-instance1-px4v-0.cluster1-pods Replica
+cluster1-instance1-txcs-0 cluster1-instance1-txcs-0.cluster1-pods Leader
+== pdirect
+main outage 3.4s starting +75.1s; 1 interval(s), total 3.4s; primary 10.42.2.26 -> 10.42.1.43
+   +75.1s .. +78.4s  (3.4s, 13 fails) top error: Is the server running on that host and accepting TCP/IP connections?
+DISRUPT +75.1s..+78.4s = 3.4s (13 fails)
+== pbouncer
+main outage 2.6s starting +25.7s; 19 interval(s), total 22.7s; primary 10.42.2.26 -> 10.42.1.43
+   +25.7s .. +28.3s  (2.6s, 1 fails) top error: psql: error: connection to server at "cluster1-pgbouncer.postgres-oper
+   +36.4s .. +36.9s  (0.5s, 1 fails) top error: before or while processing the request.
+   +36.9s .. +39.4s  (2.5s, 1 fails) top error: psql: error: connection to server at "cluster1-pgbouncer.postgres-oper
+   +75.0s .. +80.2s  (5.1s, 3 fails) top error: psql: error: connection to server at "cluster1-pgbouncer.postgres-oper
+   +80.2s .. +81.2s  (1.0s, 3 fails) top error: connection to server at "cluster1-pgbouncer.postgres-operator.svc" (10
+   +81.2s .. +82.2s  (1.0s, 3 fails) top error: connection to server at "cluster1-pgbouncer.postgres-operator.svc" (10
+   +82.2s .. +82.7s  (0.5s, 1 fails) top error: connection to server at "cluster1-pgbouncer.postgres-operator.svc" (10
+   +82.9s .. +85.2s  (2.2s, 8 fails) top error: connection to server at "cluster1-pgbouncer.postgres-operator.svc" (10
+   +85.2s .. +85.7s  (0.5s, 1 fails) top error: connection to server at "cluster1-pgbouncer.postgres-operator.svc" (10
+   +85.7s .. +86.4s  (0.7s, 2 fails) top error: connection to server at "cluster1-pgbouncer.postgres-operator.svc" (10
+   +86.6s .. +87.1s  (0.5s, 1 fails) top error: connection to server at "cluster1-pgbouncer.postgres-operator.svc" (10
+   +87.1s .. +87.5s  (0.5s, 1 fails) top error: connection to server at "cluster1-pgbouncer.postgres-operator.svc" (10
+   +87.5s .. +88.7s  (1.2s, 4 fails) top error: connection to server at "cluster1-pgbouncer.postgres-operator.svc" (10
+   +88.7s .. +89.2s  (0.5s, 1 fails) top error: connection to server at "cluster1-pgbouncer.postgres-operator.svc" (10
+   +89.2s .. +90.0s  (0.7s, 2 fails) top error: connection to server at "cluster1-pgbouncer.postgres-operator.svc" (10
+   +90.0s .. +90.7s  (0.7s, 2 fails) top error: connection to server at "cluster1-pgbouncer.postgres-operator.svc" (10
+   +90.7s .. +91.2s  (0.5s, 1 fails) top error: connection to server at "cluster1-pgbouncer.postgres-operator.svc" (10
+   +91.2s .. +91.7s  (0.5s, 1 fails) top error: connection to server at "cluster1-pgbouncer.postgres-operator.svc" (10
+   +92.2s .. +93.1s  (0.9s, 3 fails) top error: connection to server at "cluster1-pgbouncer.postgres-operator.svc" (10
+DISRUPT +25.7s..+39.4s = 13.7s (3 fails); +75.0s..+93.1s = 18.0s (37 fails)

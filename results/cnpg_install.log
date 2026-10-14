@@ -1,0 +1,51 @@
+mutatingwebhookconfiguration.admissionregistration.k8s.io/cnpg-mutating-webhook-configuration serverside-applied
+validatingwebhookconfiguration.admissionregistration.k8s.io/cnpg-validating-webhook-configuration serverside-applied
+Waiting for deployment "cnpg-controller-manager" rollout to finish: 0 of 1 updated replicas are available...
+deployment "cnpg-controller-manager" successfully rolled out
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: cluster-example
+spec:
+  instances: 3
+  
+  storage:
+    size: 1Gi
+
+cluster.postgresql.cnpg.io/cluster-example created
+cluster.postgresql.cnpg.io/cluster-example condition met
+operator 14s cluster 112s
+NAME              AGE    INSTANCES   READY   STATUS                     PRIMARY
+cluster-example   113s   3           3       Cluster in healthy state   cluster-example-1
+NAME                READY   STATUS    RESTARTS   AGE   IP           NODE    NOMINATED NODE   READINESS GATES
+cluster-example-1   1/1     Running   0          86s   10.42.2.9    pk-w2   <none>           <none>
+cluster-example-2   1/1     Running   0          49s   10.42.1.13   pk-w1   <none>           <none>
+cluster-example-3   1/1     Running   0          12s   10.42.3.10   pk-w3   <none>           <none>
+Cluster Summary
+Name                     default/cluster-example
+System ID:               7696258644910690324
+PostgreSQL Image:        ghcr.io/cloudnative-pg/postgresql:18.6-system-trixie
+Primary instance:        cluster-example-1
+Primary promotion time:  2026-10-13 20:54:21 +0000 UTC (1m24s)
+Status:                  Cluster in healthy state 
+Instances:               3
+Ready instances:         3
+Size:                    128M
+Current Write LSN:       0/6000060 (Timeline: 1 - WAL File: 000000010000000000000006)
+
+Continuous Backup not configured
+
+Streaming Replication status
+Replication Slots Enabled
+Name               Sent LSN   Write LSN  Flush LSN  Replay LSN  Write Lag  Flush Lag  Replay Lag  State      Sync State  Sync Priority  Replication Slot
+----               --------   ---------  ---------  ----------  ---------  ---------  ----------  -----      ----------  -------------  ----------------
+cluster-example-2  0/6000060  0/6000060  0/6000060  0/6000060   00:00:00   00:00:00   00:00:00    streaming  async       0              active
+cluster-example-3  0/6000060  0/6000060  0/6000060  0/6000060   00:00:00   00:00:00   00:00:00    streaming  async       0              active
+
+Instances status
+Name               Current LSN  Replication role  Status  QoS         Manager Version  Node
+----               -----------  ----------------  ------  ---         ---------------  ----
+cluster-example-1  0/6000060    Primary           OK      BestEffort  1.30.1           pk-w2
+cluster-example-2  0/6000060    Standby (async)   OK      BestEffort  1.30.1           pk-w1
+cluster-example-3  0/6000060    Standby (async)   OK      BestEffort  1.30.1           pk-w3
+

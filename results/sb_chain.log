@@ -1,0 +1,34 @@
+cluster-example   11h   3     3     Cluster in healthy state   cluster-example-3
+0 0 
+partition at 1791965627140: 1791965627140 ISOLATE pod=cluster-example-3 pid=316707
+command terminated with exit code 143
+old primary 10.42.3.51; acks before partition 628, after 11501 (by old primary 663, by new primary 10838); client reconnects 189; client errors 225
+OLD primary acknowledged writes until +23.3s after the partition
+writers' first ack from new primary at +79.3s
+acknowledged writes LOST: 12129 of 12129 acknowledged (663 acked by the isolated old primary after the partition)
+   lost writes were acknowledged between +-21.8s and +457.4s
+cluster-example   11h   3     3     Cluster in healthy state   cluster-example-3
+0 30 
+partition at 1791966164734: 1791966164734 ISOLATE pod=cluster-example-3 pid=323959
+command terminated with exit code 143
+old primary 10.42.3.51; acks before partition 621, after 10505 (by old primary 740, by new primary 9765); client reconnects 234; client errors 303
+OLD primary acknowledged writes until +25.7s after the partition
+writers' first ack from new primary at +112.6s
+acknowledged writes LOST: 740 of 11126 acknowledged (740 acked by the isolated old primary after the partition)
+   lost writes were acknowledged between +0.1s and +25.7s
+cluster-example   11h   3     3     Cluster in healthy state   cluster-example-3
+180 0 {"dataDurability":"required","failoverQuorum":true,"method":"any","number":1}
+partition at 1791966704078: 1791966704078 ISOLATE pod=cluster-example-3 pid=329595
+command terminated with exit code 143
+old primary 10.42.3.51; acks before partition 614, after 7089 (by old primary 0, by new primary 7089); client reconnects 3; client errors 12
+writers' first ack from new primary at +207.4s
+acknowledged writes LOST: 0 of 7703 acknowledged (0 acked by the isolated old primary after the partition)
+P=cluster1-instance1-txcs-0
+partition at 1791967186875: 1791967186875 ISOLATE pod=cluster1-instance1-txcs-0 pid=111994
+command terminated with exit code 143
+old primary 10.42.1.43; acks before partition 640, after 12413 (by old primary 393, by new primary 12020); client reconnects 66; client errors 82
+OLD primary acknowledged writes until +13.6s after the partition
+writers' first ack from new primary at +27.4s
+acknowledged writes LOST: 391 of 13053 acknowledged (391 acked by the isolated old primary after the partition)
+   lost writes were acknowledged between +0.1s and +13.6s
+CHAIN DONE

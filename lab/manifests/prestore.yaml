@@ -1,0 +1,9 @@
+apiVersion: pgv2.percona.com/v2
+kind: PerconaPGRestore
+metadata: {name: restore-pitr1}
+spec:
+  pgCluster: cluster1
+  repoName: repo2
+  options:
+  - --type=time
+  - --target="2026-10-13 22:20:09+00"

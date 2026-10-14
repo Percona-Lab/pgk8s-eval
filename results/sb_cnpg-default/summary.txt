@@ -1,0 +1,9 @@
+partition at 1791964874209: 1791964874209 ISOLATE pod=cluster-example-3 pid=309287
+1791964874209 ISOLATE pod=cluster-example-3 pid=309287
+1791965174314 HEAL
+old primary 10.42.3.51; acks before partition 616; acks after partition 12971 (old primary 5905, new primary 7066); reconnects 0; client errors 12
+old primary kept acknowledging writes until +206.7s after partition
+new primary first ack at +207.7s (10.42.2.37)
+DUAL-PRIMARY window (both acknowledging): 0.0s
+acknowledged writes LOST (id absent in final table): 11; acknowledged ids now owned by another client: 3651; total acknowledged 13587; final rows 7682
+   lost writes acked between +0.1s and +0.4s, servers ['10.42.3.51']

@@ -1,0 +1,663 @@
+<title>Postgres Operators Compared</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: left-aligned report, 1120px column, sticky section rail on top; monotone canvas, purple = Percona, carbon = CloudNativePG */
+@font-face{font-family:'Ardela Edge';src:url('fonts/ArdelaEdge-Bold.woff2') format('woff2');font-weight:700;font-style:normal;font-display:swap}
+:root{
+  --bg:#ffffff; --fg:#282727; --muted:#5e5d5d; --hair:#e9e9e9; --hair2:#d4d4d4; --tint:#f0ecfe; --tint2:#e0d8fd;
+  --purple:#653df4; --purple-ink:#4a2db3; --yellow:#f6fe54; --cnpg:#6f6d6d; --cnpg-soft:#e9e9e9;
+  --pg:#005ed6; --good:#1fa23a; --warn:#ed9118; --bad:#d6362a; --panel:#fafafa;
+  --display:'Ardela Edge','Poppins',ui-sans-serif,system-ui,sans-serif;
+  --body:'Poppins',ui-sans-serif,system-ui,-apple-system,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#1f1e1e; --fg:#f2f1f1; --muted:#b3b1b1; --hair:#363434; --hair2:#4a4848; --tint:#2a2440; --tint2:#3a2f66;
+  --purple:#8f73ff; --purple-ink:#b5a3ff; --cnpg:#a9a6a6; --cnpg-soft:#363434; --pg:#4c97ff; --good:#3cc25a; --warn:#f2a640; --bad:#f0625a; --panel:#262525; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#1f1e1e; --fg:#f2f1f1; --muted:#b3b1b1; --hair:#363434; --hair2:#4a4848; --tint:#2a2440; --tint2:#3a2f66;
+  --purple:#8f73ff; --purple-ink:#b5a3ff; --cnpg:#a9a6a6; --cnpg-soft:#363434; --pg:#4c97ff; --good:#3cc25a; --warn:#f2a640; --bad:#f0625a; --panel:#262525; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:15px;line-height:1.6;padding-inline:20px}
+.wrap{max-width:1120px;margin:0 auto}
+a{color:var(--purple-ink)} a:hover{opacity:.7}
+:focus-visible{outline:2px solid var(--purple);outline-offset:2px}
+code{font-family:var(--mono);font-size:.86em;background:var(--panel);border:1px solid var(--hair);border-radius:4px;padding:0 .3em;overflow-wrap:anywhere}
+.h{font-family:var(--display);font-weight:700;text-transform:uppercase;letter-spacing:-.02em;line-height:.9;font-variant-ligatures:none;text-wrap:balance;margin:0}
+.label{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:500}
+/* header */
+.top{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-block:20px 0}
+.logo{width:132px;height:auto;color:var(--fg)}
+.meta{font-size:13px;color:var(--muted);text-align:right}
+.hero{padding-block:48px 40px;border-bottom:1px solid var(--hair);position:relative;overflow:hidden}
+.hero .h{font-size:clamp(40px,7vw,80px);max-width:15ch}
+.hero .h em{font-style:normal;color:var(--purple)}
+.lede{font-size:clamp(17px,2vw,21px);line-height:1.45;letter-spacing:-.01em;max-width:62ch;margin:24px 0 0}
+.versions{display:flex;flex-wrap:wrap;gap:12px 28px;margin-top:28px;font-size:13px}
+.versions div{display:flex;align-items:center;gap:8px}
+.sw{width:12px;height:12px;border-radius:50%;flex:none}
+.sw.p{background:var(--purple)} .sw.pb{border:2px solid var(--purple)} .sw.c{background:var(--cnpg)}
+.slash{position:absolute;right:-60px;top:-40px;width:260px;height:520px;background:var(--yellow);transform:rotate(30deg);opacity:.9;z-index:-1}
+@media (max-width:760px){.slash{display:none}}
+/* nav */
+nav.rail{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--hair);margin-inline:-20px;padding-inline:20px}
+nav.rail ul{list-style:none;margin:0 auto;padding:10px 0;display:flex;gap:6px;overflow-x:auto;max-width:1120px;scrollbar-width:none}
+nav.rail a{display:block;white-space:nowrap;text-decoration:none;color:var(--fg);font-size:13px;padding:5px 12px;border-radius:999px;border:1px solid var(--hair)}
+nav.rail a:hover{background:var(--tint);opacity:1}
+/* sections */
+section{padding-block:56px 8px;scroll-margin-top:56px}
+section>.h{font-size:clamp(28px,4vw,42px);margin-bottom:12px}
+.kicker{margin:0 0 20px;max-width:70ch;font-size:16px}
+.kicker strong{font-weight:700}
+h3{font-size:17px;margin:32px 0 10px;font-weight:700}
+p{max-width:72ch}
+ul.points{padding-left:20px;max-width:76ch} ul.points li{margin:6px 0}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px}
+.grid2>*{min-width:0}
+.card{border:1px solid var(--hair);border-radius:8px;padding:24px;background:var(--bg)}
+.card.p{border-top:4px solid var(--purple)} .card.c{border-top:4px solid var(--cnpg)}
+.card h4{margin:0 0 8px;font-size:15px}
+.card ul{margin:0;padding-left:18px} .card li{margin:5px 0}
+/* verdict */
+.verdict{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin-top:8px}
+.stat{border:1px solid var(--hair);border-radius:8px;padding:20px}
+.stat .n{font-family:var(--display);font-size:44px;line-height:.9;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.stat .n.p{color:var(--purple)}
+.stat p{margin:8px 0 0;font-size:14px;color:var(--muted)}
+/* tables */
+.tbl{overflow-x:auto;border:1px solid var(--hair);border-radius:8px;margin-top:12px}
+table{border-collapse:collapse;width:100%;font-size:14px;min-width:640px}
+th,td{text-align:left;vertical-align:top;padding:10px 14px;border-bottom:1px solid var(--hair)}
+th{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:500;background:var(--panel)}
+tr:last-child td{border-bottom:none}
+td.num{font-variant-numeric:tabular-nums;white-space:nowrap}
+.chip{display:inline-block;font-size:12px;font-weight:500;padding:1px 10px;border-radius:999px;white-space:nowrap;border:1px solid transparent}
+.chip.p{background:var(--tint);color:var(--purple-ink);border-color:var(--tint2)}
+.chip.c{background:var(--cnpg-soft);color:var(--fg);border-color:var(--hair2)}
+.chip.t{background:transparent;color:var(--muted);border-color:var(--hair2)}
+.chip.bad{background:transparent;color:var(--bad);border-color:var(--bad)}
+.v{font-size:11px;color:var(--good);font-weight:700;margin-left:4px}
+/* charts */
+figure{margin:20px 0 0;border:1px solid var(--hair);border-radius:8px;padding:20px 20px 12px;background:var(--bg)}
+figure .chart{overflow-x:auto}
+figcaption{font-size:12px;color:var(--muted);margin-top:8px}
+.ctitle{font-weight:700;font-size:16px;margin:0}
+.csub{font-size:13px;color:var(--muted);margin:2px 0 10px}
+.legend{display:flex;flex-wrap:wrap;gap:8px 20px;font-size:13px;margin-bottom:8px}
+.legend span{display:flex;align-items:center;gap:7px}
+svg text{font-family:var(--body)}
+/* filters */
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.filters button{font:inherit;font-size:13px;padding:5px 14px;border-radius:999px;border:1px solid var(--hair2);background:var(--bg);color:var(--fg);cursor:pointer;transition:background-color .12s ease}
+.filters button[aria-pressed="true"]{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+.count{font-size:13px;color:var(--muted);margin-left:4px;align-self:center}
+/* issues */
+.issues{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}
+.issues .card{padding:18px 20px}
+.issues ol{margin:0;padding-left:0;list-style:none}
+.issues li{padding:6px 0;border-bottom:1px solid var(--hair);font-size:14px;display:flex;gap:10px}
+.issues li:last-child{border-bottom:none}
+.issues li a{font-variant-numeric:tabular-nums;white-space:nowrap;font-weight:500}
+.ptr{display:inline-block;width:0;height:0;border-left:7px solid var(--purple);border-top:5px solid transparent;border-bottom:5px solid transparent;margin-right:8px;vertical-align:middle}
+footer{border-top:1px solid var(--hair);margin-top:56px;padding-block:24px 40px;font-size:13px;color:var(--muted);display:flex;flex-wrap:wrap;gap:12px 32px;justify-content:space-between}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <svg class="logo" viewBox="0 0 1130 235.3" role="img" aria-label="Percona"><g fill="currentColor"><path d="M356.5,152.6h-18.8v33.6H313v-112h45.9c26.8,0,43,15.8,43,38.7v0.3C401.9,139.1,381.7,152.6,356.5,152.6L356.5,152.6z M376.9,113.4c0-11-7.7-17-20.1-17h-19.1v34.2h19.6c12.4,0,19.6-7.4,19.6-17V113.4L376.9,113.4z"/><polygon points="415.7,186.2 415.7,74.2 500.5,74.2 500.5,96.1 440.3,96.1 440.3,118.9 493.3,118.9 493.3,140.8 440.3,140.8 440.3,164.3 501.3,164.3 501.3,186.3 415.7,186.3"/><path d="M588.9,186.2l-24.1-35.8h-19.4v35.8h-24.7v-112H572c26.5,0,42.4,13.9,42.4,37v0.3c0,18.1-9.8,29.5-24.1,34.7l27.5,40H588.9L588.9,186.2z M589.4,112.4c0-10.6-7.4-16-19.4-16h-24.6v32.2h25.1c12,0,18.9-6.4,18.9-15.8V112.4L589.4,112.4z"/><path d="M685.3,189.2c-33.5,0-58.4-25.8-58.4-58.4v-0.3c0-32.3,24.4-58.7,59.4-58.7c21.5,0,34.3,7.1,44.9,17.5l-15.9,18.3c-8.8-8-17.7-12.8-29.1-12.8c-19.2,0-33,15.9-33,35.4v0.3c0,19.5,13.5,35.7,33,35.7c13,0,21-5.2,29.9-13.3l15.9,16C720.3,181.4,707.3,189.2,685.3,189.2L685.3,189.2z"/><path d="M798.2,189.2c-35.2,0-60.4-26.1-60.4-58.4v-0.3c0-32.3,25.5-58.7,60.7-58.7c35.1,0,60.4,26.1,60.4,58.4v0.3C858.8,162.8,833.3,189.2,798.2,189.2 M832.7,130.5c0-19.5-14.3-35.7-34.5-35.7S764,110.7,764,130.2v0.3c0,19.5,14.3,35.7,34.5,35.7s34.2-15.9,34.2-35.4V130.5z"/><polygon points="994.9,186.3 1050.3,71.8 1105.6,186.3 1077.8,186.3 1050.3,129.3 1022.8,186.3"/><polygon points="984.7,74.2 984.7,189.2 900.4,121.1 900.4,186.1 874.1,186.1 874.1,71.8 958.5,139.6 958.5,74.2"/><path d="M96.2,107.2l63.5,110.1h-127L96.2,107.2z M166,49.9c10.3-4.9,21.8-6,33-3c12.3,3.3,22.6,11.2,29,22.3c12.6,21.8,6,49.4-14.4,63.3L166,49.9z M106.6,89.1l30.6-53l0,0l104.5,181.2h-61.2L106.6,89.1z M96.2,71.1L1.5,235.3H273l-50.3-87.2c29-18.9,38.4-57.6,20.9-88c-8.8-15.2-23-26.1-40-30.7c-15.7-4.2-32.2-2.5-46.6,4.8L137.2,0L96.2,71.1z"/></g></svg>
+    <div class="meta">Competitive evaluation · hands-on lab<br>Tested 13–14 Oct 2026 · Updated with split-brain tests</div>
+  </header>
+
+  <div class="hero">
+    <div class="slash" aria-hidden="true"></div>
+    <div class="label">PostgreSQL on Kubernetes</div>
+    <h1 class="h" style="margin-top:14px">Percona Operator <em>vs</em> CloudNativePG</h1>
+    <p class="lede">Percona Operator for PostgreSQL 3.1.0 is the stronger database-reliability product. CloudNativePG 1.30.1 is the stronger Kubernetes-operations product and has far more mindshare. Both were installed from their own docs on identical hardware, then failed, backed up, restored and broken on purpose. A follow-up on 14 Oct reproduced the publicly reported CloudNativePG split-brain on 1.30.1; Percona showed no dual-primary window under the same fault.</p>
+    <div class="versions">
+      <div><span class="sw p"></span>Percona Operator 3.1.0 (Patroni 4.1.5, pgBackRest 2.59, PG 18.6)</div>
+      <div><span class="sw c"></span>CloudNativePG 1.30.1 (Barman Cloud plugin 0.15.1, PG 18.6)</div>
+    </div>
+  </div>
+</div>
+
+<nav class="rail" aria-label="Sections"><ul>
+  <li><a href="#verdict">Verdict</a></li><li><a href="#failover">Failover</a></li><li><a href="#splitbrain">Split-brain</a></li><li><a href="#architecture">Architecture</a></li>
+  <li><a href="#install">Install</a></li><li><a href="#backup">Backup &amp; PITR</a></li><li><a href="#troubleshooting">Troubleshooting</a></li>
+  <li><a href="#docs">Docs</a></li><li><a href="#features">Features</a></li><li><a href="#market">Market</a></li>
+  <li><a href="#recommendations">Recommendations</a></li><li><a href="#issues">Issues filed</a></li><li><a href="#method">Method</a></li>
+</ul></nav>
+
+<main class="wrap">
+
+<section id="verdict">
+  <h2 class="h">The verdict</h2>
+  <p class="kicker">CloudNativePG takes 7 of the 14 scored areas and Percona 6, with 1 even. Percona's six are the ones that decide whether data and writes survive a bad day.</p>
+  <div class="verdict">
+    <div class="stat"><div class="n p">7 of 8</div><p>failure scenarios where Percona restored writes faster (direct to the primary)</p></div>
+    <div class="stat"><div class="n p">3.4 s</div><p>Percona failover with its operator scaled to zero. CloudNativePG did not fail over: 101 s outage</p></div>
+    <div class="stat"><div class="n p">33 s</div><p>Percona in-place point-in-time restore. CloudNativePG restores only into a new cluster</p></div>
+    <div class="stat"><div class="n" style="color:var(--bad)">129 s</div><p>dual-primary window on CloudNativePG 1.30.1 defaults when the primary is partitioned but clients are not; 3,680 acknowledged writes lost. Percona: none</p></div>
+    <div class="stat"><div class="n">25×</div><p>more GitHub stars for CloudNativePG (9,443 vs 385), plus CNCF Sandbox status</p></div>
+  </div>
+
+  <div class="tbl"><table>
+    <thead><tr><th>Area</th><th>Edge</th><th>Evidence</th></tr></thead>
+    <tbody id="scorecard"></tbody>
+  </table></div>
+
+  <div class="grid2" style="margin-top:24px">
+    <div class="card" style="border-color:var(--bad)">
+      <h4>Shared weakness</h4>
+      <p style="margin:0">Both operators let one backup pod become a hidden single point of failure. When the node holding the pgBackRest repo-host (Percona) or the Barman Cloud plugin (CloudNativePG) died along with the primary, failover took 4.5 to 6.5 minutes instead of 30 to 75 seconds. Neither project documents this or spreads these pods by default.</p>
+    </div>
+    <div class="card">
+      <h4>Biggest risks for Percona in deals</h4>
+      <ul>
+        <li>CloudNativePG's community momentum and CNCF branding</li>
+        <li>No kubectl plugin</li>
+        <li>Thin HA documentation, with a factual error on Patroni timings</li>
+        <li>pgBouncer in the default path adds 10–15 s to every failover</li>
+        <li>Percona now sells CloudNativePG support too, which blurs the message</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="failover">
+  <h2 class="h">Failure and recovery</h2>
+  <p class="kicker">A write probe opened a new connection and ran an <code>INSERT</code> every ~200 ms against each endpoint while we broke things. <strong>Outage</strong> = last successful write before the event to the first one after it.</p>
+  <figure>
+    <p class="ctitle">Direct to the primary, Percona restores writes faster in 7 of 8 scenarios</p>
+    <p class="csub">Write outage per scenario, seconds, log scale. Lower is better.</p>
+    <div class="legend">
+      <span><svg width="14" height="14"><circle cx="7" cy="7" r="5.5" fill="var(--purple)"/></svg>Percona, direct to primary</span>
+      <span><svg width="14" height="14"><circle cx="7" cy="7" r="5" fill="none" stroke="var(--purple)" stroke-width="2"/></svg>Percona via pgBouncer</span>
+      <span><svg width="14" height="14"><circle cx="7" cy="7" r="5.5" fill="var(--cnpg)"/></svg>CloudNativePG <code>-rw</code> service</span>
+    </div>
+    <div class="chart" id="failchart"></div>
+    <figcaption>Measured on the 4-node lab, 13 Oct 2026. One run per scenario. "Kubelet loses API server": Percona had no failed writes, plotted at the 1 s floor.</figcaption>
+  </figure>
+
+  <div class="tbl" style="margin-top:20px"><table>
+    <thead><tr><th>Scenario</th><th>Percona 3.1.0 (Patroni)</th><th>CloudNativePG 1.30.1 (instance manager)</th></tr></thead>
+    <tbody>
+      <tr><td>Primary pod deleted</td><td>Patroni promoted a replica in ~3 s</td><td>Operator promoted a replica; replacement pod back in 21 s</td></tr>
+      <tr><td>Postmaster <code>kill -9</code></td><td>No failover; Patroni restarted PG in place after its 10 s loop</td><td>No failover; kubelet restarted the container, faster</td></tr>
+      <tr><td>Planned switchover</td><td>Documented 3-step procedure: patch CR, annotate, un-patch</td><td>One command: <code>kubectl cnpg promote</code></td></tr>
+      <tr><td>Primary deleted, operator scaled to 0</td><td><strong>Failover still happened.</strong> Patroni and its Kubernetes DCS don't need the operator</td><td><strong>No failover.</strong> Deleted pod not recreated; <code>-rw</code> had no endpoints until the operator returned</td></tr>
+      <tr><td>Node power-off (auto-rebooted after ~2.5 min)</td><td>New leader at the 30 s Patroni TTL</td><td>Failover after the documented 40–55 s NotReady detection</td></tr>
+      <tr><td>Full network partition, 240 s</td><td>Old primary refused local writes from +15 s; new leader at ~30 s</td><td>Isolated primary shut itself down from +23 s; failover done at 97 s</td></tr>
+      <tr><td>Kubelet loses the API server, pod network intact</td><td><strong>No impact.</strong> Patroni writes the primary endpoint itself</td><td>Pod marked NotReady and dropped from <code>-rw</code>: <strong>136 s outage with a healthy primary</strong>, no failover</td></tr>
+      <tr><td>Node off for 10 min, also holding the backup pod</td><td>Promotion stalled on <code>restore_command</code> timeouts to the dead repo-host: 271 s</td><td>Reconcile blocked by the unreachable Barman plugin until it was evicted at 300 s: 401 s</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="grid2" style="margin-top:24px">
+    <div class="card"><h4>Split-brain depends on the partition shape</h4><p style="margin:0">When clients were cut off along with the node, neither operator split. When only the primary was cut off and clients kept their sessions, CloudNativePG ran two primaries for 129 s. See <a href="#splitbrain">Split-brain</a>.</p></div>
+    <div class="card"><h4>pgBouncer costs Percona 10–15 s</h4><p style="margin:0">pgBouncer's <code>server_login_retry</code> default of 15 s delays reconnection to the new primary. Clients meanwhile see <code>FATAL: SSL required</code>, because psql's <code>sslmode=prefer</code> fallback hides the real error.</p></div>
+    <div class="card"><h4>Permanent node loss</h4><p style="margin:0">Percona has no documented procedure; force-deleting the pod and its PVC recovered everything in 24 s. CloudNativePG's <code>kubectl cnpg destroy</code> left the pod <code>Terminating</code> until it was force-deleted, then healed in 32 s.</p></div>
+  </div>
+</section>
+
+
+<section id="splitbrain">
+  <h2 class="h">Split-brain</h2>
+  <p class="kicker">The publicly reported CloudNativePG split-brain still reproduces on 1.30.1 with default settings. Under the same fault Percona's Patroni demoted the isolated primary before a replacement existed, so it never ran two primaries.</p>
+  <p>The fault follows <a href="https://coroot.com/blog/reproducing-split-brain-on-cloudnativepg/">Coroot's method</a>: the primary pod is cut off from its replicas, the operator and the API server, while three clients keep persistent connections and insert every ~100 ms. Every acknowledged write is checked against the final table. The issue is tracked as <a href="https://github.com/cloudnative-pg/cloudnative-pg/issues/11280">cloudnative-pg #11280</a>, still open; the code fix (lease-based self-fencing) is planned for 1.31 and will not be backported.</p>
+  <figure>
+    <p class="ctitle">Only CloudNativePG with default settings ran two primaries at once</p>
+    <p class="csub">Seconds after the partition: when the isolated old primary last acknowledged a write, and when the new primary was promoted</p>
+    <div class="legend">
+      <span><svg width="22" height="10"><rect width="22" height="10" rx="2" fill="var(--hair2)"/></svg>Old primary still acknowledging writes</span>
+      <span><svg width="22" height="10"><rect width="22" height="10" rx="2" fill="var(--purple)" fill-opacity=".55"/></svg>New primary serving</span>
+      <span><svg width="22" height="10"><rect width="22" height="10" rx="2" fill="var(--bad)"/></svg>Both primaries acknowledging</span>
+    </div>
+    <div class="chart" id="sbchart"></div>
+    <figcaption>One run per configuration, 300 s partition, 14 Oct 2026. CloudNativePG 1.30.1, Percona Operator 3.1.0. Quorum sync: commits on the isolated primary blocked, so it acknowledged nothing after the partition.</figcaption>
+  </figure>
+  <div class="tbl" style="margin-top:20px"><table>
+    <thead><tr><th>Run</th><th>Old primary's last ack</th><th>New primary</th><th>Overlap</th><th>Acknowledged writes lost</th></tr></thead>
+    <tbody>
+      <tr><td>CloudNativePG defaults</td><td class="num">+206.7 s</td><td class="num">+77.4 s</td><td class="num"><span class="chip bad">129.3 s</span></td><td class="num">5,905 (3,680 during the overlap)</td></tr>
+      <tr><td>CloudNativePG <code>smartShutdownTimeout: 0</code></td><td class="num">+23.3 s</td><td class="num">+73.8 s</td><td class="num">none</td><td class="num">660 (async lag)</td></tr>
+      <tr><td>CloudNativePG + <code>failoverDelay: 30</code></td><td class="num">+25.7 s</td><td class="num">+107.6 s</td><td class="num">none</td><td class="num">740 (async lag)</td></tr>
+      <tr><td>CloudNativePG quorum sync, <code>dataDurability: required</code></td><td class="num">blocked</td><td class="num">+76.4 s</td><td class="num">none</td><td class="num">0, but clients stuck until +207 s</td></tr>
+      <tr><td>Percona, direct</td><td class="num">+13.6 s</td><td class="num">+26.9 s</td><td class="num">none</td><td class="num">391 (async lag)</td></tr>
+      <tr><td>Percona, via pgBouncer</td><td class="num">+19.2 s</td><td class="num">+32.5 s</td><td class="num">none</td><td class="num">368 (async lag)</td></tr>
+    </tbody>
+  </table></div>
+  <h3>Other public scenarios, re-tested</h3>
+  <div class="tbl"><table>
+    <thead><tr><th>Scenario</th><th>CloudNativePG 1.30.1</th><th>Percona 3.1.0</th></tr></thead>
+    <tbody>
+      <tr><td>Node loses the control plane; primary loses API and replication, operator port 8000 stays open</td><td>No failover, no split-brain, no loss; <strong>new connections failed for 264 s</strong></td><td>Demoted +10.5 s, promoted +21.8 s, 305 lost (async)</td></tr>
+      <tr><td>30 s freeze of primary + kubelet (VM pause)</td><td>No failover, no loss (#10445 works)</td><td>not run</td></tr>
+      <tr><td>120 s freeze of primary + kubelet (VM pause)</td><td>Promoted +67 s; after thaw the old primary committed 409 writes in ~1 s, all lost</td><td>Promoted +27 s; after thaw 53 writes in 0.3 s, all lost</td></tr>
+      <tr><td>Whole node partitioned (clients cut off too)</td><td>Isolated primary stopped new writes at +23 s; failover 97 s; no overlap</td><td>Old primary refused writes at +15 s; failover ~31 s; no overlap</td></tr>
+    </tbody>
+  </table></div>
+  <div class="grid2" style="margin-top:24px">
+    <div class="card c"><h4>Why CloudNativePG splits</h4><p style="margin:0">Its isolation check only fails the liveness probe. The kubelet then triggers a <em>smart</em> shutdown, which refuses new sessions but lets open ones keep committing for up to <code>smartShutdownTimeout</code> (180 s). Meanwhile the operator promotes a replica. Setting <code>smartShutdownTimeout: 0</code> or quorum sync closes the window today.</p></div>
+    <div class="card p"><h4>Why Percona doesn't</h4><p style="margin:0">Patroni must renew its leader key in the Kubernetes API. When it can't, it demotes the primary itself, which ends open sessions, after 10–19 s. A replica can only take the key after the 30 s TTL, so demotion always comes first. Writes acknowledged before demotion are still lost with async replication.</p></div>
+  </div>
+</section>
+
+<section id="architecture">
+  <h2 class="h">Architecture</h2>
+  <p class="kicker">The core difference is where the failover decision lives. Percona runs Patroni in every PostgreSQL pod with the Kubernetes API as its lock store. CloudNativePG's operator detects failures and promotes replicas, so failover also needs the operator, and in 1.30 its backup plugin.</p>
+  <figure>
+    <div class="chart">
+    <svg viewBox="0 0 760 452" width="100%" style="min-width:600px;display:block" role="img" aria-label="Percona fails over through the Kubernetes API alone; CloudNativePG also needs its operator">
+      <defs>
+        <marker id="aA" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="var(--purple)"/></marker>
+        <marker id="aB" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="var(--bad)"/></marker>
+      </defs>
+      <g font-size="13">
+      <text x="24" y="30" font-size="15" font-weight="700" fill="var(--fg)">Percona fails over through the Kubernetes API alone; CloudNativePG also needs its operator</text>
+      <text x="24" y="50" font-size="11.5" fill="var(--muted)">Who decides failover, and which backup pod can stall it (as tested, default manifests)</text>
+      <rect x="16" y="66" width="356" height="334" rx="8" fill="var(--panel)" stroke="var(--hair2)"/>
+      <rect x="388" y="66" width="356" height="334" rx="8" fill="var(--panel)" stroke="var(--hair2)"/>
+      <text x="32" y="92" font-size="14" font-weight="700" fill="var(--fg)">Percona 3.1.0</text>
+      <text x="404" y="92" font-size="14" font-weight="700" fill="var(--fg)">CloudNativePG 1.30.1</text>
+      <!-- Percona -->
+      <rect x="32" y="108" width="324" height="52" rx="8" fill="var(--bg)" stroke="var(--hair2)"/>
+      <text x="194" y="130" text-anchor="middle" font-weight="700" fill="var(--fg)">Kubernetes API</text>
+      <text x="194" y="148" text-anchor="middle" font-size="11.5" fill="var(--muted)">Patroni DCS: leader lock + primary endpoint</text>
+      <rect x="32" y="204" width="100" height="64" rx="8" fill="var(--tint)" stroke="var(--purple)" stroke-width="2"/>
+      <text x="82" y="226" text-anchor="middle" font-weight="700" fill="var(--fg)">Instance 1</text><text x="82" y="242" text-anchor="middle" font-size="11.5" fill="var(--fg)">PG + Patroni</text><text x="82" y="258" text-anchor="middle" font-size="11.5" fill="var(--muted)">primary</text>
+      <rect x="144" y="204" width="100" height="64" rx="8" fill="var(--bg)" stroke="var(--hair2)"/>
+      <text x="194" y="226" text-anchor="middle" font-weight="700" fill="var(--fg)">Instance 2</text><text x="194" y="242" text-anchor="middle" font-size="11.5" fill="var(--fg)">PG + Patroni</text><text x="194" y="258" text-anchor="middle" font-size="11.5" fill="var(--muted)">replica</text>
+      <rect x="256" y="204" width="100" height="64" rx="8" fill="var(--bg)" stroke="var(--hair2)"/>
+      <text x="306" y="226" text-anchor="middle" font-weight="700" fill="var(--fg)">Instance 3</text><text x="306" y="242" text-anchor="middle" font-size="11.5" fill="var(--fg)">PG + Patroni</text><text x="306" y="258" text-anchor="middle" font-size="11.5" fill="var(--muted)">replica</text>
+      <rect x="32" y="320" width="146" height="64" rx="8" fill="var(--bg)" stroke="var(--hair2)"/>
+      <text x="105" y="342" text-anchor="middle" font-weight="700" fill="var(--fg)">Operator</text><text x="105" y="358" text-anchor="middle" font-size="11.5" fill="var(--muted)">reconciles the spec;</text><text x="105" y="374" text-anchor="middle" font-size="11.5" fill="var(--muted)">not in failover path</text>
+      <rect x="194" y="320" width="162" height="64" rx="8" fill="var(--bg)" stroke="var(--bad)" stroke-width="1.5" stroke-dasharray="5 3"/>
+      <text x="275" y="342" text-anchor="middle" font-weight="700" fill="var(--fg)">pgBackRest repo-host</text><text x="275" y="358" text-anchor="middle" font-size="11.5" fill="var(--fg)">1 pod, serves</text><text x="275" y="374" text-anchor="middle" font-size="11.5" fill="var(--fg)">restore_command</text>
+      <path d="M82 204V162" stroke="var(--purple)" stroke-width="1.5" fill="none" marker-end="url(#aA)"/>
+      <path d="M82 268V294H275V318" stroke="var(--bad)" stroke-width="1.5" stroke-dasharray="5 3" fill="none" marker-end="url(#aB)"/>
+      <text x="92" y="190" font-size="11.5" fill="var(--fg)">leader lock, TTL 30 s</text>
+      <text x="92" y="288" font-size="11.5" fill="var(--bad)">promotion waits on it</text>
+      <!-- CNPG -->
+      <rect x="404" y="108" width="324" height="52" rx="8" fill="var(--bg)" stroke="var(--hair2)"/>
+      <text x="566" y="130" text-anchor="middle" font-weight="700" fill="var(--fg)">Kubernetes API</text>
+      <text x="566" y="148" text-anchor="middle" font-size="11.5" fill="var(--muted)">Lease + pod readiness</text>
+      <rect x="404" y="204" width="176" height="64" rx="8" fill="var(--tint)" stroke="var(--purple)" stroke-width="2"/>
+      <text x="492" y="226" text-anchor="middle" font-weight="700" fill="var(--fg)">Operator (1 replica)</text><text x="492" y="242" text-anchor="middle" font-size="11.5" fill="var(--fg)">detects failure,</text><text x="492" y="258" text-anchor="middle" font-size="11.5" fill="var(--fg)">promotes a replica</text>
+      <rect x="604" y="204" width="124" height="64" rx="8" fill="var(--bg)" stroke="var(--bad)" stroke-width="1.5" stroke-dasharray="5 3"/>
+      <text x="666" y="226" text-anchor="middle" font-weight="700" fill="var(--fg)">Barman plugin</text><text x="666" y="242" text-anchor="middle" font-size="11.5" fill="var(--fg)">1 pod; reconcile</text><text x="666" y="258" text-anchor="middle" font-size="11.5" fill="var(--fg)">blocks without it</text>
+      <rect x="404" y="320" width="100" height="64" rx="8" fill="var(--bg)" stroke="var(--hair2)"/>
+      <text x="454" y="342" text-anchor="middle" font-weight="700" fill="var(--fg)">Instance 1</text><text x="454" y="358" text-anchor="middle" font-size="11.5" fill="var(--fg)">PG + manager</text><text x="454" y="374" text-anchor="middle" font-size="11.5" fill="var(--muted)">primary</text>
+      <rect x="516" y="320" width="100" height="64" rx="8" fill="var(--bg)" stroke="var(--hair2)"/>
+      <text x="566" y="342" text-anchor="middle" font-weight="700" fill="var(--fg)">Instance 2</text><text x="566" y="358" text-anchor="middle" font-size="11.5" fill="var(--fg)">PG + manager</text><text x="566" y="374" text-anchor="middle" font-size="11.5" fill="var(--muted)">replica</text>
+      <rect x="628" y="320" width="100" height="64" rx="8" fill="var(--bg)" stroke="var(--hair2)"/>
+      <text x="678" y="342" text-anchor="middle" font-weight="700" fill="var(--fg)">Instance 3</text><text x="678" y="358" text-anchor="middle" font-size="11.5" fill="var(--fg)">PG + manager</text><text x="678" y="374" text-anchor="middle" font-size="11.5" fill="var(--muted)">replica</text>
+      <g stroke="var(--purple)" stroke-width="1.5" fill="none">
+        <path d="M492 204V162" marker-end="url(#aA)"/>
+        <path d="M492 268V294M454 294H678M454 294V310M566 294V310M678 294V310"/>
+        <path d="M454 308V318" marker-end="url(#aA)"/><path d="M566 308V318" marker-end="url(#aA)"/><path d="M678 308V318" marker-end="url(#aA)"/>
+      </g>
+      <path d="M580 236H602" stroke="var(--bad)" stroke-width="1.5" stroke-dasharray="4 3" fill="none" marker-end="url(#aB)"/>
+      <text x="502" y="190" font-size="11.5" fill="var(--fg)">Lease, node readiness</text>
+      <text x="500" y="288" font-size="11.5" fill="var(--fg)">status checks, promote</text>
+      <line x1="24" y1="428" x2="52" y2="428" stroke="var(--purple)" stroke-width="1.5"/>
+      <text x="60" y="432" font-size="11.5" fill="var(--fg)">failover decision path</text>
+      <rect x="232" y="420" width="28" height="16" rx="4" fill="none" stroke="var(--bad)" stroke-width="1.5" stroke-dasharray="5 3"/>
+      <text x="268" y="432" font-size="11.5" fill="var(--fg)">single backup pod: on the failed node it stretched failover to 4.5–6.5 min</text>
+      </g>
+    </svg>
+    </div>
+  </figure>
+  <div class="tbl" style="margin-top:20px"><table>
+    <thead><tr><th>Layer</th><th>Percona 3.1.0</th><th>CloudNativePG 1.30.1</th></tr></thead>
+    <tbody>
+      <tr><td>Heritage</td><td>Fork of Crunchy Data PGO v5; API group renamed in 3.0</td><td>Built by EDB (2ndQuadrant); CNCF Sandbox since Jan 2025</td></tr>
+      <tr><td>HA manager</td><td>Patroni 4.1.5 in each pod; DCS = Kubernetes Endpoints</td><td>Instance manager (PID 1) + operator reconcile; <code>Lease</code> gates promotion</td></tr>
+      <tr><td>Pod management</td><td>StatefulSet per instance; pods recreated without the operator</td><td>Pods managed directly by the operator</td></tr>
+      <tr><td>Containers per PG pod</td><td>6: database, cert copy, Fluent Bit, logrotate, pgbackrest, pgbackrest-config</td><td>1 (<code>postgres</code>) + plugin sidecar when backups are on</td></tr>
+      <tr><td>Primary endpoint</td><td><code>cluster1-primary</code> → <code>cluster1-ha</code>, written by Patroni</td><td><code>-rw</code>, selected by role label and pod readiness</td></tr>
+      <tr><td>Pooler</td><td>pgBouncer Deployment in the same CR (3 replicas)</td><td>Separate, optional <code>Pooler</code> CRD</td></tr>
+      <tr><td>Backup</td><td>pgBackRest + dedicated repo-host; S3/GCS/Azure/PVC</td><td>Barman Cloud plugin + <code>ObjectStore</code> CRD, or volume snapshots</td></tr>
+      <tr><td>CRDs installed</td><td>8 (4 Percona + 4 upstream, incl. unused <code>crunchybridgeclusters</code>)</td><td>11 + <code>ObjectStore</code></td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section id="install">
+  <h2 class="h">Installation &amp; day one</h2>
+  <p class="kicker">Both quickstarts worked word for word. CloudNativePG reached a running cluster twice as fast. Percona's cluster arrived more complete: pooler, backups and a first full backup already running.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>Step</th><th>Percona 3.1.0</th><th>CloudNativePG 1.30.1</th></tr></thead>
+    <tbody>
+      <tr><td>Operator install</td><td class="num">36 s</td><td class="num">14 s</td></tr>
+      <tr><td>Sample cluster ready</td><td class="num">240 s</td><td class="num">112 s</td></tr>
+      <tr><td>What you get</td><td>3 PG pods, 3 pgBouncer, repo-host, automatic first full backup, weekly schedule, log sidecar</td><td>3 PG pods, <code>-rw/-ro/-r</code> services, app user secret. No backups, no pooler</td></tr>
+      <tr><td>Add S3 backups</td><td>1 secret + CR patch (rolling restart)</td><td>cert-manager + plugin + 2 secrets + <code>ObjectStore</code> + Cluster patch (rolling restart)</td></tr>
+      <tr><td>Idle footprint</td><td class="num">269 mCPU · 315 MiB · 8 pods</td><td class="num">99 mCPU · 237 MiB · 5 pods</td></tr>
+    </tbody>
+  </table></div>
+  <ul class="points">
+    <li>Percona's v3.1.0 <code>cr.yaml</code> installs older image builds than its release notes recommend (18.6.1-1 vs -3, pgBouncer 1.25.2-6 vs -8, pgBackRest 2.59.0-1 vs 2.59.1-2). The rolling update to the right tags took 112 s with a 3.4 s write gap.</li>
+    <li>Percona switches to cert-manager automatically when it finds one (<code>certManagementPolicy: auto</code>). That helps on clusters that standardize on cert-manager and surprises everyone else.</li>
+    <li>Crunchy heritage still shows: <code>postgres-operator.crunchydata.com/*</code> labels and a Crunchy-named switchover annotation.</li>
+    <li>pgBackRest only speaks HTTPS to S3; a plain-HTTP lab endpoint won't work. MinIO no longer publishes container images, although both doc sets still use it in examples.</li>
+  </ul>
+</section>
+
+<section id="backup">
+  <h2 class="h">Backup, restore &amp; PITR</h2>
+  <p class="kicker">Both recovered a dropped 2,000,000-row table to the exact point in time, as documented. Percona's restore model is more flexible and was faster.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>Test (337 MB pgbench database)</th><th>Percona 3.1.0</th><th>CloudNativePG 1.30.1</th></tr></thead>
+    <tbody>
+      <tr><td>Full backup to S3, defaults</td><td class="num">323 s</td><td class="num">299 s</td></tr>
+      <tr><td>Full backup, immediate checkpoint</td><td class="num">43 s (18 s in pgBackRest)</td><td class="num">19 s (10 s backup)</td></tr>
+      <tr><td>PITR in place, same endpoints</td><td><span class="chip p">Yes</span> 33 s; 26 s write downtime</td><td><span class="chip t">Not supported</span></td></tr>
+      <tr><td>PITR to a new cluster</td><td class="num">43 s (1 instance)</td><td class="num">Primary at 61 s, 3 instances at 126 s</td></tr>
+      <tr><td>Restored cluster keeps archiving</td><td>Yes</td><td>No, until a plugin with a new <code>serverName</code> is added</td></tr>
+    </tbody>
+  </table></div>
+  <ul class="points">
+    <li><strong>The ~5-minute default backup affects both.</strong> They wait for a spread checkpoint. Neither quickstart mentions it.</li>
+    <li><strong>Percona clone trap:</strong> the <code>dataSource</code> repo must be <code>repo1</code>, so its secret needs <code>repo1-*</code> keys even when the source wrote to repo2.</li>
+    <li><strong>Percona repo-host loss stops all WAL archiving</strong>, even to the healthy S3 repo, so WAL piles up on the primary.</li>
+    <li><strong>CloudNativePG backs up from a standby by default</strong>; Percona reads from the primary.</li>
+    <li><strong>CloudNativePG's in-tree Barman is removed in 1.31.</strong> Existing users face a forced migration to a v0.x plugin.</li>
+  </ul>
+</section>
+
+<section id="troubleshooting">
+  <h2 class="h">Troubleshooting &amp; observability</h2>
+  <p class="kicker">CloudNativePG is easier to troubleshoot day to day. Neither puts the real root cause of a broken cluster or broken backups into its top-level status.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>Injected fault</th><th>Percona shows</th><th>CloudNativePG shows</th><th>Fastest path to the cause</th></tr></thead>
+    <tbody>
+      <tr><td>Typo in image tag</td><td><code>initializing</code>, unrelated pgBackRest conditions</td><td><code>Setting up primary</code></td><td>Both: pod <code>ImagePullBackOff</code>. CNPG also emits Events on the Cluster</td></tr>
+      <tr><td>Missing StorageClass</td><td><code>initializing</code></td><td><code>Setting up primary</code></td><td>Both: PVC <code>Pending</code></td></tr>
+      <tr><td>Wrong S3 secret</td><td><span class="chip bad">ready</span> with <code>StanzaNotCreated</code></td><td><span class="chip bad">healthy</span>, but <code>cnpg status</code> says archiving Failing</td><td>Percona: one <code>get events</code> shows 403. CNPG: plugin sidecar log</td></tr>
+      <tr><td>Stuck promotion</td><td>Pod labelled primary; cause only in the PG log</td><td>Status names the plugin error</td><td>CloudNativePG</td></tr>
+    </tbody>
+  </table></div>
+  <div class="grid2" style="margin-top:24px">
+    <div class="card c"><h4>CloudNativePG</h4><ul>
+      <li><code>kubectl cnpg</code>: status, report, promote, destroy, backup, psql, fencing, hibernate</li>
+      <li>Events on the Cluster resource</li>
+      <li>Prometheus exporter on every pod: 482 <code>cnpg_*</code> metric lines with no setup</li>
+      <li>Logs as JSON to stdout; shipping is up to you</li>
+    </ul></div>
+    <div class="card p"><h4>Percona</h4><ul>
+      <li>No CLI: <code>kubectl exec</code> into <code>patronictl</code> and <code>pgbackrest</code></li>
+      <li>Warnings land on the internal <code>postgrescluster</code>, not the user's CR</li>
+      <li>PostgreSQL metrics need a PMM server; in return you get query analytics and dashboards</li>
+      <li>Fluent Bit + logrotate sidecars keep logs across restarts</li>
+    </ul></div>
+  </div>
+</section>
+
+<section id="docs">
+  <h2 class="h">Documentation</h2>
+  <p class="kicker">Tied at 7.4 out of 10, with mirror-image strengths. Percona's docs say how to do each task. CloudNativePG's explain what happens when things fail.</p>
+  <figure>
+    <p class="ctitle">Percona leads on task guides; CloudNativePG leads on failure behaviour</p>
+    <p class="csub">Documentation score by category, 1–10</p>
+    <div class="legend"><span><svg width="14" height="14"><circle cx="7" cy="7" r="5.5" fill="var(--purple)"/></svg>Percona</span><span><svg width="14" height="14"><circle cx="7" cy="7" r="5.5" fill="var(--cnpg)"/></svg>CloudNativePG</span></div>
+    <div class="chart" id="docchart"></div>
+    <figcaption>Scored from the live docs sites (Percona 3.1.0, CloudNativePG 1.30) and checked against the hands-on run.</figcaption>
+  </figure>
+  <div class="grid2" style="margin-top:24px">
+    <div class="card p"><h4>Percona docs vs reality</h4><ul>
+      <li>Reference says <code>leaderLeaseDurationSeconds</code> is a probe delay; it is the Patroni TTL that set our ~30 s outage</li>
+      <li>No page on pod or node failure, and no node-loss runbook</li>
+      <li>Live errors: PXC hostname in debug-shell, <code>Running</code> instead of <code>ready</code>, <code>HH:MM:DD</code>, PG 13 in compare</li>
+    </ul></div>
+    <div class="card c"><h4>CloudNativePG docs vs reality</h4><ul>
+      <li>Node-failure timing matched the docs</li>
+      <li><code>cnpg destroy</code> on a dead node needs an undocumented force-delete</li>
+      <li>No warning that a plugin outage blocks failover</li>
+      <li>Leftover chatbot line on the 1.30 supported-releases page; old links redirect to devel</li>
+    </ul></div>
+  </div>
+</section>
+
+<section id="features">
+  <h2 class="h">Feature matrix</h2>
+  <p class="kicker">Percona leads on data protection and enterprise features. CloudNativePG leads on Kubernetes-native day-2 operations. <span class="v">✓</span> marks rows verified hands-on; the rest come from docs, release notes and source.</p>
+  <div class="filters" role="group" aria-label="Filter features">
+    <button id="f-all" aria-pressed="true" data-f="all">All</button>
+    <button id="f-p" aria-pressed="false" data-f="p">Percona edge</button>
+    <button id="f-c" aria-pressed="false" data-f="c">CloudNativePG edge</button>
+    <button id="f-t" aria-pressed="false" data-f="t">Even</button>
+    <button id="f-v" aria-pressed="false" data-f="v">Verified hands-on</button>
+    <span class="count" id="fcount"></span>
+  </div>
+  <div class="tbl"><table>
+    <thead><tr><th>Capability</th><th>Percona 3.1.0</th><th>CloudNativePG 1.30.1</th><th>Edge</th></tr></thead>
+    <tbody id="features-body"></tbody>
+  </table></div>
+</section>
+
+<section id="market">
+  <h2 class="h">Market position</h2>
+  <p class="kicker">CloudNativePG has the community. Percona has the enterprise checklist. Both are Apache 2.0.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>GitHub, 13 Oct 2026</th><th>Percona operator</th><th>CloudNativePG</th></tr></thead>
+    <tbody>
+      <tr><td>Stars / forks</td><td class="num">385 / 83</td><td class="num">9,443 / 789</td></tr>
+      <tr><td>Contributors (approx.)</td><td class="num">~105 incl. Crunchy history</td><td class="num">~251</td></tr>
+      <tr><td>PRs merged, last 12 months</td><td class="num">366</td><td class="num">1,497</td></tr>
+      <tr><td>Feature releases, last 18 months</td><td>6, no release candidates</td><td>5, each with RCs; patches on 2–3 branches</td></tr>
+      <tr><td>Governance</td><td>Single vendor</td><td>CNCF Sandbox; all 5 maintainers at EDB</td></tr>
+      <tr><td>Commercial support</td><td>Percona</td><td>EDB + 14 others, including Percona since Sep 2026</td></tr>
+    </tbody>
+  </table></div>
+  <h3>Objections and responses</h3>
+  <div class="tbl"><table>
+    <thead><tr><th>Objection</th><th>Response backed by this test</th></tr></thead>
+    <tbody>
+      <tr><td>"CloudNativePG is the CNCF standard"</td><td>OpenEverest, built on Percona's operator, is also CNCF Sandbox. CloudNativePG's maintainers all work at EDB.</td></tr>
+      <tr><td>"Patroni in a pod is legacy"</td><td>Patroni failed over in 3.4 s with the operator down; CloudNativePG could not. It was also fastest on node loss (27–31 s vs 74–98 s).</td></tr>
+      <tr><td>"CloudNativePG has no split-brain"</td><td>On 1.30.1 with defaults it ran two primaries for 129 s and lost 3,680 acknowledged writes during the overlap. The fix ships in 1.31; until then users must set <code>smartShutdownTimeout: 0</code> or quorum sync.</td></tr>
+      <tr><td>"CloudNativePG backups are fine"</td><td>They need cert-manager, a v0.x plugin and an object store first. In-tree removal in 1.31 forces a migration, and there is no in-place restore.</td></tr>
+      <tr><td>"CloudNativePG is easier to operate"</td><td>True for tooling: plugin, Events, native metrics. Percona should close this gap.</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section id="recommendations">
+  <h2 class="h">Recommendations for Percona</h2>
+  <p class="kicker">Fix the two failover problems the tests exposed, ship a kubectl plugin, and market the measured HA advantage.</p>
+  <div class="grid2">
+    <div class="card p"><h4>Product</h4><ol style="margin:0;padding-left:20px">
+      <li>Stop the repo-host from blocking promotion: fail <code>archive-get</code> fast during promotion and add anti-affinity</li>
+      <li>Default pgBouncer <code>server_login_retry</code> to 1–2 s and surface a meaningful client error</li>
+      <li>Ship a <code>kubectl</code> plugin: status, switchover, backup, restore, report, psql</li>
+      <li>Put real errors in <code>PerconaPGCluster</code> status and Events; never <code>ready</code> with no working repo</li>
+      <li>Make switchover a single action</li>
+      <li>Offer native Prometheus metrics next to PMM</li>
+      <li>Default <code>--start-fast</code>; keep <code>cr.yaml</code> image tags current</li>
+    </ol></div>
+    <div class="card"><h4>Docs</h4><ol style="margin:0;padding-left:20px">
+      <li>Add a failure-scenarios page with these timings</li>
+      <li>Fix the Patroni timing reference and explain the Kubernetes DCS</li>
+      <li>Add a node-loss runbook and a clone example from repo2</li>
+      <li>Fix the live-site errors</li>
+    </ol>
+    <h4 style="margin-top:20px">Go to market</h4><ol style="margin:0;padding-left:20px">
+      <li>Lead with resilience: "fails over even when the operator is down" and "no split-brain under partition"; publish the harness</li>
+      <li>Target CloudNativePG's backup transition with a migration guide</li>
+      <li>Frame Percona's CloudNativePG support as a path to OpenEverest, PMM and pg_tde</li>
+    </ol></div>
+  </div>
+</section>
+
+<section id="issues">
+  <h2 class="h">Issues filed</h2>
+  <p class="kicker">Eleven GitHub issues filed on 14 Oct 2026, each with reproduction steps and measured timings. Split-brain results were added to <a href="https://github.com/cloudnative-pg/cloudnative-pg/issues/11280#issuecomment-6165732927">cloudnative-pg #11280</a>, <a href="https://github.com/cloudnative-pg/cloudnative-pg/issues/11656#issuecomment-6165733300">#11656</a> and <a href="https://github.com/percona/k8spg-docs/issues/450#issuecomment-6165733819">k8spg-docs #450</a>.</p>
+  <div class="issues">
+    <div class="card p"><h4>Percona operator</h4><ol>
+      <li><a href="https://github.com/percona/percona-postgresql-operator/issues/1848">#1848</a><span>Repo-host loss stalls promotion for minutes</span></li>
+      <li><a href="https://github.com/percona/percona-postgresql-operator/issues/1849">#1849</a><span>WAL archiving stops while any repo is down</span></li>
+      <li><a href="https://github.com/percona/percona-postgresql-operator/issues/1850">#1850</a><span>pgBouncer adds 10–15 s to failover; misleading SSL error</span></li>
+      <li><a href="https://github.com/percona/percona-postgresql-operator/issues/1851">#1851</a><span><code>ready</code> while the only repo returns 403</span></li>
+      <li><a href="https://github.com/percona/percona-postgresql-operator/issues/1852">#1852</a><span><code>cr.yaml</code> pins pre-rebuild images</span></li>
+    </ol></div>
+    <div class="card p"><h4>Percona docs</h4><ol>
+      <li><a href="https://github.com/percona/k8spg-docs/issues/450">#450</a><span>Patroni timings, failure page, live-site errors</span></li>
+      <li><a href="https://github.com/percona/k8spg-docs/issues/451">#451</a><span>Clone from S3 needs <code>repo1-*</code> keys</span></li>
+    </ol></div>
+    <div class="card c"><h4>CloudNativePG</h4><ol>
+      <li><a href="https://github.com/cloudnative-pg/cloudnative-pg/issues/11655">#11655</a><span>Unreachable plugin blocks failover</span></li>
+      <li><a href="https://github.com/cloudnative-pg/cloudnative-pg/issues/11656">#11656</a><span>API-connectivity loss drops a healthy primary</span></li>
+      <li><a href="https://github.com/cloudnative-pg/cloudnative-pg/issues/11657">#11657</a><span>Docs: operator required; destroy on dead node</span></li>
+      <li><a href="https://github.com/cloudnative-pg/cloudnative-pg/issues/11658">#11658</a><span>Docs: supported-releases page errors</span></li>
+    </ol></div>
+  </div>
+</section>
+
+<section id="method">
+  <h2 class="h">Method &amp; limits</h2>
+  <div class="grid2">
+    <div><h3 style="margin-top:0">Lab</h3><ul class="points">
+      <li>4 × Linode g6-standard-2 (2 vCPU, 4 GB), Ubuntu 24.04, us-southeast</li>
+      <li>k3s v1.35.9: 1 tainted control-plane node, 3 workers, local-path storage</li>
+      <li>S3-compatible store with TLS on the control-plane node</li>
+      <li>pgbench scale 20 (337 MB) in both clusters</li>
+      <li>Write probes on the control-plane node against Percona <code>cluster1-primary</code>, Percona <code>cluster1-pgbouncer</code> and CNPG <code>cluster-example-rw</code></li>
+      <li>Split-brain runs: 3 persistent-connection writers with a per-commit ledger; partitions applied with iptables inside the primary pod's network namespace; VM pause approximated by freezing the pod cgroup and stopping the kubelet</li>
+    </ul></div>
+    <div><h3 style="margin-top:0">Limits</h3><ul class="points">
+      <li>One run per scenario on small VMs</li>
+      <li>Network-attached volumes would change node-loss recovery</li>
+      <li>pgBouncer tuning not re-tested</li>
+      <li>PMM, major upgrades, cross-cluster DR and pg_tde assessed from docs only</li>
+    </ul>
+    <h3>Sources</h3><ul class="points">
+      <li><span class="ptr"></span><a href="https://docs.percona.com/percona-operator-for-postgresql/latest/">Percona Operator for PostgreSQL docs</a></li>
+      <li><span class="ptr"></span><a href="https://cloudnative-pg.io/docs/1.30/">CloudNativePG 1.30 docs</a></li>
+      <li><span class="ptr"></span><a href="https://cloudnative-pg.io/plugin-barman-cloud/">Barman Cloud plugin docs</a></li>
+      <li><span class="ptr"></span><a href="https://cloudnative-pg.io/support/">CloudNativePG support vendors</a></li>
+    </ul></div>
+  </div>
+</section>
+</main>
+
+<div class="wrap"><footer><span>Percona Operator for PostgreSQL vs CloudNativePG · hands-on evaluation</span><span>Lab run 13 Oct 2026 · operators 3.1.0 and 1.30.1</span></footer></div>
+
+<script>
+(function(){
+const NS='http://www.w3.org/2000/svg';
+function el(tag,attrs,text){const e=document.createElementNS(NS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);if(text!=null)e.textContent=text;return e}
+
+/* scorecard */
+const score=[
+ ['Time to first cluster','c','2 min 6 s vs 4 min 36 s from the docs\' commands'],
+ ['Time to first working backup','p','Built in; CloudNativePG needs cert-manager, a plugin, an object store and 2 CRs'],
+ ['Unplanned failover speed','p','2.4–31 s direct vs 7–98 s in comparable scenarios'],
+ ['HA independent of the operator','p','3.4 s failover with operator down; CloudNativePG had none (101 s outage)'],
+ ['Crash restart in place','c','5.3 s vs 10.8 s'],
+ ['Planned switchover','c','1 command vs 3, though Percona\'s outage was lower (2.4 vs 11.4 s)'],
+ ['Split-brain safety','p','Partition with clients still connected: CloudNativePG defaults ran two primaries for 129 s; Percona demoted in 10–19 s, no overlap'],
+ ['Restore and PITR','p','In-place PITR 33 s, clone 43 s; CloudNativePG new cluster only'],
+ ['Troubleshooting tooling','c','kubectl cnpg status/report and Events; Percona has no CLI'],
+ ['Observability out of the box','c','Native Prometheus exporter; Percona needs a PMM server'],
+ ['Documentation','t','7.4/10 each; different strengths'],
+ ['Day-2 feature breadth','c','Fencing, hibernation, delayed replicas, Database/Role CRDs'],
+ ['Enterprise and compliance','p','pg_tde, OpenShift and RKE2 release-tested, storage auto-grow'],
+ ['Community and ecosystem','c','9,443 vs 385 stars; 1,497 vs 366 merged PRs in 12 months']];
+const chip={p:'<span class="chip p">Percona</span>',c:'<span class="chip c">CloudNativePG</span>',t:'<span class="chip t">Even</span>'};
+document.getElementById('scorecard').innerHTML=score.map(r=>`<tr><td>${r[0]}</td><td>${chip[r[1]]}</td><td>${r[2]}</td></tr>`).join('');
+
+/* failover chart: dot plot, log scale */
+const fo=[['Primary pod deleted',2.4,13.1,7.1],['Postmaster kill -9',10.8,20.1,5.3],['Planned switchover',2.4,15.6,11.4],['Primary lost, operator down',3.4,17.6,101.5],['Node crash + auto-reboot',26.9,47.2,74.0],['Full network partition',31.4,45.7,97.5],['Kubelet loses API server',0,0,135.8],['Node lost with backup pod',271.3,271.4,401.4]];
+(function(){
+ const W=760,left=210,wd=430,y0=20,rh=40,H=y0+fo.length*rh+30;
+ const lo=0,hi=Math.log10(500),X=v=>left+(Math.log10(Math.max(v,1))-lo)/(hi-lo)*wd;
+ const s=el('svg',{viewBox:`0 0 ${W} ${H}`,width:'100%',role:'img','aria-label':'Write outage per failure scenario',style:'min-width:600px;display:block'});
+ [1,3,10,30,100,300].forEach(t=>{s.append(el('line',{x1:X(t),x2:X(t),y1:y0-8,y2:y0+fo.length*rh-12,stroke:'var(--hair)'}));s.append(el('text',{x:X(t),y:y0+fo.length*rh+6,'text-anchor':'middle','font-size':11,fill:'var(--muted)'},t+' s'))});
+ const f=v=>v<1?'0':(v<10?v.toFixed(1):Math.round(v));
+ fo.forEach((r,i)=>{const y=y0+i*rh+4;const a=Math.min(r[1],r[2],r[3]),b=Math.max(r[1],r[2],r[3]);
+  s.append(el('text',{x:left-14,y:y+4,'text-anchor':'end','font-size':13,fill:'var(--fg)'},r[0]));
+  s.append(el('line',{x1:X(a),x2:X(b),y1:y,y2:y,stroke:'var(--hair2)','stroke-width':2}));
+  const dots=[[r[3],{fill:'var(--cnpg)'},'CloudNativePG'],[r[2],{fill:'var(--bg)',stroke:'var(--purple)','stroke-width':2},'Percona via pgBouncer'],[r[1],{fill:'var(--purple)'},'Percona direct']];
+  dots.forEach(d=>{const c=el('circle',Object.assign({cx:X(d[0]),cy:y,r:6},d[1]));c.append(el('title',{},`${r[0]}: ${d[2]} ${f(d[0])} s`));s.append(c)});
+  s.append(el('text',{x:X(b)+12,y:y+4,'font-size':11.5,fill:'var(--muted)','font-variant-numeric':'tabular-nums'},`${f(r[1])} / ${f(r[2])} / ${f(r[3])} s`));});
+ document.getElementById('failchart').append(s);
+})();
+
+
+/* split-brain timeline */
+const SB=[['CloudNativePG defaults',206.7,77.4],['CloudNativePG smartShutdownTimeout 0',23.3,73.8],['CloudNativePG + failoverDelay 30',25.7,107.6],['CloudNativePG quorum sync',0,76.4],['Percona, direct',13.6,26.9],['Percona, via pgBouncer',19.2,32.5]];
+(function(){
+ const W=760,left=250,wd=470,y0=10,rh=34,H=y0+SB.length*rh+34,MAX=240,X=v=>left+v/MAX*wd;
+ const s=el('svg',{viewBox:`0 0 ${W} ${H}`,width:'100%',role:'img','aria-label':'Old and new primary timelines after the partition',style:'min-width:600px;display:block'});
+ [0,30,60,90,120,150,180,210,240].forEach(t=>{s.append(el('line',{x1:X(t),x2:X(t),y1:y0-4,y2:y0+SB.length*rh-8,stroke:'var(--hair)'}));s.append(el('text',{x:X(t),y:y0+SB.length*rh+8,'text-anchor':'middle','font-size':11,fill:'var(--muted)'},t+' s'))});
+ SB.forEach((r,i)=>{const y=y0+i*rh;const pct=r[0].startsWith('Percona');
+  s.append(el('text',{x:left-12,y:y+15,'text-anchor':'end','font-size':12.5,fill:'var(--fg)','font-weight':pct?600:400},r[0]));
+  if(r[1]>0){const b=el('rect',{x:X(0),y:y+5,width:X(r[1])-X(0),height:14,rx:2,fill:'var(--hair2)'});b.append(el('title',{},`${r[0]}: old primary acknowledged writes until +${r[1]} s`));s.append(b)}
+  const n=el('rect',{x:X(r[2]),y:y+5,width:X(MAX)-X(r[2]),height:14,rx:2,fill:'var(--purple)','fill-opacity':.55});n.append(el('title',{},`${r[0]}: new primary promoted at +${r[2]} s`));s.append(n);
+  if(r[1]>r[2]){const o=el('rect',{x:X(r[2]),y:y+5,width:X(r[1])-X(r[2]),height:14,rx:2,fill:'var(--bad)'});o.append(el('title',{},`${r[0]}: both primaries acknowledging for ${(r[1]-r[2]).toFixed(1)} s`));s.append(o);
+   s.append(el('text',{x:(X(r[1])+X(r[2]))/2,y:y+16,'text-anchor':'middle','font-size':11,'font-weight':700,fill:'#fff'},`${(r[1]-r[2]).toFixed(0)} s overlap`))}
+ });
+ document.getElementById('sbchart').append(s);
+})();
+
+/* docs dumbbell */
+const ds=[['Structure & navigation',8,7],['Quickstart',8,6],['Install coverage',9,6],['Backup & restore',8,7],['HA & failure behaviour',5,9],['Troubleshooting',6,8],['CR / API reference',7,9],['Examples',7,9],['Versioning',8,6],['Search',8,7]];
+(function(){
+ const W=760,left=200,wd=460,y0=12,rh=30,H=y0+ds.length*rh+34;const X=v=>left+(v-1)/9*wd;
+ const s=el('svg',{viewBox:`0 0 ${W} ${H}`,width:'100%',role:'img','aria-label':'Documentation scores by category',style:'min-width:560px;display:block'});
+ [1,2,3,4,5,6,7,8,9,10].forEach(t=>{s.append(el('line',{x1:X(t),x2:X(t),y1:y0-4,y2:y0+ds.length*rh-10,stroke:'var(--hair)'}));s.append(el('text',{x:X(t),y:y0+ds.length*rh+8,'text-anchor':'middle','font-size':11,fill:'var(--muted)'},t))});
+ ds.forEach((r,i)=>{const y=y0+i*rh+6;s.append(el('text',{x:left-14,y:y+4,'text-anchor':'end','font-size':13,fill:'var(--fg)'},r[0]));
+  s.append(el('line',{x1:X(Math.min(r[1],r[2])),x2:X(Math.max(r[1],r[2])),y1:y,y2:y,stroke:'var(--hair2)','stroke-width':2}));
+  const off=r[1]===r[2]?4:0;
+  const c2=el('circle',{cx:X(r[2])+off,cy:y,r:6,fill:'var(--cnpg)'});c2.append(el('title',{},`${r[0]}: CloudNativePG ${r[2]}`));s.append(c2);
+  const c1=el('circle',{cx:X(r[1])-off,cy:y,r:6,fill:'var(--purple)'});c1.append(el('title',{},`${r[0]}: Percona ${r[1]}`));s.append(c1);
+  const lead=r[1]>r[2]?'Percona +'+(r[1]-r[2]):(r[2]>r[1]?'CNPG +'+(r[2]-r[1]):'even');
+  s.append(el('text',{x:X(10)+16,y:y+4,'font-size':11.5,fill:r[1]>r[2]?'var(--purple-ink)':'var(--muted)'},lead));});
+ document.getElementById('docchart').append(s);
+})();
+
+/* feature matrix */
+const F=[
+ ['HA engine','Patroni 4.1.5, Kubernetes API as DCS (no etcd)','Instance manager + Kubernetes Lease','t',0],
+ ['Failover without the operator','Yes','No','p',1],
+ ['Split-brain with clients still connected (defaults)','None: Patroni demotes in 10–19 s','129 s dual-primary window (#11280, open until 1.31)','p',1],
+ ['Failover timing documented','No; reference text is wrong','Yes, with detection timings','c',1],
+ ['Synchronous / quorum failover','Via Patroni dynamicConfiguration','First-class synchronous + failoverQuorum','c',0],
+ ['Manual switchover','CR patch + annotation + un-patch','kubectl cnpg promote','c',1],
+ ['Backups out of the box','Yes: PVC repo, weekly full','No','p',1],
+ ['Backup engine','pgBackRest built in: full/diff/incr, 4 repos','Barman Cloud plugin v0.x + cert-manager; in-tree removed in 1.31','p',1],
+ ['Volume snapshot backups','Tech preview','GA','c',0],
+ ['In-place restore / PITR','Yes','No','p',1],
+ ['Restore / PITR to a new cluster','Yes','Yes','t',1],
+ ['Connection pooler','pgBouncer in the cluster CR','Separate Pooler CRD','t',0],
+ ['Prometheus metrics without extra tools','No: PMM or a custom sidecar','Yes','c',1],
+ ['Query analytics and dashboards','PMM 3 with QAN','Bring your own Grafana','p',0],
+ ['Persistent logs','Fluent Bit sidecar by default','stdout only','p',1],
+ ['Transparent data encryption','pg_tde (PG 17/18, Vault)','Storage-level only','p',0],
+ ['Extensions without a custom image','Tarballs from S3, any PG','ImageVolume, PG 18+ and K8s 1.35+','p',0],
+ ['In-place major upgrade','PerconaPGUpgrade CR (offline)','Change imageName (offline pg_upgrade)','t',0],
+ ['Online major upgrade via logical replication','No CRDs','Publication / Subscription CRDs','c',0],
+ ['Cross-cluster DR','Standby cluster (repo / streaming)','Replica clusters + distributed topology','c',0],
+ ['Delayed replicas','No','Yes','c',0],
+ ['Fencing / hibernation','spec.pause only','Per-instance fencing + hibernation','c',0],
+ ['Declarative databases and roles','Inline spec.users','Database and DatabaseRole CRDs','c',0],
+ ['Storage auto-grow','Yes (feature gate)','No','p',0],
+ ['kubectl plugin','None','kubectl cnpg','c',1],
+ ['CR status shows backup failure','No: ready with a 403 repo','Partly: healthy, but archiving Failing in status','c',1],
+ ['OpenShift / RKE2 release-tested','Yes / Yes','Vanilla Kubernetes only; OpenShift via EDB','p',0],
+ ['GUI / DBaaS layer','OpenEverest (CNCF Sandbox)','None (EDB commercial)','p',0],
+ ['Crunchy PGO migration','4 documented methods','Generic import','p',0],
+ ['Governance','Single vendor','CNCF Sandbox; all maintainers at EDB','c',0]];
+const tb=document.getElementById('features-body'),cnt=document.getElementById('fcount');
+function render(f){const rows=F.filter(r=>f==='all'||(f==='v'?r[4]:r[3]===f));
+ tb.innerHTML=rows.map(r=>`<tr><td>${r[0]}${r[4]?'<span class="v" title="Verified hands-on">✓</span>':''}</td><td>${r[1]}</td><td>${r[2]}</td><td>${chip[r[3]]}</td></tr>`).join('');
+ const pc=rows.filter(r=>r[3]==='p').length,cc=rows.filter(r=>r[3]==='c').length;
+ cnt.textContent=`${rows.length} rows · Percona ${pc} · CloudNativePG ${cc}`;}
+let saved='all';try{saved=localStorage.getItem('pgop-filter')||'all'}catch(e){}
+document.querySelectorAll('.filters button').forEach(b=>{b.setAttribute('aria-pressed',b.dataset.f===saved);b.addEventListener('click',()=>{document.querySelectorAll('.filters button').forEach(x=>x.setAttribute('aria-pressed',x===b));render(b.dataset.f);try{localStorage.setItem('pgop-filter',b.dataset.f)}catch(e){}})});
+render(saved);
+})();
+</script>

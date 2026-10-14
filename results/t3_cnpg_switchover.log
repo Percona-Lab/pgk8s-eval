@@ -1,0 +1,16 @@
+T=1791925993302
+primary cluster-example-2 -> cluster-example-1
+Node cluster-example-1 in cluster cluster-example will be promoted
+{"level":"info","ts":"2026-10-13T21:13:14.304411599Z","msg":"Cluster has become unhealthy"}
+primary now cluster-example-1 at +21s
+Instances status
+Name               Current LSN  Replication role  Status  QoS         Manager Version  Node
+----               -----------  ----------------  ------  ---         ---------------  ----
+cluster-example-1  0/1900CFC8   Primary           OK      BestEffort  1.30.1           pk-w2
+cluster-example-3  0/1900D080   Standby (async)   OK      BestEffort  1.30.1           pk-w3
+cluster-example-2  0/1900CFC8   Standby (async)   OK      BestEffort  1.30.1           pk-w1
+
+== cnpg
+first_fail +1.1s; write outage 11.4s (last OK before -> first OK after); failed attempts 17; primary 10.42.1.16 -> 10.42.2.14
+   16x Is the server running on that host and accepting TCP/IP conn
+   1x psql: error: connection to server at "cluster-example-rw.def

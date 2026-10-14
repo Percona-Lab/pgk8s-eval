@@ -1,0 +1,3 @@
+P=$(pprim); echo "percona primary $P"; kubectl -n $NSP exec $P -c database -- bash -c 'kill -9 $(head -1 /pgdata/pg*/postmaster.pid)'; 
+for i in $(seq 1 40); do sleep 3; np=$(pprim); ok=$(kubectl -n $NSP exec $np -c database -- patronictl list -f json 2>/dev/null | python3 -c "import json,sys; d=json.load(sys.stdin); print(sum(1 for m in d if m['State'] in ('running','streaming')))" 2>/dev/null); [ "$ok" = 3 ] && [ $i -gt 2 ] && break; done
+echo "primary after: $np at +$(( ($(date +%s%3N)-T)/1000 ))s"; kubectl -n $NSP exec $np -c database -- patronictl list; kubectl -n $NSP get pods | grep instance1

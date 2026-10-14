@@ -1,0 +1,11 @@
+percona primary cluster1-instance1-txcs-0
+T1P=1791925656349
+pod "cluster1-instance1-txcs-0" deleted from postgres-operator namespace
+new primary cluster1-instance1-px4v-0 labelled at +3s, all 3 ready at +28s
++ Cluster: cluster1-ha (7696257670115754102) -------------------------+---------+-----------+----+-------------+-----+------------+-----+
+|           Member          |                   Host                  |   Role  |   State   | TL | Receive LSN | Lag | Replay LSN | Lag |
++---------------------------+-----------------------------------------+---------+-----------+----+-------------+-----+------------+-----+
+| cluster1-instance1-7z2t-0 | cluster1-instance1-7z2t-0.cluster1-pods | Replica | streaming |  3 |  0/1E01D8B8 |   0 | 0/1E01D8B8 |   0 |
+| cluster1-instance1-px4v-0 | cluster1-instance1-px4v-0.cluster1-pods | Leader  | running   |  3 |             |     |            |     |
+| cluster1-instance1-txcs-0 | cluster1-instance1-txcs-0.cluster1-pods | Replica | streaming |  3 |  0/1E01E170 |   0 | 0/1E01E170 |   0 |
++---------------------------+-----------------------------------------+---------+-----------+----+-------------+-----+------------+-----+

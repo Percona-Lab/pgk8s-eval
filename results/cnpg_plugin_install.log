@@ -1,0 +1,11 @@
+Waiting for deployment "cert-manager-webhook" rollout to finish: 0 of 1 updated replicas are available...
+deployment "cert-manager-webhook" successfully rolled out
+certificate.cert-manager.io/barman-cloud-client created
+certificate.cert-manager.io/barman-cloud-server created
+issuer.cert-manager.io/selfsigned-issuer created
+Waiting for deployment "barman-cloud" rollout to finish: 0 of 1 updated replicas are available...
+deployment "barman-cloud" successfully rolled out
+certmgr 15s plugin 16s
+NAME                      READY   UP-TO-DATE   AVAILABLE   AGE   CONTAINERS                IMAGES                                             SELECTOR
+cert-manager              1/1     1            1           28s   cert-manager-controller   quay.io/jetstack/cert-manager-controller:v1.21.2   app.kubernetes.io/component=controller,app.kubernetes.io/instance=cert-manager,app.kubernetes.io/name=cert-manager
+cert-manager-cainjector   1/1     1            1           28s   cert-manager-cainjector   quay.io/jetstack/cert-manager-cainjector:v1.21.2   app.kubernetes.io/component=cainjector,app.kubernetes.io/instance=cert-manager,app.kubernetes.io/name=cainjector

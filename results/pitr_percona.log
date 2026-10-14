@@ -1,0 +1,15 @@
+apiVersion: pgv2.percona.com/v2
+kind: PerconaPGRestore
+metadata: {name: restore-pitr1}
+spec:
+  pgCluster: cluster1
+  repoName: repo2
+  options:
+  - --type=time
+  - --target="2026-10-13 22:20:09+00"
+perconapgrestore.pgv2.percona.com/restore-pitr1 created
++33s restore=Succeeded cluster=ready
+DONE +33s restore=Succeeded cluster=ready
+NAME            CLUSTER    STATUS      COMPLETED   AGE
+restore-pitr1   cluster1   Succeeded   13s         33s
+2000000|2000000

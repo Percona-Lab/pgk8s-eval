@@ -1,0 +1,7 @@
+tps = 890.830284 (without initial connection time)
+tps = 828.968026 (without initial connection time)
+TP=2026-10-13 22:20:09 TC=2026-10-13 22:20:10
+2026-10-13 22:21:15.531814+0000
+First Point of Recoverability:  2026-10-13 21:05:34 UTC
+Working WAL archiving:          OK
+Last Archived WAL:              000000090000000000000030   @   2026-10-13T22:20:16.666251Z

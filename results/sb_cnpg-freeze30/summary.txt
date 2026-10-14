@@ -1,0 +1,6 @@
+fault at 1791969701929: 1791969701929 FREEZE pod=cluster-example-3 cgroup=/sys/fs/cgroup/kubepods.slice/kubepods-besteffort.slice/kubepods-besteffort-pod225e8e4e_3cca_47ef_a0d6_5ef20ef3e7a1.slice
+1791969701929 FREEZE pod=cluster-example-3 cgroup=/sys/fs/cgroup/kubepods.slice/kubepods-besteffort.slice/kubepods-besteffort-pod225e8e4e_3cca_47ef_a0d6_5ef20ef3e7a1.slice
+1791969731977 THAW
+old primary 10.42.3.51; acks before partition 626, after 7628 (by old primary 7628, by new primary 0); client reconnects 0; client errors 0
+OLD primary acknowledged writes until +267.0s after the partition
+acknowledged writes LOST: 0 of 8254 acknowledged (0 acked by the isolated old primary after the partition)

@@ -1,0 +1,270 @@
+++ date +%s
++ T0=1791924534
++ kubectl create namespace postgres-operator
+namespace/postgres-operator created
++ tail -3
++ kubectl apply --server-side -f https://raw.githubusercontent.com/percona/percona-postgresql-operator/v3.1.0/deploy/bundle.yaml -n postgres-operator
+role.rbac.authorization.k8s.io/percona-postgresql-operator serverside-applied
+rolebinding.rbac.authorization.k8s.io/percona-postgresql-operator serverside-applied
+deployment.apps/percona-postgresql-operator serverside-applied
++ kubectl -n postgres-operator rollout status deploy/percona-postgresql-operator --timeout=180s
+Waiting for deployment "percona-postgresql-operator" rollout to finish: 0 of 1 updated replicas are available...
+deployment "percona-postgresql-operator" successfully rolled out
+++ date +%s
++ T1=1791924570
++ kubectl apply -f https://raw.githubusercontent.com/percona/percona-postgresql-operator/v3.1.0/deploy/cr.yaml -n postgres-operator
+perconapgcluster.pgv2.percona.com/cluster1 created
+++ seq 1 60
++ for i in $(seq 1 60)
+++ kubectl get pg -n postgres-operator cluster1 -o 'jsonpath={.status.state}'
++ s=
++ '[' '' = ready ']'
++ sleep 5
++ for i in $(seq 1 60)
+++ kubectl get pg -n postgres-operator cluster1 -o 'jsonpath={.status.state}'
++ s=initializing
++ '[' initializing = ready ']'
++ sleep 5
++ for i in $(seq 1 60)
+++ kubectl get pg -n postgres-operator cluster1 -o 'jsonpath={.status.state}'
++ s=initializing
++ '[' initializing = ready ']'
++ sleep 5
++ for i in $(seq 1 60)
+++ kubectl get pg -n postgres-operator cluster1 -o 'jsonpath={.status.state}'
++ s=initializing
++ '[' initializing = ready ']'
++ sleep 5
++ for i in $(seq 1 60)
+++ kubectl get pg -n postgres-operator cluster1 -o 'jsonpath={.status.state}'
++ s=initializing
++ '[' initializing = ready ']'
++ sleep 5
++ for i in $(seq 1 60)
+++ kubectl get pg -n postgres-operator cluster1 -o 'jsonpath={.status.state}'
++ s=initializing
++ '[' initializing = ready ']'
++ sleep 5
++ for i in $(seq 1 60)
+++ kubectl get pg -n postgres-operator cluster1 -o 'jsonpath={.status.state}'
++ s=initializing
++ '[' initializing = ready ']'
++ sleep 5
++ for i in $(seq 1 60)
+++ kubectl get pg -n postgres-operator cluster1 -o 'jsonpath={.status.state}'
++ s=initializing
++ '[' initializing = ready ']'
++ sleep 5
++ for i in $(seq 1 60)
+++ kubectl get pg -n postgres-operator cluster1 -o 'jsonpath={.status.state}'
++ s=initializing
++ '[' initializing = ready ']'
++ sleep 5
++ for i in $(seq 1 60)
+++ kubectl get pg -n postgres-operator cluster1 -o 'jsonpath={.status.state}'
++ s=initializing
++ '[' initializing = ready ']'
++ sleep 5
++ for i in $(seq 1 60)
+++ kubectl get pg -n postgres-operator cluster1 -o 'jsonpath={.status.state}'
++ s=initializing
++ '[' initializing = ready ']'
++ sleep 5
++ for i in $(seq 1 60)
+++ kubectl get pg -n postgres-operator cluster1 -o 'jsonpath={.status.state}'
++ s=initializing
++ '[' initializing = ready ']'
++ sleep 5
++ for i in $(seq 1 60)
+++ kubectl get pg -n postgres-operator cluster1 -o 'jsonpath={.status.state}'
++ s=initializing
++ '[' initializing = ready ']'
++ sleep 5
++ for i in $(seq 1 60)
+++ kubectl get pg -n postgres-operator cluster1 -o 'jsonpath={.status.state}'
++ s=initializing
++ '[' initializing = ready ']'
++ sleep 5
++ for i in $(seq 1 60)
+++ kubectl get pg -n postgres-operator cluster1 -o 'jsonpath={.status.state}'
++ s=initializing
++ '[' initializing = ready ']'
++ sleep 5
++ for i in $(seq 1 60)
+++ kubectl get pg -n postgres-operator cluster1 -o 'jsonpath={.status.state}'
++ s=initializing
++ '[' initializing = ready ']'
++ sleep 5
++ for i in $(seq 1 60)
+++ kubectl get pg -n postgres-operator cluster1 -o 'jsonpath={.status.state}'
++ s=initializing
++ '[' initializing = ready ']'
++ sleep 5
++ for i in $(seq 1 60)
+++ kubectl get pg -n postgres-operator cluster1 -o 'jsonpath={.status.state}'
++ s=initializing
++ '[' initializing = ready ']'
++ sleep 5
++ for i in $(seq 1 60)
+++ kubectl get pg -n postgres-operator cluster1 -o 'jsonpath={.status.state}'
++ s=initializing
++ '[' initializing = ready ']'
++ sleep 5
++ for i in $(seq 1 60)
+++ kubectl get pg -n postgres-operator cluster1 -o 'jsonpath={.status.state}'
++ s=initializing
++ '[' initializing = ready ']'
++ sleep 5
++ for i in $(seq 1 60)
+++ kubectl get pg -n postgres-operator cluster1 -o 'jsonpath={.status.state}'
++ s=initializing
++ '[' initializing = ready ']'
++ sleep 5
++ for i in $(seq 1 60)
+++ kubectl get pg -n postgres-operator cluster1 -o 'jsonpath={.status.state}'
++ s=initializing
++ '[' initializing = ready ']'
++ sleep 5
++ for i in $(seq 1 60)
+++ kubectl get pg -n postgres-operator cluster1 -o 'jsonpath={.status.state}'
++ s=initializing
++ '[' initializing = ready ']'
++ sleep 5
++ for i in $(seq 1 60)
+++ kubectl get pg -n postgres-operator cluster1 -o 'jsonpath={.status.state}'
++ s=initializing
++ '[' initializing = ready ']'
++ sleep 5
++ for i in $(seq 1 60)
+++ kubectl get pg -n postgres-operator cluster1 -o 'jsonpath={.status.state}'
++ s=initializing
++ '[' initializing = ready ']'
++ sleep 5
++ for i in $(seq 1 60)
+++ kubectl get pg -n postgres-operator cluster1 -o 'jsonpath={.status.state}'
++ s=initializing
++ '[' initializing = ready ']'
++ sleep 5
++ for i in $(seq 1 60)
+++ kubectl get pg -n postgres-operator cluster1 -o 'jsonpath={.status.state}'
++ s=initializing
++ '[' initializing = ready ']'
++ sleep 5
++ for i in $(seq 1 60)
+++ kubectl get pg -n postgres-operator cluster1 -o 'jsonpath={.status.state}'
++ s=initializing
++ '[' initializing = ready ']'
++ sleep 5
++ for i in $(seq 1 60)
+++ kubectl get pg -n postgres-operator cluster1 -o 'jsonpath={.status.state}'
++ s=initializing
++ '[' initializing = ready ']'
++ sleep 5
++ for i in $(seq 1 60)
+++ kubectl get pg -n postgres-operator cluster1 -o 'jsonpath={.status.state}'
++ s=initializing
++ '[' initializing = ready ']'
++ sleep 5
++ for i in $(seq 1 60)
+++ kubectl get pg -n postgres-operator cluster1 -o 'jsonpath={.status.state}'
++ s=initializing
++ '[' initializing = ready ']'
++ sleep 5
++ for i in $(seq 1 60)
+++ kubectl get pg -n postgres-operator cluster1 -o 'jsonpath={.status.state}'
++ s=initializing
++ '[' initializing = ready ']'
++ sleep 5
++ for i in $(seq 1 60)
+++ kubectl get pg -n postgres-operator cluster1 -o 'jsonpath={.status.state}'
++ s=initializing
++ '[' initializing = ready ']'
++ sleep 5
++ for i in $(seq 1 60)
+++ kubectl get pg -n postgres-operator cluster1 -o 'jsonpath={.status.state}'
++ s=initializing
++ '[' initializing = ready ']'
++ sleep 5
++ for i in $(seq 1 60)
+++ kubectl get pg -n postgres-operator cluster1 -o 'jsonpath={.status.state}'
++ s=initializing
++ '[' initializing = ready ']'
++ sleep 5
++ for i in $(seq 1 60)
+++ kubectl get pg -n postgres-operator cluster1 -o 'jsonpath={.status.state}'
++ s=initializing
++ '[' initializing = ready ']'
++ sleep 5
++ for i in $(seq 1 60)
+++ kubectl get pg -n postgres-operator cluster1 -o 'jsonpath={.status.state}'
++ s=initializing
++ '[' initializing = ready ']'
++ sleep 5
++ for i in $(seq 1 60)
+++ kubectl get pg -n postgres-operator cluster1 -o 'jsonpath={.status.state}'
++ s=initializing
++ '[' initializing = ready ']'
++ sleep 5
++ for i in $(seq 1 60)
+++ kubectl get pg -n postgres-operator cluster1 -o 'jsonpath={.status.state}'
++ s=initializing
++ '[' initializing = ready ']'
++ sleep 5
++ for i in $(seq 1 60)
+++ kubectl get pg -n postgres-operator cluster1 -o 'jsonpath={.status.state}'
++ s=initializing
++ '[' initializing = ready ']'
++ sleep 5
++ for i in $(seq 1 60)
+++ kubectl get pg -n postgres-operator cluster1 -o 'jsonpath={.status.state}'
++ s=initializing
++ '[' initializing = ready ']'
++ sleep 5
++ for i in $(seq 1 60)
+++ kubectl get pg -n postgres-operator cluster1 -o 'jsonpath={.status.state}'
++ s=initializing
++ '[' initializing = ready ']'
++ sleep 5
++ for i in $(seq 1 60)
+++ kubectl get pg -n postgres-operator cluster1 -o 'jsonpath={.status.state}'
++ s=initializing
++ '[' initializing = ready ']'
++ sleep 5
++ for i in $(seq 1 60)
+++ kubectl get pg -n postgres-operator cluster1 -o 'jsonpath={.status.state}'
++ s=initializing
++ '[' initializing = ready ']'
++ sleep 5
++ for i in $(seq 1 60)
+++ kubectl get pg -n postgres-operator cluster1 -o 'jsonpath={.status.state}'
++ s=initializing
++ '[' initializing = ready ']'
++ sleep 5
++ for i in $(seq 1 60)
+++ kubectl get pg -n postgres-operator cluster1 -o 'jsonpath={.status.state}'
++ s=initializing
++ '[' initializing = ready ']'
++ sleep 5
++ for i in $(seq 1 60)
+++ kubectl get pg -n postgres-operator cluster1 -o 'jsonpath={.status.state}'
++ s=ready
++ '[' ready = ready ']'
++ break
+++ date +%s
++ T2=1791924810
++ echo 'operator 36s cluster 240s state=ready'
+operator 36s cluster 240s state=ready
++ kubectl get pg -n postgres-operator
+NAME       ENDPOINT                                   STATUS   POSTGRES   PGBOUNCER   AGE
+cluster1   cluster1-pgbouncer.postgres-operator.svc   ready    3          3           4m
++ kubectl get pods -n postgres-operator -o wide
+NAME                                           READY   STATUS    RESTARTS   AGE     IP          NODE    NOMINATED NODE   READINESS GATES
+cluster1-backup-6p28-l6wp2                     1/1     Running   0          2m55s   10.42.1.9   pk-w1   <none>           <none>
+cluster1-instance1-7z2t-0                      6/6     Running   0          3m57s   10.42.2.6   pk-w2   <none>           <none>
+cluster1-instance1-px4v-0                      6/6     Running   0          3m57s   10.42.3.6   pk-w3   <none>           <none>
+cluster1-instance1-txcs-0                      6/6     Running   0          3m57s   10.42.1.8   pk-w1   <none>           <none>
+cluster1-pgbouncer-97bf89c96-9tcvn             2/2     Running   0          3m56s   10.42.2.5   pk-w2   <none>           <none>
+cluster1-pgbouncer-97bf89c96-dn9rk             2/2     Running   0          3m56s   10.42.3.5   pk-w3   <none>           <none>
+cluster1-pgbouncer-97bf89c96-nkxx5             2/2     Running   0          3m56s   10.42.1.7   pk-w1   <none>           <none>
+cluster1-repo-host-0                           2/2     Running   0          3m56s   10.42.3.7   pk-w3   <none>           <none>
+percona-postgresql-operator-6d5d77b89c-77db6   1/1     Running   0          4m22s   10.42.1.5   pk-w1   <none>           <none>

@@ -1,0 +1,35 @@
+secret/ts-s3-secret created
+secret/bad-creds created
+perconapgcluster.pgv2.percona.com/ts-s3 created
+objectstore.barmancloud.cnpg.io/bad-store created
+cluster.postgresql.cnpg.io/ts-s3 created
+===== PERCONA get pg
+NAME    ENDPOINT                                STATUS   POSTGRES   PGBOUNCER   AGE
+ts-s3   ts-s3-pgbouncer.postgres-operator.svc   ready    1          1           3m
+ts-s3-instance1-8hrn-0                         4/4     Running     0             2m58s
+ts-s3-pgbouncer-6b6cd467cf-wk5cz               2/2     Running     0             2m56s
+ts-s3-repo-host-0                              2/2     Running     0             2m57s
+===== PERCONA conditions
+ReadyForBackup=False PGBackRestReplicaCreate: 
+TLSSecretsReady=True TLSSecretsFound: certManagementPolicy is auto
+PGBackRestRepoHostReady=True RepoHostReady: pgBackRest dedicated repository host is ready
+PGBackRestReplicaRepoReady=False StanzaNotCreated: pgBackRest replica create repo is not ready for backups
+PGBackRestReplicaCreate=False RepoBackupNotComplete: pgBackRest replica creation is not currently possible
+ProxyAvailable=True MinimumReplicasAvailable: Deployment has minimum availability.
+APIGroupMigration=True APIGroupMigrationNotNeeded: Legacy API group is not installed
+PGTDEEnabled=False Disabled: pg_tde is disabled in PerconaPGCluster
+===== PERCONA backup job logs
+===== CNPG
+NAME    AGE    INSTANCES   READY   STATUS                     PRIMARY
+ts-s3   3m1s   1           1       Cluster in healthy state   ts-s3-1
+Continuous Backup status (Barman Cloud Plugin)
+No recovery window information found in ObjectStore 'bad-store' for server 'ts-s3'
+Working WAL archiving:        Failing
+WALs waiting to be archived:  1
+Last Archived WAL:            -
+Last Failed WAL:              000000010000000000000001   @   2026-10-13T22:32:16.207156Z
+
+Initialized=True BootstrapCompleted: Cluster has been bootstrapped
+Ready=True ClusterIsReady: Cluster is Ready
+ConsistentSystemID=True Unique: A single, unique system ID was found across reporting instances.
+ContinuousArchiving=False ContinuousArchivingFailing: rpc error: code = Unknown desc = unexpected failure invoking barman-cloud-wal-archive: exit status 4

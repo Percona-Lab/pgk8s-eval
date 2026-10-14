@@ -1,0 +1,37 @@
+apiVersion: v1
+kind: Namespace
+metadata: {name: minio}
+---
+apiVersion: v1
+kind: Secret
+metadata: {name: s3cfg, namespace: minio}
+stringData:
+  s3.json: '{"identities":[{"name":"admin","credentials":[{"accessKey":"admin","secretKey":"***MASKED***"}],"actions":["Admin","Read","Write","List","Tagging"]}]}'
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata: {name: minio, namespace: minio}
+spec:
+  replicas: 1
+  strategy: {type: Recreate}
+  selector: {matchLabels: {app: minio}}
+  template:
+    metadata: {labels: {app: minio}}
+    spec:
+      nodeSelector: {kubernetes.io/hostname: pk-cp}
+      tolerations: [{key: node-role.kubernetes.io/control-plane, operator: Exists, effect: NoSchedule}]
+      containers:
+      - name: minio
+        image: docker.io/chrislusf/seaweedfs:latest
+        args: [server, -dir=/data, -s3, -s3.port=9000, -s3.config=/cfg/s3.json, -s3.cert.file=/tls/tls.crt, -s3.key.file=/tls/tls.key, -volume.max=0, -master.volumeSizeLimitMB=1024]
+        ports: [{containerPort: 9000}]
+        volumeMounts: [{name: d, mountPath: /data}, {name: c, mountPath: /cfg}, {name: t, mountPath: /tls}]
+      volumes:
+      - {name: d, hostPath: {path: /srv/s3, type: DirectoryOrCreate}}
+      - {name: c, secret: {secretName: s3cfg}}
+      - {name: t, secret: {secretName: s3tls}}
+---
+apiVersion: v1
+kind: Service
+metadata: {name: minio, namespace: minio}
+spec: {selector: {app: minio}, ports: [{name: s3, port: 9000}]}

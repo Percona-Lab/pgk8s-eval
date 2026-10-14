@@ -1,0 +1,6 @@
+"error": "waiting for cert-manager to issue CA certificate
+2m40s       Normal   CreatingPodDisruptionBudget   cluster/ts-img   Creating PodDisruptionBudget ts-img-primary
+2m40s       Normal   CreatingServiceAccount        cluster/ts-img   Creating ServiceAccount
+2m40s       Normal   CreatingRole                  cluster/ts-img   Creating Cluster Role
+2m38s       Normal   CreatingInstance              cluster/ts-img   Primary instance (initdb)
+bash: line 1: unzip: command not found

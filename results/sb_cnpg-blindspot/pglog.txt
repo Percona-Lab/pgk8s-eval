@@ -1,0 +1,3 @@
+pod/cluster-example-1 
+pod/cluster-example-2 
+pod/cluster-example-3 "ts":"2026-10-14T09:02:28.058431301Z "msg":"record "message":"received promote request "ts":"2026-10-14T09:02:31.024266607Z "msg":"record "message":"database system is ready to accept connections "ts":"2026-10-14T09:03:34.241942829Z "msg":"Primary lease lost, cannot verify holder, retrying

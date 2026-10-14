@@ -1,0 +1,36 @@
++13s cur=cluster-example-3 target=cluster-example-3 phase="Cluster in healthy state" pods=cluster-example-1:2/2:Running:6 cluster-example-2:2/2:Running:0 cluster-example-3:2/2:Running:5 
++24s cur=cluster-example-3 target=cluster-example-3 phase="Cluster in healthy state" pods=cluster-example-1:2/2:Running:6 cluster-example-2:2/2:Running:0 cluster-example-3:2/2:Running:5 
++35s cur=cluster-example-3 target=cluster-example-3 phase="Cluster in healthy state" pods=cluster-example-1:2/2:Running:6 cluster-example-2:2/2:Running:0 cluster-example-3:2/2:Running:5 
++46s cur=cluster-example-3 target=cluster-example-3 phase="Failing over" pods=cluster-example-1:2/2:Running:6 cluster-example-2:2/2:Running:0 cluster-example-3:2/2:Running:5 
++57s cur=cluster-example-3 target=cluster-example-1 phase="Failing over" pods=cluster-example-1:2/2:Running:6 cluster-example-2:2/2:Running:0 cluster-example-3:2/2:Running:5 
++68s cur=cluster-example-1 target=cluster-example-1 phase="Failing over" pods=cluster-example-1:2/2:Running:6 cluster-example-2:2/2:Running:0 cluster-example-3:2/2:Running:5 
++80s cur=cluster-example-1 target=cluster-example-1 phase="Failing over" pods=cluster-example-1:2/2:Running:6 cluster-example-2:2/2:Running:0 cluster-example-3:2/2:Running:5 
++90s cur=cluster-example-1 target=cluster-example-1 phase="Failing over" pods=cluster-example-1:2/2:Running:6 cluster-example-2:2/2:Running:0 cluster-example-3:2/2:Running:5 
++101s cur=cluster-example-1 target=cluster-example-1 phase="Failing over" pods=cluster-example-1:2/2:Running:6 cluster-example-2:2/2:Running:0 cluster-example-3:2/2:Running:5 
++112s cur=cluster-example-1 target=cluster-example-1 phase="Failing over" pods=cluster-example-1:2/2:Running:6 cluster-example-2:2/2:Running:0 cluster-example-3:2/2:Running:5 
++124s cur=cluster-example-1 target=cluster-example-1 phase="Failing over" pods=cluster-example-1:2/2:Running:6 cluster-example-2:2/2:Running:0 cluster-example-3:2/2:Running:5 
++135s cur=cluster-example-1 target=cluster-example-1 phase="Failing over" pods=cluster-example-1:2/2:Running:6 cluster-example-2:2/2:Running:0 cluster-example-3:1/2:Running:6 
++146s cur=cluster-example-1 target=cluster-example-1 phase="Cluster in healthy state" pods=cluster-example-1:2/2:Running:6 cluster-example-2:2/2:Running:0 cluster-example-3:2/2:Running:6 
++157s cur=cluster-example-1 target=cluster-example-1 phase="Cluster in healthy state" pods=cluster-example-1:2/2:Running:6 cluster-example-2:2/2:Running:0 cluster-example-3:2/2:Running:6 
++168s cur=cluster-example-1 target=cluster-example-1 phase="Cluster in healthy state" pods=cluster-example-1:2/2:Running:6 cluster-example-2:2/2:Running:0 cluster-example-3:2/2:Running:6 
++178s cur=cluster-example-1 target=cluster-example-1 phase="Cluster in healthy state" pods=cluster-example-1:2/2:Running:6 cluster-example-2:2/2:Running:0 cluster-example-3:2/2:Running:6 
++189s cur=cluster-example-1 target=cluster-example-1 phase="Cluster in healthy state" pods=cluster-example-1:2/2:Running:6 cluster-example-2:2/2:Running:0 cluster-example-3:2/2:Running:6 
++200s cur=cluster-example-1 target=cluster-example-1 phase="Cluster in healthy state" pods=cluster-example-1:2/2:Running:6 cluster-example-2:2/2:Running:0 cluster-example-3:2/2:Running:6 
++211s cur=cluster-example-1 target=cluster-example-1 phase="Cluster in healthy state" pods=cluster-example-1:2/2:Running:6 cluster-example-2:2/2:Running:0 cluster-example-3:2/2:Running:6 
++222s cur=cluster-example-1 target=cluster-example-1 phase="Cluster in healthy state" pods=cluster-example-1:2/2:Running:6 cluster-example-2:2/2:Running:0 cluster-example-3:2/2:Running:6 
++233s cur=cluster-example-1 target=cluster-example-1 phase="Cluster in healthy state" pods=cluster-example-1:2/2:Running:6 cluster-example-2:2/2:Running:0 cluster-example-3:2/2:Running:6 
++244s cur=cluster-example-1 target=cluster-example-1 phase="Cluster in healthy state" pods=cluster-example-1:2/2:Running:6 cluster-example-2:2/2:Running:0 cluster-example-3:2/2:Running:6 
++255s cur=cluster-example-1 target=cluster-example-1 phase="Cluster in healthy state" pods=cluster-example-1:2/2:Running:6 cluster-example-2:2/2:Running:0 cluster-example-3:2/2:Running:6 
++266s cur=cluster-example-1 target=cluster-example-1 phase="Cluster in healthy state" pods=cluster-example-1:2/2:Running:6 cluster-example-2:2/2:Running:0 cluster-example-3:2/2:Running:6 
++277s cur=cluster-example-1 target=cluster-example-1 phase="Cluster in healthy state" pods=cluster-example-1:2/2:Running:6 cluster-example-2:2/2:Running:0 cluster-example-3:2/2:Running:6 
++288s cur=cluster-example-1 target=cluster-example-1 phase="Cluster in healthy state" pods=cluster-example-1:2/2:Running:6 cluster-example-2:2/2:Running:0 cluster-example-3:2/2:Running:6 
++298s cur=cluster-example-1 target=cluster-example-1 phase="Cluster in healthy state" pods=cluster-example-1:2/2:Running:6 cluster-example-2:2/2:Running:0 cluster-example-3:2/2:Running:6 
++309s cur=cluster-example-1 target=cluster-example-1 phase="Cluster in healthy state" pods=cluster-example-1:2/2:Running:6 cluster-example-2:2/2:Running:0 cluster-example-3:2/2:Running:6 
++320s cur=cluster-example-1 target=cluster-example-1 phase="Cluster in healthy state" pods=cluster-example-1:2/2:Running:6 cluster-example-2:2/2:Running:0 cluster-example-3:2/2:Running:6 
++331s cur=cluster-example-1 target=cluster-example-1 phase="Cluster in healthy state" pods=cluster-example-1:2/2:Running:6 cluster-example-2:2/2:Running:0 cluster-example-3:2/2:Running:6 
++342s cur=cluster-example-1 target=cluster-example-1 phase="Cluster in healthy state" pods=cluster-example-1:2/2:Running:6 cluster-example-2:2/2:Running:0 cluster-example-3:2/2:Running:6 
++353s cur=cluster-example-1 target=cluster-example-1 phase="Cluster in healthy state" pods=cluster-example-1:2/2:Running:6 cluster-example-2:2/2:Running:0 cluster-example-3:2/2:Running:6 
++364s cur=cluster-example-1 target=cluster-example-1 phase="Cluster in healthy state" pods=cluster-example-1:2/2:Running:6 cluster-example-2:2/2:Running:0 cluster-example-3:2/2:Running:6 
++375s cur=cluster-example-1 target=cluster-example-1 phase="Cluster in healthy state" pods=cluster-example-1:2/2:Running:6 cluster-example-2:2/2:Running:0 cluster-example-3:2/2:Running:6 
++386s cur=cluster-example-1 target=cluster-example-1 phase="Cluster in healthy state" pods=cluster-example-1:2/2:Running:6 cluster-example-2:2/2:Running:0 cluster-example-3:2/2:Running:6 
++397s cur=cluster-example-1 target=cluster-example-1 phase="Cluster in healthy state" pods=cluster-example-1:2/2:Running:6 cluster-example-2:2/2:Running:0 cluster-example-3:2/2:Running:6 

@@ -1,0 +1,96 @@
+T=1791926219277
++6s node=Ready Pprim=cluster1-instance1-txcs-0 Cprim=cluster-example-2 Cready=3 Cphase="Cluster in healthy state" Pstate=ready
++12s node=Ready Pprim=cluster1-instance1-txcs-0 Cprim=cluster-example-2 Cready=3 Cphase="Cluster in healthy state" Pstate=ready
++18s node=Ready Pprim=cluster1-instance1-txcs-0 Cprim=cluster-example-2 Cready=3 Cphase="Cluster in healthy state" Pstate=ready
++24s node=Ready Pprim=cluster1-instance1-txcs-0 Cprim=cluster-example-2 Cready=3 Cphase="Cluster in healthy state" Pstate=ready
++30s node=Ready Pprim=cluster1-instance1-px4v-0 Cprim=cluster-example-2 Cready=3 Cphase="Cluster in healthy state" Pstate=ready
++37s node=Ready Pprim=cluster1-instance1-px4v-0 Cprim=cluster-example-2 Cready=3 Cphase="Cluster in healthy state" Pstate=ready
++43s node=Ready Pprim=cluster1-instance1-px4v-0 Cprim=cluster-example-2 Cready=3 Cphase="Cluster in healthy state" Pstate=ready
++49s node=NotReady Pprim=cluster1-instance1-px4v-0 Cprim=cluster-example-2 Cready=2 Cphase="Cluster in healthy state" Pstate=ready
++55s node=NotReady Pprim=cluster1-instance1-px4v-0 Cprim=cluster-example-2 Cready=2 Cphase="Failing over" Pstate=ready
++62s node=NotReady Pprim=cluster1-instance1-px4v-0 Cprim=cluster-example-2 Cready=2 Cphase="Failing over" Pstate=ready
++68s node=NotReady Pprim=cluster1-instance1-px4v-0 Cprim=cluster-example-2 Cready=2 Cphase="Failing over" Pstate=ready
++75s node=NotReady Pprim=cluster1-instance1-px4v-0 Cprim=cluster-example-1 Cready=2 Cphase="Failing over" Pstate=ready
++81s node=NotReady Pprim=cluster1-instance1-px4v-0 Cprim=cluster-example-1 Cready=2 Cphase="Failing over" Pstate=ready
++87s node=NotReady Pprim=cluster1-instance1-px4v-0 Cprim=cluster-example-1 Cready=2 Cphase="Failing over" Pstate=ready
++93s node=NotReady Pprim=cluster1-instance1-px4v-0 Cprim=cluster-example-1 Cready=2 Cphase="Failing over" Pstate=ready
++100s node=NotReady Pprim=cluster1-instance1-px4v-0 Cprim=cluster-example-1 Cready=2 Cphase="Failing over" Pstate=ready
++106s node=NotReady Pprim=cluster1-instance1-px4v-0 Cprim=cluster-example-1 Cready=2 Cphase="Failing over" Pstate=ready
++114s node=NotReady Pprim=cluster1-instance1-px4v-0 Cprim=cluster-example-1 Cready=2 Cphase="Failing over" Pstate=ready
++120s node=NotReady Pprim=cluster1-instance1-px4v-0 Cprim=cluster-example-1 Cready=2 Cphase="Failing over" Pstate=ready
++126s node=NotReady Pprim=cluster1-instance1-px4v-0 Cprim=cluster-example-1 Cready=2 Cphase="Failing over" Pstate=ready
++132s node=NotReady Pprim=cluster1-instance1-px4v-0 Cprim=cluster-example-1 Cready=2 Cphase="Failing over" Pstate=ready
++138s node=NotReady Pprim=cluster1-instance1-px4v-0 Cprim=cluster-example-1 Cready=2 Cphase="Failing over" Pstate=ready
++145s node=NotReady Pprim=cluster1-instance1-px4v-0 Cprim=cluster-example-1 Cready=2 Cphase="Failing over" Pstate=ready
++151s node=NotReady Pprim=cluster1-instance1-px4v-0 Cprim=cluster-example-1 Cready=2 Cphase="Failing over" Pstate=ready
++157s node=Ready Pprim=cluster1-instance1-px4v-0 Cprim=cluster-example-1 Cready=2 Cphase="Failing over" Pstate=ready
++163s node=Ready Pprim=cluster1-instance1-px4v-0 Cprim=cluster-example-1 Cready=2 Cphase="Failing over" Pstate=ready
++170s node=Ready Pprim=cluster1-instance1-px4v-0 Cprim=cluster-example-1 Cready=2 Cphase="Failing over" Pstate=ready
++176s node=Ready Pprim=cluster1-instance1-px4v-0 Cprim=cluster-example-1 Cready=2 Cphase="Waiting for the instances to become active" Pstate=ready
++183s node=Ready Pprim=cluster1-instance1-px4v-0 Cprim=cluster-example-1 Cready=2 Cphase="Waiting for the instances to become active" Pstate=ready
++189s node=Ready Pprim=cluster1-instance1-px4v-0 Cprim=cluster-example-1 Cready=2 Cphase="Waiting for the instances to become active" Pstate=ready
++195s node=Ready Pprim=cluster1-instance1-px4v-0 Cprim=cluster-example-1 Cready=2 Cphase="Waiting for the instances to become active" Pstate=ready
++202s node=Ready Pprim=cluster1-instance1-px4v-0 Cprim=cluster-example-1 Cready=2 Cphase="Waiting for the instances to become active" Pstate=ready
++208s node=Ready Pprim=cluster1-instance1-px4v-0 Cprim=cluster-example-1 Cready=2 Cphase="Waiting for the instances to become active" Pstate=ready
++214s node=Ready Pprim=cluster1-instance1-px4v-0 Cprim=cluster-example-1 Cready=2 Cphase="Waiting for the instances to become active" Pstate=ready
++220s node=Ready Pprim=cluster1-instance1-px4v-0 Cprim=cluster-example-1 Cready=2 Cphase="Waiting for the instances to become active" Pstate=ready
++226s node=Ready Pprim=cluster1-instance1-px4v-0 Cprim=cluster-example-1 Cready=2 Cphase="Waiting for the instances to become active" Pstate=ready
++233s node=Ready Pprim=cluster1-instance1-px4v-0 Cprim=cluster-example-1 Cready=2 Cphase="Waiting for the instances to become active" Pstate=ready
++239s node=Ready Pprim=cluster1-instance1-px4v-0 Cprim=cluster-example-1 Cready=2 Cphase="Waiting for the instances to become active" Pstate=ready
++245s node=Ready Pprim=cluster1-instance1-px4v-0 Cprim=cluster-example-1 Cready=2 Cphase="Waiting for the instances to become active" Pstate=ready
++251s node=Ready Pprim=cluster1-instance1-px4v-0 Cprim=cluster-example-1 Cready=2 Cphase="Waiting for the instances to become active" Pstate=initializing
++258s node=Ready Pprim=cluster1-instance1-px4v-0 Cprim=cluster-example-1 Cready=3 Cphase="Cluster in healthy state" Pstate=ready
++264s node=Ready Pprim=cluster1-instance1-px4v-0 Cprim=cluster-example-1 Cready=3 Cphase="Cluster in healthy state" Pstate=ready
++270s node=Ready Pprim=cluster1-instance1-px4v-0 Cprim=cluster-example-1 Cready=3 Cphase="Cluster in healthy state" Pstate=ready
++276s node=Ready Pprim=cluster1-instance1-px4v-0 Cprim=cluster-example-1 Cready=3 Cphase="Cluster in healthy state" Pstate=ready
++283s node=Ready Pprim=cluster1-instance1-px4v-0 Cprim=cluster-example-1 Cready=3 Cphase="Cluster in healthy state" Pstate=ready
++289s node=Ready Pprim=cluster1-instance1-px4v-0 Cprim=cluster-example-1 Cready=3 Cphase="Cluster in healthy state" Pstate=ready
++296s node=Ready Pprim=cluster1-instance1-px4v-0 Cprim=cluster-example-1 Cready=3 Cphase="Cluster in healthy state" Pstate=ready
++302s node=Ready Pprim=cluster1-instance1-px4v-0 Cprim=cluster-example-1 Cready=3 Cphase="Cluster in healthy state" Pstate=ready
++308s node=Ready Pprim=cluster1-instance1-px4v-0 Cprim=cluster-example-1 Cready=3 Cphase="Cluster in healthy state" Pstate=ready
++314s node=Ready Pprim=cluster1-instance1-px4v-0 Cprim=cluster-example-1 Cready=3 Cphase="Cluster in healthy state" Pstate=ready
++320s node=Ready Pprim=cluster1-instance1-px4v-0 Cprim=cluster-example-1 Cready=3 Cphase="Cluster in healthy state" Pstate=ready
++327s node=Ready Pprim=cluster1-instance1-px4v-0 Cprim=cluster-example-1 Cready=3 Cphase="Cluster in healthy state" Pstate=ready
++333s node=Ready Pprim=cluster1-instance1-px4v-0 Cprim=cluster-example-1 Cready=3 Cphase="Cluster in healthy state" Pstate=ready
++340s node=Ready Pprim=cluster1-instance1-px4v-0 Cprim=cluster-example-1 Cready=3 Cphase="Cluster in healthy state" Pstate=ready
++346s node=Ready Pprim=cluster1-instance1-px4v-0 Cprim=cluster-example-1 Cready=3 Cphase="Cluster in healthy state" Pstate=ready
++352s node=Ready Pprim=cluster1-instance1-px4v-0 Cprim=cluster-example-1 Cready=3 Cphase="Cluster in healthy state" Pstate=ready
++358s node=Ready Pprim=cluster1-instance1-px4v-0 Cprim=cluster-example-1 Cready=3 Cphase="Cluster in healthy state" Pstate=ready
++364s node=Ready Pprim=cluster1-instance1-px4v-0 Cprim=cluster-example-1 Cready=3 Cphase="Cluster in healthy state" Pstate=ready
++371s node=Ready Pprim=cluster1-instance1-px4v-0 Cprim=cluster-example-1 Cready=3 Cphase="Cluster in healthy state" Pstate=ready
++377s node=Ready Pprim=cluster1-instance1-px4v-0 Cprim=cluster-example-1 Cready=3 Cphase="Cluster in healthy state" Pstate=ready
++383s node=Ready Pprim=cluster1-instance1-px4v-0 Cprim=cluster-example-1 Cready=3 Cphase="Cluster in healthy state" Pstate=ready
++389s node=Ready Pprim=cluster1-instance1-px4v-0 Cprim=cluster-example-1 Cready=3 Cphase="Cluster in healthy state" Pstate=ready
++396s node=Ready Pprim=cluster1-instance1-px4v-0 Cprim=cluster-example-1 Cready=3 Cphase="Cluster in healthy state" Pstate=ready
++402s node=Ready Pprim=cluster1-instance1-px4v-0 Cprim=cluster-example-1 Cready=3 Cphase="Cluster in healthy state" Pstate=ready
++408s node=Ready Pprim=cluster1-instance1-px4v-0 Cprim=cluster-example-1 Cready=3 Cphase="Cluster in healthy state" Pstate=ready
++414s node=Ready Pprim=cluster1-instance1-px4v-0 Cprim=cluster-example-1 Cready=3 Cphase="Cluster in healthy state" Pstate=ready
++420s node=Ready Pprim=cluster1-instance1-px4v-0 Cprim=cluster-example-1 Cready=3 Cphase="Cluster in healthy state" Pstate=ready
++427s node=Ready Pprim=cluster1-instance1-px4v-0 Cprim=cluster-example-1 Cready=3 Cphase="Cluster in healthy state" Pstate=ready
++433s node=Ready Pprim=cluster1-instance1-px4v-0 Cprim=cluster-example-1 Cready=3 Cphase="Cluster in healthy state" Pstate=ready
++440s node=Ready Pprim=cluster1-instance1-px4v-0 Cprim=cluster-example-1 Cready=3 Cphase="Cluster in healthy state" Pstate=ready
++446s node=Ready Pprim=cluster1-instance1-px4v-0 Cprim=cluster-example-1 Cready=3 Cphase="Cluster in healthy state" Pstate=ready
++452s node=Ready Pprim=cluster1-instance1-px4v-0 Cprim=cluster-example-1 Cready=3 Cphase="Cluster in healthy state" Pstate=ready
++459s node=Ready Pprim=cluster1-instance1-px4v-0 Cprim=cluster-example-1 Cready=3 Cphase="Cluster in healthy state" Pstate=ready
++465s node=Ready Pprim=cluster1-instance1-px4v-0 Cprim=cluster-example-1 Cready=3 Cphase="Cluster in healthy state" Pstate=ready
++471s node=Ready Pprim=cluster1-instance1-px4v-0 Cprim=cluster-example-1 Cready=3 Cphase="Cluster in healthy state" Pstate=ready
++477s node=Ready Pprim=cluster1-instance1-px4v-0 Cprim=cluster-example-1 Cready=3 Cphase="Cluster in healthy state" Pstate=ready
++484s node=Ready Pprim=cluster1-instance1-px4v-0 Cprim=cluster-example-1 Cready=3 Cphase="Cluster in healthy state" Pstate=ready
++490s node=Ready Pprim=cluster1-instance1-px4v-0 Cprim=cluster-example-1 Cready=3 Cphase="Cluster in healthy state" Pstate=ready
++496s node=Ready Pprim=cluster1-instance1-px4v-0 Cprim=cluster-example-1 Cready=3 Cphase="Cluster in healthy state" Pstate=ready
++503s node=Ready Pprim=cluster1-instance1-px4v-0 Cprim=cluster-example-1 Cready=3 Cphase="Cluster in healthy state" Pstate=ready
++509s node=Ready Pprim=cluster1-instance1-px4v-0 Cprim=cluster-example-1 Cready=3 Cphase="Cluster in healthy state" Pstate=ready
++515s node=Ready Pprim=cluster1-instance1-px4v-0 Cprim=cluster-example-1 Cready=3 Cphase="Cluster in healthy state" Pstate=ready
++522s node=Ready Pprim=cluster1-instance1-px4v-0 Cprim=cluster-example-1 Cready=3 Cphase="Cluster in healthy state" Pstate=ready
++528s node=Ready Pprim=cluster1-instance1-px4v-0 Cprim=cluster-example-1 Cready=3 Cphase="Cluster in healthy state" Pstate=ready
+== pdirect
+first_fail +2.1s; write outage 85.8s (last OK before -> first OK after); failed attempts 13; primary 10.42.1.18 -> 10.42.3.13
+   13x psql: error: connection to server at "cluster1-primary.postg
+== pbouncer
+first_fail +2.3s; write outage 246.6s (last OK before -> first OK after); failed attempts 22; primary 10.42.1.18 -> 10.42.3.13
+   20x psql: error: connection to server at "cluster1-pgbouncer.pos
+   2x 
+== cnpg
+first_fail +2.1s; write outage 74.0s (last OK before -> first OK after); failed attempts 52; primary 10.42.1.16 -> 10.42.2.17
+   30x Is the server running on that host and accepting TCP/IP conn
+   22x psql: error: connection to server at "cluster-example-rw.def

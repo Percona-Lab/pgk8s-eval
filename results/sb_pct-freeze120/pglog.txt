@@ -1,0 +1,15 @@
+== pod/cluster1-instance1-7z2t-0
+2026-10-14 09:34:40,924 INFO: Got response from cluster1-instance1-txcs-0 https://cluster1-instance1-txcs-0.cluster1-pods:8008/patroni: {"state": "running", "postmaster_start_time": "2026-10-14 08:51:01.474475+00:00", "role": "replica", "server_version": 180006, "xlog": {"received_location": 13086329824, "replayed_location": 13086329824, "replayed_timestamp": "2026-10-14 09:34:16.019740+00:00", "paused": false}, "timeline": 15, "replication_state": "streaming", "cluster_unlocked": true, "dcs_last_seen": 1791970480, "database_system_identifier": "7696257670115754102", "patroni": {"version": "4.1.5", "scope": "cluster1-ha", "name": "cluster1-instance1-txcs-0"}}
+2026-10-14 09:34:42,947 INFO: Could not take out TTL lock
+2026-10-14 09:34:43,020 INFO: following new leader after trying and failing to obtain lock
+== pod/cluster1-instance1-px4v-0
+2026-10-14 09:36:16,244 INFO: Demoting self (immediate-nolock)
+2026-10-14 09:36:21,908 INFO: demoting self because I do not have the lock and I was a leader
+2026-10-14 09:36:21,990 INFO: starting after demotion in progress
+  max_locks_per_xact setting: 64
+  Database block size: 8192
+  Blocks per segment of large relation: 131072
+  WAL block size: 8192
+== pod/cluster1-instance1-txcs-0
+2026-10-14 09:34:40,930 INFO: Got response from cluster1-instance1-7z2t-0 https://cluster1-instance1-7z2t-0.cluster1-pods:8008/patroni: {"state": "running", "postmaster_start_time": "2026-10-14 09:19:28.003568+00:00", "role": "replica", "server_version": 180006, "xlog": {"received_location": 13086329824, "replayed_location": 13086329824, "replayed_timestamp": "2026-10-14 09:34:16.019740+00:00", "paused": false}, "timeline": 15, "replication_state": "streaming", "cluster_unlocked": true, "dcs_last_seen": 1791970480, "database_system_identifier": "7696257670115754102", "patroni": {"version": "4.1.5", "scope": "cluster1-ha", "name": "cluster1-instance1-7z2t-0"}}
+2026-10-14 09:34:42,973 INFO: promoted self to leader by acquiring session lock

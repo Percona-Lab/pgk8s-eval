@@ -1,0 +1,45 @@
+t1_percona_poddelete pdirect:
+   main outage 2.4s starting +0.6s; 1 interval(s), total 2.4s; primary 10.42.1.15 -> 10.42.3.13
+   DISRUPT +0.6s..+3.0s = 2.4s (9 fails)
+t1_percona_poddelete pbouncer:
+   main outage 2.5s starting +0.5s; 13 interval(s), total 9.1s; primary 10.42.1.15 -> 10.42.3.13
+   DISRUPT +0.5s..+13.6s = 13.1s (16 fails)
+t1_cnpg_poddelete cnpg:
+   main outage 7.1s starting +0.5s; 1 interval(s), total 7.1s; primary 10.42.2.13 -> 10.42.1.16
+   DISRUPT +0.5s..+7.6s = 7.1s (16 fails)
+t2_percona_kill9 pdirect:
+   main outage 10.8s starting +0.8s; 1 interval(s), total 10.8s; primary 10.42.3.13 -> 10.42.3.13
+   DISRUPT +0.8s..+11.6s = 10.8s (47 fails)
+t2_percona_kill9 pbouncer:
+   main outage 16.6s starting +0.9s; 6 interval(s), total 18.9s; primary 10.42.3.13 -> 10.42.3.13
+   DISRUPT +0.9s..+21.0s = 20.1s (49 fails)
+t2_cnpg_kill9 cnpg:
+   main outage 5.3s starting +0.5s; 1 interval(s), total 5.3s; primary 10.42.1.16 -> 10.42.1.16
+   DISRUPT +0.5s..+5.8s = 5.3s (13 fails)
+t3_percona_switchover pdirect:
+   main outage 2.4s starting +9.6s; 1 interval(s), total 2.4s; primary 10.42.3.13 -> 10.42.2.12
+   DISRUPT +9.6s..+12.0s = 2.4s (9 fails)
+t3_percona_switchover pbouncer:
+   main outage 2.5s starting +9.7s; 12 interval(s), total 8.5s; primary 10.42.3.13 -> 10.42.2.12
+   DISRUPT +9.7s..+25.3s = 15.6s (15 fails)
+t3_cnpg_switchover cnpg:
+   main outage 11.4s starting +0.9s; 1 interval(s), total 11.4s; primary 10.42.1.16 -> 10.42.2.14
+   DISRUPT +0.9s..+12.2s = 11.4s (17 fails)
+t4_percona_opdown pdirect:
+   main outage 3.4s starting +0.5s; 1 interval(s), total 3.4s; primary 10.42.2.12 -> 10.42.1.18
+   DISRUPT +0.5s..+3.9s = 3.4s (13 fails)
+t4_percona_opdown pbouncer:
+   main outage 5.2s starting +0.6s; 13 interval(s), total 15.3s; primary 10.42.2.12 -> 10.42.1.18
+   DISRUPT +0.6s..+18.2s = 17.6s (34 fails)
+t4_cnpg_opdown cnpg:
+   main outage 101.5s starting +0.3s; 2 interval(s), total 137.4s; primary 10.42.2.14 -> NOT RECOVERED
+   DISRUPT +0.3s..+101.8s = 101.5s (111 fails); +144.1s..+180.0s = 35.9s (17 fails)
+t5_node_w1 pdirect:
+   main outage 26.9s starting +1.9s; 2 interval(s), total 29.4s; primary 10.42.1.18 -> 10.42.3.13
+   DISRUPT +1.9s..+28.8s = 26.9s (12 fails); +85.2s..+87.6s = 2.5s (1 fails)
+t5_node_w1 pbouncer:
+   main outage 44.5s starting +2.1s; 4 interval(s), total 52.3s; primary 10.42.1.18 -> 10.42.3.13
+   DISRUPT +2.1s..+49.3s = 47.2s (20 fails); +236.8s..+248.7s = 11.9s (2 fails)
+t5_node_w1 cnpg:
+   main outage 74.0s starting +1.9s; 1 interval(s), total 74.0s; primary 10.42.1.16 -> 10.42.2.17
+   DISRUPT +1.9s..+75.8s = 74.0s (52 fails)

@@ -1,0 +1,3 @@
+pod/cluster-example-1 "ts":"2026-10-14T09:28:11.429155322Z "msg":"record "message":"received promote request "ts":"2026-10-14T09:28:15.191411855Z "msg":"record "message":"database system is ready to accept connections
+pod/cluster-example-2 
+pod/cluster-example-3 

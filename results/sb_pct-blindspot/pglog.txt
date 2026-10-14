@@ -1,0 +1,8 @@
+== pod/cluster1-instance1-7z2t-0
+== pod/cluster1-instance1-px4v-0
+2026-10-14 09:11:59,178 INFO: Got response from cluster1-instance1-txcs-0 https://cluster1-instance1-txcs-0.cluster1-pods:8008/patroni: {"state": "running", "postmaster_start_time": "2026-10-14 08:51:01.474475+00:00", "role": "replica", "server_version": 180006, "xlog": {"received_location": 12717372824, "replayed_location": 12717372824, "replayed_timestamp": "2026-10-14 09:11:37.461585+00:00", "paused": false}, "timeline": 14, "replication_state": "streaming", "cluster_unlocked": true, "dcs_last_seen": 1791969119, "database_system_identifier": "7696257670115754102", "patroni": {"version": "4.1.5", "scope": "cluster1-ha", "name": "cluster1-instance1-txcs-0"}}
+2026-10-14 09:11:59,261 INFO: promoted self to leader by acquiring session lock
+== pod/cluster1-instance1-txcs-0
+2026-10-14 09:11:59,150 INFO: Got response from cluster1-instance1-px4v-0 https://cluster1-instance1-px4v-0.cluster1-pods:8008/patroni: {"state": "running", "postmaster_start_time": "2026-10-14 08:58:20.679818+00:00", "role": "replica", "server_version": 180006, "xlog": {"received_location": 12717372824, "replayed_location": 12717372824, "replayed_timestamp": "2026-10-14 09:11:37.461585+00:00", "paused": false}, "timeline": 14, "replication_state": "streaming", "cluster_unlocked": true, "dcs_last_seen": 1791969119, "database_system_identifier": "7696257670115754102", "patroni": {"version": "4.1.5", "scope": "cluster1-ha", "name": "cluster1-instance1-px4v-0"}}
+2026-10-14 09:11:59,291 INFO: Could not take out TTL lock
+2026-10-14 09:11:59,595 INFO: following new leader after trying and failing to obtain lock

@@ -1,0 +1,36 @@
+== pod/cluster1-instance1-7z2t-0
+2026-10-14 08:53:45,408 INFO: Got response from cluster1-instance1-txcs-0 https://cluster1-instance1-txcs-0.cluster1-pods:8008/patroni: {"state": "running", "postmaster_start_time": "2026-10-14 08:51:01.474475+00:00", "role": "replica", "server_version": 180006, "xlog": {"received_location": 12432185288, "replayed_location": 12432185288, "replayed_timestamp": "2026-10-14 08:53:15.015580+00:00", "paused": false}, "timeline": 13, "replication_state": "streaming", "cluster_unlocked": true, "dcs_last_seen": 1791968025, "database_system_identifier": "7696257670115754102", "patroni": {"version": "4.1.5", "scope": "cluster1-ha", "name": "cluster1-instance1-txcs-0"}}
+2026-10-14 08:53:47,446 INFO: promoted self to leader by acquiring session lock
+== pod/cluster1-instance1-px4v-0
+2026-10-14 08:53:34,244 ERROR: Error communicating with DCS
+2026-10-14 08:53:34,245 INFO: demoting self because DCS is not accessible and I was a leader
+2026-10-14 08:54:17,177 INFO: demoted self because DCS is not accessible and I was a leader
+2026-10-14 08:54:27,183 ERROR: Error communicating with DCS
+2026-10-14 08:54:27,185 INFO: DCS is not accessible
+2026-10-14 08:54:37,187 ERROR: Error communicating with DCS
+2026-10-14 08:54:37,189 INFO: DCS is not accessible
+2026-10-14 08:54:47,191 ERROR: Error communicating with DCS
+2026-10-14 08:54:47,192 INFO: DCS is not accessible
+2026-10-14 08:54:57,194 ERROR: Error communicating with DCS
+2026-10-14 08:54:57,196 INFO: DCS is not accessible
+2026-10-14 08:55:07,199 ERROR: Error communicating with DCS
+2026-10-14 08:55:07,202 INFO: DCS is not accessible
+2026-10-14 08:55:17,204 ERROR: Error communicating with DCS
+2026-10-14 08:55:17,206 INFO: DCS is not accessible
+2026-10-14 08:55:27,208 ERROR: Error communicating with DCS
+2026-10-14 08:55:27,209 INFO: DCS is not accessible
+2026-10-14 08:55:37,211 ERROR: Error communicating with DCS
+2026-10-14 08:55:37,212 INFO: DCS is not accessible
+2026-10-14 08:55:47,216 ERROR: Error communicating with DCS
+== pod/cluster1-instance1-txcs-0
+  max_locks_per_xact setting: 64
+  Database block size: 8192
+  Blocks per segment of large relation: 131072
+  WAL block size: 8192
+  max_locks_per_xact setting: 64
+  Database block size: 8192
+  Blocks per segment of large relation: 131072
+  WAL block size: 8192
+2026-10-14 08:53:45,405 INFO: Got response from cluster1-instance1-7z2t-0 https://cluster1-instance1-7z2t-0.cluster1-pods:8008/patroni: {"state": "running", "postmaster_start_time": "2026-10-13 22:35:00.068029+00:00", "role": "replica", "server_version": 180006, "xlog": {"received_location": 12432185288, "replayed_location": 12432185288, "replayed_timestamp": "2026-10-14 08:53:15.015580+00:00", "paused": false}, "timeline": 13, "replication_state": "streaming", "cluster_unlocked": true, "dcs_last_seen": 1791968025, "database_system_identifier": "7696257670115754102", "patroni": {"version": "4.1.5", "scope": "cluster1-ha", "name": "cluster1-instance1-7z2t-0"}}
+2026-10-14 08:53:47,422 INFO: Could not take out TTL lock
+2026-10-14 08:53:47,511 INFO: following new leader after trying and failing to obtain lock

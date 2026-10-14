@@ -1,0 +1,5 @@
+old primary 10.42.3.51; acks before partition 621, after 10505 (by old primary 740, by new primary 9765); client reconnects 234; client errors 303
+OLD primary acknowledged writes until +25.7s after the partition
+writers' first ack from new primary at +112.6s
+acknowledged writes LOST: 740 of 11126 acknowledged (740 acked by the isolated old primary after the partition)
+   lost writes were acknowledged between +0.1s and +25.7s

@@ -1,0 +1,20 @@
+T=1791925834638
+cnpg primary cluster-example-1
+pod "cluster-example-1" deleted from default namespace
+currentPrimary=cluster-example-2 changed at +7s; 3 ready at +21s
+Instances status
+Name               Current LSN  Replication role  Status  QoS         Manager Version  Node
+----               -----------  ----------------  ------  ---         ---------------  ----
+cluster-example-2  0/1801A9F0   Primary           OK      BestEffort  1.30.1           pk-w1
+cluster-example-3  0/1801A9F0   Standby (async)   OK      BestEffort  1.30.1           pk-w3
+cluster-example-1  0/1801A938   Standby (async)   OK      BestEffort  1.30.1           pk-w2
+
+Plugins status
+Name                            Version  Status  Reported Operator Capabilities
+----                            -------  ------  ------------------------------
+barman-cloud.cloudnative-pg.io  0.15.1   N/A     Reconciler Hooks, Lifecycle Service, TYPE_INSTANCE_SIDECAR_INJECTION
+
+== cnpg
+first_fail +0.7s; write outage 7.1s (last OK before -> first OK after); failed attempts 16; primary 10.42.2.13 -> 10.42.1.16
+   11x Is the server running on that host and accepting TCP/IP conn
+   5x psql: error: connection to server at "cluster-example-rw.def

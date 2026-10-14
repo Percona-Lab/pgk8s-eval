@@ -1,0 +1,23 @@
+T=1791926071542
+deployment.apps/cnpg-controller-manager scaled
+T_EVENT=1791926077040
+operator down; deleting primary cluster-example-1
+pod "cluster-example-1" deleted from default namespace
+after 90s: currentPrimary=cluster-example-1
+NAME                READY   STATUS    RESTARTS        AGE
+cluster-example-2   2/2     Running   2 (2m53s ago)   16m
+cluster-example-3   2/2     Running   0               17m
+Warning: v1 Endpoints is deprecated in v1.33+; use discovery.k8s.io/v1 EndpointSlice
+NAME                 ENDPOINTS   AGE
+cluster-example-rw   <none>      22m
+T_OPUP=1791926168284
+deployment.apps/cnpg-controller-manager scaled
+after operator up: primary cluster-example-2, 3 ready at +23s after operator start
+NAME                READY   STATUS    RESTARTS        AGE
+cluster-example-1   2/2     Running   0               12s
+cluster-example-2   2/2     Running   2 (3m16s ago)   17m
+cluster-example-3   2/2     Running   0               17m
+== cnpg
+first_fail +6.1s; write outage 101.5s (last OK before -> first OK after); failed attempts 111; primary 10.42.2.14 -> 10.42.1.16
+   105x Is the server running on that host and accepting TCP/IP conn
+   6x psql: error: connection to server at "cluster-example-rw.def

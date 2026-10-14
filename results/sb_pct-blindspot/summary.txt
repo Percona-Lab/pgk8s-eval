@@ -1,0 +1,8 @@
+fault at 1791969097448: 1791969097448 BLINDSPOT pod=cluster1-instance1-7z2t-0 pid=165490
+1791969097448 BLINDSPOT pod=cluster1-instance1-7z2t-0 pid=165490
+1791969397566 HEAL
+old primary 10.42.2.36; acks before partition 634, after 12464 (by old primary 306, by new primary 12158); client reconnects 57; client errors 64
+OLD primary acknowledged writes until +10.5s after the partition
+writers' first ack from new primary at +22.3s
+acknowledged writes LOST: 13098 of 13098 acknowledged (306 acked by the isolated old primary after the partition)
+   lost writes were acknowledged between +-22.2s and +446.6s

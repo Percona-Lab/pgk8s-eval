@@ -1,0 +1,45 @@
+T=1791929432457
++10s node=Ready Pprims=cluster1-instance1-txcs-0, Pstate=ready
++21s node=Ready Pprims=cluster1-instance1-txcs-0, Pstate=ready
++32s node=Ready Pprims=cluster1-instance1-7z2t-0,cluster1-instance1-txcs-0, Pstate=ready
++42s node=NotReady Pprims=cluster1-instance1-7z2t-0,cluster1-instance1-txcs-0, Pstate=ready
++53s node=NotReady Pprims=cluster1-instance1-7z2t-0,cluster1-instance1-txcs-0, Pstate=ready
++64s node=NotReady Pprims=cluster1-instance1-7z2t-0,cluster1-instance1-txcs-0, Pstate=ready
++74s node=NotReady Pprims=cluster1-instance1-7z2t-0,cluster1-instance1-txcs-0, Pstate=ready
++86s node=NotReady Pprims=cluster1-instance1-7z2t-0,cluster1-instance1-txcs-0, Pstate=ready
++96s node=NotReady Pprims=cluster1-instance1-7z2t-0,cluster1-instance1-txcs-0, Pstate=ready
++107s node=NotReady Pprims=cluster1-instance1-7z2t-0,cluster1-instance1-txcs-0, Pstate=ready
++118s node=NotReady Pprims=cluster1-instance1-7z2t-0,cluster1-instance1-txcs-0, Pstate=ready
++128s node=NotReady Pprims=cluster1-instance1-7z2t-0,cluster1-instance1-txcs-0, Pstate=ready
++139s node=NotReady Pprims=cluster1-instance1-7z2t-0,cluster1-instance1-txcs-0, Pstate=ready
++150s node=NotReady Pprims=cluster1-instance1-7z2t-0,cluster1-instance1-txcs-0, Pstate=ready
++160s node=NotReady Pprims=cluster1-instance1-7z2t-0,cluster1-instance1-txcs-0, Pstate=ready
++171s node=NotReady Pprims=cluster1-instance1-7z2t-0,cluster1-instance1-txcs-0, Pstate=ready
++182s node=NotReady Pprims=cluster1-instance1-7z2t-0,cluster1-instance1-txcs-0, Pstate=ready
++192s node=NotReady Pprims=cluster1-instance1-7z2t-0,cluster1-instance1-txcs-0, Pstate=ready
++203s node=NotReady Pprims=cluster1-instance1-7z2t-0,cluster1-instance1-txcs-0, Pstate=ready
++214s node=NotReady Pprims=cluster1-instance1-7z2t-0,cluster1-instance1-txcs-0, Pstate=ready
++224s node=NotReady Pprims=cluster1-instance1-7z2t-0,cluster1-instance1-txcs-0, Pstate=ready
++235s node=NotReady Pprims=cluster1-instance1-7z2t-0,cluster1-instance1-txcs-0, Pstate=ready
++246s node=Ready Pprims=cluster1-instance1-7z2t-0, Pstate=ready
++256s node=Ready Pprims=cluster1-instance1-7z2t-0, Pstate=ready
++268s node=Ready Pprims=cluster1-instance1-7z2t-0, Pstate=ready
++278s node=Ready Pprims=cluster1-instance1-7z2t-0, Pstate=ready
++289s node=Ready Pprims=cluster1-instance1-7z2t-0, Pstate=ready
++300s node=Ready Pprims=cluster1-instance1-7z2t-0, Pstate=ready
++310s node=Ready Pprims=cluster1-instance1-7z2t-0, Pstate=ready
++321s node=Ready Pprims=cluster1-instance1-7z2t-0, Pstate=ready
++332s node=Ready Pprims=cluster1-instance1-7z2t-0, Pstate=ready
++342s node=Ready Pprims=cluster1-instance1-7z2t-0, Pstate=ready
++353s node=Ready Pprims=cluster1-instance1-7z2t-0, Pstate=ready
++364s node=Ready Pprims=cluster1-instance1-7z2t-0, Pstate=ready
++374s node=Ready Pprims=cluster1-instance1-7z2t-0, Pstate=ready
++385s node=Ready Pprims=cluster1-instance1-7z2t-0, Pstate=ready
+main outage 31.4s starting +0.1s; 1 interval(s), total 31.4s; primary 10.42.1.24 -> 10.42.2.15
+   +0.1s .. +31.4s  (31.4s, 14 fails) top error: psql: error: connection to server at "cluster1-primary.postgres-operat
+DISRUPT +0.1s..+31.4s = 31.4s (14 fails)
+main outage 45.7s starting +0.1s; 2 interval(s), total 48.2s; primary 10.42.1.24 -> 10.42.2.15
+   +0.1s .. +45.8s  (45.7s, 20 fails) top error: psql: error: connection to server at "cluster1-pgbouncer.postgres-oper
+   +83.5s .. +85.9s  (2.5s, 1 fails) top error: psql: error: connection to server at "cluster1-pgbouncer.postgres-oper
+DISRUPT +0.1s..+45.8s = 45.7s (20 fails); +83.5s..+85.9s = 2.5s (1 fails)
+last isolated write accepted at +15.1s

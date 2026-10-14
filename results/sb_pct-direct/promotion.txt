@@ -1,0 +1,1 @@
+2026-10-14 08:40:13,764 INFO: promoted self to leader by acquiring session lock

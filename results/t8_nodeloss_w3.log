@@ -1,0 +1,56 @@
+T=1791927710865
++11s node=Ready Pprims=cluster1-instance1-px4v-0, Cprim=cluster-example-3 Cphase="Cluster in healthy state" Pstate=ready
++22s node=Ready Pprims=cluster1-instance1-px4v-0, Cprim=cluster-example-3 Cphase="Cluster in healthy state" Pstate=ready
++33s node=Ready Pprims=cluster1-instance1-px4v-0,cluster1-instance1-txcs-0, Cprim=cluster-example-3 Cphase="Cluster in healthy state" Pstate=ready
++44s node=Ready Pprims=cluster1-instance1-px4v-0,cluster1-instance1-txcs-0, Cprim=cluster-example-3 Cphase="Cluster in healthy state" Pstate=ready
++55s node=NotReady Pprims=cluster1-instance1-px4v-0,cluster1-instance1-txcs-0, Cprim=cluster-example-3 Cphase="Cluster in healthy state" Pstate=ready
++66s node=NotReady Pprims=cluster1-instance1-px4v-0,cluster1-instance1-txcs-0, Cprim=cluster-example-3 Cphase="Cluster cannot proceed to reconciliation due to an error while interacting with plugins" Pstate=ready
++77s node=NotReady Pprims=cluster1-instance1-px4v-0,cluster1-instance1-txcs-0, Cprim=cluster-example-3 Cphase="Cluster cannot proceed to reconciliation due to an error while interacting with plugins" Pstate=ready
++88s node=NotReady Pprims=cluster1-instance1-px4v-0,cluster1-instance1-txcs-0, Cprim=cluster-example-3 Cphase="Cluster cannot proceed to reconciliation due to an error while interacting with plugins" Pstate=ready
++99s node=NotReady Pprims=cluster1-instance1-px4v-0,cluster1-instance1-txcs-0, Cprim=cluster-example-3 Cphase="Cluster cannot proceed to reconciliation due to an error while interacting with plugins" Pstate=ready
++110s node=NotReady Pprims=cluster1-instance1-px4v-0,cluster1-instance1-txcs-0, Cprim=cluster-example-3 Cphase="Cluster cannot proceed to reconciliation due to an error while interacting with plugins" Pstate=ready
++121s node=NotReady Pprims=cluster1-instance1-px4v-0,cluster1-instance1-txcs-0, Cprim=cluster-example-3 Cphase="Cluster cannot proceed to reconciliation due to an error while interacting with plugins" Pstate=initializing
++132s node=NotReady Pprims=cluster1-instance1-px4v-0,cluster1-instance1-txcs-0, Cprim=cluster-example-3 Cphase="Cluster cannot proceed to reconciliation due to an error while interacting with plugins" Pstate=initializing
++143s node=NotReady Pprims=cluster1-instance1-px4v-0,cluster1-instance1-txcs-0, Cprim=cluster-example-3 Cphase="Cluster cannot proceed to reconciliation due to an error while interacting with plugins" Pstate=initializing
++155s node=NotReady Pprims=cluster1-instance1-px4v-0,cluster1-instance1-txcs-0, Cprim=cluster-example-3 Cphase="Cluster cannot proceed to reconciliation due to an error while interacting with plugins" Pstate=initializing
++166s node=NotReady Pprims=cluster1-instance1-px4v-0,cluster1-instance1-txcs-0, Cprim=cluster-example-3 Cphase="Cluster cannot proceed to reconciliation due to an error while interacting with plugins" Pstate=initializing
++177s node=NotReady Pprims=cluster1-instance1-px4v-0,cluster1-instance1-txcs-0, Cprim=cluster-example-3 Cphase="Cluster cannot proceed to reconciliation due to an error while interacting with plugins" Pstate=initializing
++188s node=NotReady Pprims=cluster1-instance1-px4v-0,cluster1-instance1-txcs-0, Cprim=cluster-example-3 Cphase="Cluster cannot proceed to reconciliation due to an error while interacting with plugins" Pstate=initializing
++198s node=NotReady Pprims=cluster1-instance1-px4v-0,cluster1-instance1-txcs-0, Cprim=cluster-example-3 Cphase="Cluster cannot proceed to reconciliation due to an error while interacting with plugins" Pstate=initializing
++210s node=NotReady Pprims=cluster1-instance1-px4v-0,cluster1-instance1-txcs-0, Cprim=cluster-example-3 Cphase="Cluster cannot proceed to reconciliation due to an error while interacting with plugins" Pstate=initializing
++221s node=NotReady Pprims=cluster1-instance1-px4v-0,cluster1-instance1-txcs-0, Cprim=cluster-example-3 Cphase="Cluster cannot proceed to reconciliation due to an error while interacting with plugins" Pstate=initializing
++232s node=NotReady Pprims=cluster1-instance1-px4v-0,cluster1-instance1-txcs-0, Cprim=cluster-example-3 Cphase="Cluster cannot proceed to reconciliation due to an error while interacting with plugins" Pstate=initializing
++244s node=NotReady Pprims=cluster1-instance1-px4v-0,cluster1-instance1-txcs-0, Cprim=cluster-example-3 Cphase="Cluster cannot proceed to reconciliation due to an error while interacting with plugins" Pstate=initializing
++255s node=NotReady Pprims=cluster1-instance1-px4v-0,cluster1-instance1-txcs-0, Cprim=cluster-example-3 Cphase="Cluster cannot proceed to reconciliation due to an error while interacting with plugins" Pstate=initializing
++266s node=NotReady Pprims=cluster1-instance1-px4v-0,cluster1-instance1-txcs-0, Cprim=cluster-example-3 Cphase="Cluster cannot proceed to reconciliation due to an error while interacting with plugins" Pstate=initializing
++277s node=NotReady Pprims=cluster1-instance1-px4v-0,cluster1-instance1-txcs-0, Cprim=cluster-example-3 Cphase="Cluster cannot proceed to reconciliation due to an error while interacting with plugins" Pstate=initializing
++288s node=NotReady Pprims=cluster1-instance1-px4v-0,cluster1-instance1-txcs-0, Cprim=cluster-example-3 Cphase="Cluster cannot proceed to reconciliation due to an error while interacting with plugins" Pstate=initializing
++299s node=NotReady Pprims=cluster1-instance1-px4v-0,cluster1-instance1-txcs-0, Cprim=cluster-example-3 Cphase="Cluster cannot proceed to reconciliation due to an error while interacting with plugins" Pstate=initializing
++310s node=NotReady Pprims=cluster1-instance1-px4v-0,cluster1-instance1-txcs-0, Cprim=cluster-example-3 Cphase="Cluster cannot proceed to reconciliation due to an error while interacting with plugins" Pstate=initializing
++322s node=NotReady Pprims=cluster1-instance1-px4v-0,cluster1-instance1-txcs-0, Cprim=cluster-example-3 Cphase="Cluster cannot proceed to reconciliation due to an error while interacting with plugins" Pstate=initializing
++333s node=NotReady Pprims=cluster1-instance1-px4v-0,cluster1-instance1-txcs-0, Cprim=cluster-example-3 Cphase="Cluster cannot proceed to reconciliation due to an error while interacting with plugins" Pstate=initializing
++344s node=NotReady Pprims=cluster1-instance1-px4v-0,cluster1-instance1-txcs-0, Cprim=cluster-example-3 Cphase="Cluster cannot proceed to reconciliation due to an error while interacting with plugins" Pstate=initializing
++355s node=NotReady Pprims=cluster1-instance1-px4v-0,cluster1-instance1-txcs-0, Cprim=cluster-example-3 Cphase="Cluster cannot proceed to reconciliation due to an error while interacting with plugins" Pstate=initializing
++366s node=NotReady Pprims=cluster1-instance1-px4v-0,cluster1-instance1-txcs-0, Cprim=cluster-example-3 Cphase="Cluster cannot proceed to reconciliation due to an error while interacting with plugins" Pstate=initializing
++378s node=NotReady Pprims=cluster1-instance1-px4v-0,cluster1-instance1-txcs-0, Cprim=cluster-example-3 Cphase="Cluster cannot proceed to reconciliation due to an error while interacting with plugins" Pstate=initializing
++389s node=NotReady Pprims=cluster1-instance1-px4v-0,cluster1-instance1-txcs-0, Cprim=cluster-example-3 Cphase="Failing over" Pstate=initializing
++400s node=NotReady Pprims=cluster1-instance1-px4v-0,cluster1-instance1-txcs-0, Cprim=cluster-example-3 Cphase="Failing over" Pstate=initializing
++411s node=NotReady Pprims=cluster1-instance1-px4v-0,cluster1-instance1-txcs-0, Cprim=cluster-example-1 Cphase="Waiting for the instances to become active" Pstate=initializing
++422s node=NotReady Pprims=cluster1-instance1-px4v-0,cluster1-instance1-txcs-0, Cprim=cluster-example-1 Cphase="Waiting for the instances to become active" Pstate=initializing
++433s node=NotReady Pprims=cluster1-instance1-px4v-0,cluster1-instance1-txcs-0, Cprim=cluster-example-1 Cphase="Waiting for the instances to become active" Pstate=initializing
++444s node=NotReady Pprims=cluster1-instance1-px4v-0,cluster1-instance1-txcs-0, Cprim=cluster-example-1 Cphase="Waiting for the instances to become active" Pstate=initializing
++456s node=NotReady Pprims=cluster1-instance1-px4v-0,cluster1-instance1-txcs-0, Cprim=cluster-example-1 Cphase="Waiting for the instances to become active" Pstate=initializing
++467s node=NotReady Pprims=cluster1-instance1-px4v-0,cluster1-instance1-txcs-0, Cprim=cluster-example-1 Cphase="Waiting for the instances to become active" Pstate=initializing
++478s node=NotReady Pprims=cluster1-instance1-px4v-0,cluster1-instance1-txcs-0, Cprim=cluster-example-1 Cphase="Waiting for the instances to become active" Pstate=initializing
++489s node=NotReady Pprims=cluster1-instance1-px4v-0,cluster1-instance1-txcs-0, Cprim=cluster-example-1 Cphase="Waiting for the instances to become active" Pstate=initializing
++500s node=NotReady Pprims=cluster1-instance1-px4v-0,cluster1-instance1-txcs-0, Cprim=cluster-example-1 Cphase="Waiting for the instances to become active" Pstate=initializing
++511s node=NotReady Pprims=cluster1-instance1-px4v-0,cluster1-instance1-txcs-0, Cprim=cluster-example-1 Cphase="Waiting for the instances to become active" Pstate=initializing
++523s node=NotReady Pprims=cluster1-instance1-px4v-0,cluster1-instance1-txcs-0, Cprim=cluster-example-1 Cphase="Waiting for the instances to become active" Pstate=initializing
++534s node=NotReady Pprims=cluster1-instance1-px4v-0,cluster1-instance1-txcs-0, Cprim=cluster-example-1 Cphase="Waiting for the instances to become active" Pstate=initializing
++545s node=NotReady Pprims=cluster1-instance1-px4v-0,cluster1-instance1-txcs-0, Cprim=cluster-example-1 Cphase="Waiting for the instances to become active" Pstate=initializing
++556s node=NotReady Pprims=cluster1-instance1-px4v-0,cluster1-instance1-txcs-0, Cprim=cluster-example-1 Cphase="Waiting for the instances to become active" Pstate=initializing
++567s node=NotReady Pprims=cluster1-instance1-px4v-0,cluster1-instance1-txcs-0, Cprim=cluster-example-1 Cphase="Waiting for the instances to become active" Pstate=initializing
++579s node=NotReady Pprims=cluster1-instance1-px4v-0,cluster1-instance1-txcs-0, Cprim=cluster-example-1 Cphase="Waiting for the instances to become active" Pstate=initializing
++590s node=NotReady Pprims=cluster1-instance1-px4v-0,cluster1-instance1-txcs-0, Cprim=cluster-example-1 Cphase="Waiting for the instances to become active" Pstate=initializing
++601s node=NotReady Pprims=cluster1-instance1-px4v-0,cluster1-instance1-txcs-0, Cprim=cluster-example-1 Cphase="Waiting for the instances to become active" Pstate=initializing
++612s node=NotReady Pprims=cluster1-instance1-px4v-0,cluster1-instance1-txcs-0, Cprim=cluster-example-1 Cphase="Waiting for the instances to become active" Pstate=initializing

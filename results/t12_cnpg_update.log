@@ -1,0 +1,7 @@
+T=1791930915790
+cluster.postgresql.cnpg.io/cluster-example patched
+rolled 3 instances in 48s phase=Cluster in healthy state primary=cluster-example-1
+== cnpg
+main outage 13.6s starting +28.1s; 1 interval(s), total 13.6s; primary 10.42.2.17 -> 10.42.2.37
+   +28.1s .. +41.6s  (13.6s, 22 fails) top error: Is the server running on that host and accepting TCP/IP connections?
+DISRUPT +28.1s..+41.6s = 13.6s (22 fails)

@@ -1,0 +1,24 @@
+spec:
+  backups:
+    pgbackrest:
+      configuration:
+      - secret:
+          name: cluster1-pgbackrest-secrets
+      global:
+        repo2-path: /pgbackrest/postgres-operator/cluster1/repo2
+        repo2-s3-uri-style: path
+        repo2-storage-port: "9000"
+        repo2-retention-full: "5"
+      repos:
+      - name: repo1
+        schedules:
+          full: "0 0 * * 6"
+        volume:
+          volumeClaimSpec:
+            accessModes: [ReadWriteOnce]
+            resources: {requests: {storage: 1Gi}}
+      - name: repo2
+        s3:
+          bucket: percona
+          endpoint: minio.minio.svc
+          region: us-east-1

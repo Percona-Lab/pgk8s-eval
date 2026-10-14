@@ -1,0 +1,26 @@
+T=1791926033964
+deployment.apps/percona-postgresql-operator scaled
+T_EVENT=1791926039749
+operator down; deleting primary cluster1-instance1-7z2t-0
+pod "cluster1-instance1-7z2t-0" deleted from postgres-operator namespace
+primary now cluster1-instance1-txcs-0 at +3s
+cluster1-instance1-7z2t-0            6/6     Running     0          20s
+cluster1-instance1-px4v-0            6/6     Running     0          16m
+cluster1-instance1-txcs-0            6/6     Running     0          6m44s
++ Cluster: cluster1-ha (7696257670115754102) -------------------------+---------+-----------+----+-------------+-----+------------+-----+
+|           Member          |                   Host                  |   Role  |   State   | TL | Receive LSN | Lag | Replay LSN | Lag |
++---------------------------+-----------------------------------------+---------+-----------+----+-------------+-----+------------+-----+
+| cluster1-instance1-7z2t-0 | cluster1-instance1-7z2t-0.cluster1-pods | Replica | streaming |  5 |  0/2401D518 |   0 | 0/2401D518 |   0 |
+| cluster1-instance1-px4v-0 | cluster1-instance1-px4v-0.cluster1-pods | Replica | streaming |  5 |  0/2401D518 |   0 | 0/2401D518 |   0 |
+| cluster1-instance1-txcs-0 | cluster1-instance1-txcs-0.cluster1-pods | Leader  | running   |  5 |             |     |            |     |
++---------------------------+-----------------------------------------+---------+-----------+----+-------------+-----+------------+-----+
+deployment.apps/percona-postgresql-operator scaled
+== pdirect
+first_fail +6.6s; write outage 3.4s (last OK before -> first OK after); failed attempts 13; primary 10.42.2.12 -> 10.42.1.18
+   8x Is the server running on that host and accepting TCP/IP conn
+   4x psql: error: connection to server at "cluster1-primary.postg
+   1x before or while processing the request.
+== pbouncer
+first_fail +6.7s; write outage 17.6s (last OK before -> first OK after); failed attempts 34; primary 10.42.2.12 -> 10.42.1.18
+   32x connection to server at "cluster1-pgbouncer.postgres-operato
+   2x psql: error: connection to server at "cluster1-pgbouncer.pos

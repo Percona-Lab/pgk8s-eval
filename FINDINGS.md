@@ -100,3 +100,20 @@ Both run Patroni with the Kubernetes API as DCS and behaved the same under fault
 - PostGIS 3.6.
 - The extensions listed above.
 - `volumes.temp`, Patroni logging, and Service traffic/IP-family policies.
+
+## Cross-site DR switchover (two namespaces as two sites, shared S3, 1 instance per site)
+
+Three writer clients per site log every acknowledged commit. Write downtime runs from the last ack on the old primary to the first ack on the new one; it excludes repointing applications.
+
+| Run | Write downtime | Acked writes lost | Old primary afterwards |
+|---|---|---|---|
+| CNPG 1.30.1, archive-only, documented demote → `demotionToken` → promote with `promotionToken` | 8.5 s | 0 of 808 | Same pod and PVC; replica of new primary; caught up when the next WAL segment was archived (archive_timeout 5 min) |
+| CNPG, no token, but the stale `promotionToken` left in the old primary's spec made its demotion **fail at admission**; promotion of the other side succeeded | — (both primaries ~170 s) | **5,604 of 5,604** acked on the old primary missing on the new | Diverged: "requested timeline 3 is not a child of this server's history"; PostgreSQL down while the Cluster reported "healthy"; rebuilt site B |
+| CNPG, no token, proper demotion (race won) | 6.4 s | 0 of 803 | Rejoined automatically |
+| Percona 3.1.0, repo-only standby, manual demote → wait for stable replay LSN → promote | 24.7 s (manual waits) | 0 of 819 | **Diverged** (shutdown checkpoint in unarchived segment: 0/70000A0 vs 0/7000000 received); no automatic rewind without a streaming source; rebuild needed |
+| Percona, streaming + repo standby, same careful procedure | 24.2 s | 0 of 853 | Same pod and PVC; streaming from new primary immediately |
+| Percona, streaming + repo, demote and promote immediately (no wait) | 1.9 s | 0 of 946 | Diverged slightly; **Patroni ran pg_rewind automatically**; streaming within seconds |
+
+Neither operator blocks a second primary across clusters. CNPG's token handshake (`.partial` WAL archived on demotion plus a promotion that waits for that LSN) is the safe path for **archive-only** DR. Percona has no equivalent there and no documented role-reversal procedure. With streaming between sites, Percona's switchover worked without a rebuild and self-healed through pg_rewind.
+
+Side finding: after deleting and recreating a PerconaPGCluster with the same name, a leftover `PerconaPGBackup` (no owner reference) made the new cluster report `replicaCreateBackupComplete: true` without taking a backup. The repo was empty, and the standby failed with "no backup set found to restore".

@@ -1,0 +1,8 @@
+cluster.postgresql.cnpg.io/dr-b patched
+NAME     READY   STATUS    RESTARTS   AGE
+dr-b-1   1/2     Running   0          14m
+command terminated with exit code 2
+Cluster in healthy state
+      1 "msg":"PostgreSQL process exited with errors
+      1 "message":"requested timeline 3 is not a child of this server's history
+rows dr-b=command terminated with exit code 2 dr-a=6525

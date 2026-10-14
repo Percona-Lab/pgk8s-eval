@@ -1,0 +1,14 @@
+T=1791985349272
++1s dr-a demotion requested
++1s dr-b promotion requested WITHOUT token
++8s dr-b writable (in_recovery=f)
++8s dr-a in recovery=t
+site A: 803 acked writes, last ack +1.6s after switchover start
+site B: 939 acked writes, first ack +8.0s
+WRITE DOWNTIME across sites: 6.4s (last ack on A -> first ack on B)
+site-A acknowledged writes MISSING on new primary B: 0 of 803
+after 120s rows: dr-b=1742 dr-a=1742
+NAME     READY   STATUS    RESTARTS   AGE
+dr-a-1   2/2     Running   0          56m
+Cluster in healthy state
+      1 "message":"new target timeline is 4

@@ -1,0 +1,18 @@
+T=1791985116944
++1s drb demotion requested
++1s dra promotion requested immediately (no wait)
++10s dra writable (in_recovery=f)
++22s drb in recovery=t
+final LSNs: dra 0/C01C558  drb(replay) 0/C01CD40
+site A: 946 acked writes, last ack +7.5s after switchover start
+site B: 1323 acked writes, first ack +9.4s
+WRITE DOWNTIME across sites: 1.9s (last ack on A -> first ack on B)
+site-A acknowledged writes MISSING on new primary B: 0 of 946
+after 60s rows: dra=4619 drb=4619
+streaming|dra-primary.pct-a.svc.cluster.local
+2026-10-14 13:38:58.796 UTC [1955] FATAL:  the database system is not yet accepting connections
+2026-10-14 13:38:58.810 UTC [1961] FATAL:  the database system is not yet accepting connections
+2026-10-14 13:38:59.132 UTC [1968] LOG:  started streaming WAL from primary at 0/C000000 on timeline 3
+2026-10-14 13:38:56,817 INFO:  stderr=pg_rewind: servers diverged at WAL location 0/C000000 on timeline 2
+pg_rewind: rewinding from last common checkpoint at 0/8084F98 on timeline 2
+pg_rewind: Done!

@@ -1,0 +1,10 @@
+ts(){ echo "+$(( ($(date +%s%3N)-T)/1000 ))s"; }
+PA=$(kubectl -n pct-a get pods -l postgres-operator.crunchydata.com/data=postgres -o name|head -1|cut -d/ -f2); PB=$(kubectl -n pct-b get pods -l postgres-operator.crunchydata.com/data=postgres -o name|head -1|cut -d/ -f2)
+ua=$(kubectl -n pct-a get pod $PA -o jsonpath={.metadata.uid}); pvca=$(kubectl -n pct-a get pod $PA -o jsonpath='{.spec.volumes[?(@.name=="postgres-data")].persistentVolumeClaim.claimName}'); pa=$(kubectl -n pct-a get pvc $pvca -o jsonpath={.metadata.uid})
+kubectl -n pct-a patch pg dra --type=merge -p '{"spec":{"standby":{"enabled":true,"repoName":"repo1","host":"drb-primary.pct-b.svc.cluster.local","port":5432}}}' >/dev/null; echo "$(ts) dra demotion requested (standby.enabled=true)"
+for i in $(seq 1 120); do r=$(kubectl -n pct-a exec $PA -c database -- psql -XAtc "select pg_is_in_recovery()" 2>/dev/null); [ "$r" = t ] && break; sleep 1; done; echo "$(ts) dra in recovery=$r"
+p=""; n=0; for i in $(seq 1 120); do l=$(kubectl -n pct-b exec $PB -c database -- psql -XAtc "select pg_last_wal_replay_lsn()" 2>/dev/null); if [ "$l" = "$p" ]; then n=$((n+1)); else n=0; fi; [ $n -ge 3 ] && break; p=$l; sleep 5; done; echo "$(ts) drb replay LSN stable at $l (dra was at $(kubectl -n pct-a exec $PA -c database -- psql -XAtc 'select pg_last_wal_replay_lsn()' 2>/dev/null))"
+kubectl -n pct-b patch pg drb --type=merge -p '{"spec":{"standby":{"enabled":false}}}' >/dev/null; echo "$(ts) drb promotion requested"
+for i in $(seq 1 300); do r=$(kubectl -n pct-b exec $PB -c database -- psql -XAtc "select pg_is_in_recovery()" 2>/dev/null); [ "$r" = f ] && break; sleep 1; done; echo "$(ts) drb writable (in_recovery=$r)"
+sleep 20; echo "dra pod uid unchanged: $([ "$ua" = "$(kubectl -n pct-a get pod $PA -o jsonpath={.metadata.uid})" ] && echo yes || echo no-recreated); PVC unchanged: $([ "$pa" = "$(kubectl -n pct-a get pvc $pvca -o jsonpath={.metadata.uid})" ] && echo yes || echo NO-reclone)"
+echo "dra in recovery (now standby of drb): $(kubectl -n pct-a exec $PA -c database -- psql -XAtc 'select pg_is_in_recovery()')"

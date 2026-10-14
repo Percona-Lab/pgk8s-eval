@@ -1,0 +1,16 @@
+T=1791984925941
++2s dra demotion requested (standby.enabled=true)
++9s dra in recovery=t
++26s drb replay LSN stable at 0/70000A0 (dra was at 0/70000A0)
++26s drb promotion requested
++29s drb writable (in_recovery=f)
+dra pod uid unchanged: yes; PVC unchanged: yes
+dra in recovery (now standby of drb): t
+site A: 853 acked writes, last ack +4.3s after switchover start
+site B: 1497 acked writes, first ack +28.5s
+WRITE DOWNTIME across sites: 24.2s (last ack on A -> first ack on B)
+site-A acknowledged writes MISSING on new primary B: 0 of 853
+after 60s rows: drb=2350 dra=2350
+streaming|drb-primary.pct-b.svc.cluster.local
+2026-10-14 13:35:31.098 UTC [2244] FATAL:  the database system is shutting down
+2026-10-14 13:35:34.197 UTC [2295] LOG:  started streaming WAL from primary at 0/7000000 on timeline 1

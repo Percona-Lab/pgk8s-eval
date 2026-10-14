@@ -1,0 +1,13 @@
+T=1791983336574
++2s dra demotion requested (standby.enabled=true)
++11s dra in recovery=t
++33s drb replay LSN stable at 0/6000000 (dra was at 0/60000A0)
++34s drb promotion requested
++37s drb writable (in_recovery=f)
+dra pod uid unchanged: yes; PVC unchanged: yes
+dra in recovery (now standby of drb): t
+after 150s rows: drb=0 dra=0
+dra-instance1-mg9b-0                           4/4     Running     0          7m43s
+2026-10-14 13:12:52.735 UTC [1405] LOG:  new timeline 2 forked off current database system timeline 1 before current recovery point 0/60000A0
+2026-10-14 13:12:57.867 UTC [1405] LOG:  new timeline 2 forked off current database system timeline 1 before current recovery point 0/60000A0
+2026-10-14 13:13:02.796 UTC [1405] LOG:  new timeline 2 forked off current database system timeline 1 before current recovery point 0/60000A0

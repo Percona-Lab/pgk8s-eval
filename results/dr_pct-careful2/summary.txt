@@ -1,0 +1,16 @@
+T=1791984255892
++3s dra demotion requested (standby.enabled=true)
++11s dra in recovery=t
++29s drb replay LSN stable at 0/7000000 (dra was at 0/70000A0)
++29s drb promotion requested
++31s drb writable (in_recovery=f)
+dra pod uid unchanged: yes; PVC unchanged: yes
+dra in recovery (now standby of drb): t
+site A: 819 acked writes, last ack +6.8s after switchover start
+site B: 1509 acked writes, first ack +31.5s
+WRITE DOWNTIME across sites: 24.7s (last ack on A -> first ack on B)
+site-A acknowledged writes MISSING on new primary B: 0 of 819
+after 120s rows: drb=2328 dra=819
+2026-10-14 13:27:41.873 UTC [3658] LOG:  restored log file "00000002.history" from archive
+2026-10-14 13:27:41.939 UTC [3658] LOG:  restored log file "00000002.history" from archive
+2026-10-14 13:27:41.941 UTC [3658] LOG:  new timeline 2 forked off current database system timeline 1 before current recovery point 0/70000A0

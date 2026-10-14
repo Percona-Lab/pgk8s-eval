@@ -1,0 +1,20 @@
+deployment "percona-postgresql-operator" successfully rolled out
+Waiting for deployment "percona-postgresql-operator" rollout to finish: 0 of 1 updated replicas are available...
+deployment "percona-postgresql-operator" successfully rolled out
+perconapgcluster.pgv2.percona.com/dra created
+dra=ready
+initial-backup-done
+perconapgcluster.pgv2.percona.com/drb created
+drb=ready
+t|0/4000000
+NAME                                           READY   STATUS      RESTARTS   AGE
+dra-backup-qhss-hmd66                          0/1     Completed   0          2m33s
+dra-instance1-mg9b-0                           4/4     Running     0          2m51s
+dra-pgbouncer-67859fb976-572pl                 2/2     Running     0          2m49s
+dra-repo-host-0                                2/2     Running     0          2m50s
+percona-postgresql-operator-6d5d77b89c-fll4v   1/1     Running     0          2m57s
+NAME                                           READY   STATUS    RESTARTS   AGE
+drb-instance1-gv5p-0                           4/4     Running   0          27s
+drb-pgbouncer-f84bf56bf-zvb48                  2/2     Running   0          27s
+drb-repo-host-0                                2/2     Running   0          27s
+percona-postgresql-operator-6d5d77b89c-zmw9n   1/1     Running   0          2m55s

@@ -1,0 +1,6 @@
+8
+{"primary":"dr-a","promotionToken":"","self":"dr-a","source":"dr-b"}
+cluster.postgresql.cnpg.io/dr-a patched
+site-a      dr-a              53m   1           1       Cluster in healthy state   dr-a-1
+site-b      dr-b              32s   1           1       Cluster in healthy state   dr-b-1
+t

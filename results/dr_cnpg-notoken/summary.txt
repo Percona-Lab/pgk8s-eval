@@ -1,0 +1,18 @@
+T=1791982674751
+The Cluster "dr-b" is invalid: spec.replicaCluster.token: Invalid value: "eyJsYXRlc3RDaGVja3BvaW50VGltZWxpbmVJRCI6IjEiLCJyZWRvV2FsRmlsZSI6IjAwMDAwMDAxMDAwMDAwMDAwMDAwMDAwNSIsImRhdGFiYXNlU3lzdGVtSWRlbnRpZmllciI6Ijc2OTY1MDQ2NTY2MzY2MDQ0MzYiLCJsYXRlc3RDaGVja3BvaW50UkVET0xvY2F0aW9uIjoiMC81MDAwMDI4IiwidGltZU9mTGF0ZXN0Q2hlY2twb2ludCI6IldlZCBPY3QgMTQgMTI6NTE6MTIgMjAyNiIsIm9wZXJhdG9yVmVyc2lvbiI6IjEuMzAuMSJ9": promotionToken is only allowed for primary clusters
++1s dr-b demotion requested
++1s dr-a promotion requested WITHOUT token
++5s dr-a writable (in_recovery=f)
++142s dr-b demotionToken present: no
+site A: 5604 acked writes, last ack +173.6s after switchover start
+site B: 4799 acked writes, first ack +4.4s
+WRITE DOWNTIME across sites: -169.2s (last ack on A -> first ack on B)
+site-A acknowledged writes MISSING on new primary B: 5604 of 5604
+   lost writes acked between +-25.9s and +173.6s
+site-a      dr-a              13m   1           1       Cluster in healthy state   dr-a-1
+site-b      dr-b              12m   1           1       Cluster in healthy state   dr-b-1
+Status:                  Cluster in healthy state 
+Name    Current LSN  Replication role  Status  QoS         Manager Version  Node
+Name                            Version  Status  Reported Operator Capabilities
+NAME     READY   STATUS    RESTARTS   AGE
+dr-b-1   2/2     Running   0          12m

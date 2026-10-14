@@ -1,0 +1,2 @@
+dra=ready drb=ready uri-host=dra-primary.pct-a.svc:5432/app
+streaming|dra-primary.pct-a.svc.cluster.local

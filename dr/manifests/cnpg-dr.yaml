@@ -1,0 +1,26 @@
+# applied to both namespaces: object stores for both sites
+apiVersion: barmancloud.cnpg.io/v1
+kind: ObjectStore
+metadata: {name: store-a}
+spec:
+  configuration:
+    destinationPath: s3://cnpg/dr/
+    endpointURL: https://minio.minio.svc:9000
+    endpointCA: {name: s3-ca, key: ca.crt}
+    s3Credentials:
+      accessKeyId: {name: s3-creds, key: ACCESS_KEY_ID}
+      secretAccessKey: {name: s3-creds, key: ACCESS_SECRET_KEY}
+    wal: {compression: gzip}
+---
+apiVersion: barmancloud.cnpg.io/v1
+kind: ObjectStore
+metadata: {name: store-b}
+spec:
+  configuration:
+    destinationPath: s3://cnpg/dr/
+    endpointURL: https://minio.minio.svc:9000
+    endpointCA: {name: s3-ca, key: ca.crt}
+    s3Credentials:
+      accessKeyId: {name: s3-creds, key: ACCESS_KEY_ID}
+      secretAccessKey: {name: s3-creds, key: ACCESS_SECRET_KEY}
+    wal: {compression: gzip}

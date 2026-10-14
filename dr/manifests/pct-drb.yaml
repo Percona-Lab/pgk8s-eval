@@ -1,0 +1,20 @@
+apiVersion: pgv2.percona.com/v2
+kind: PerconaPGCluster
+metadata: {name: drb, namespace: pct-b}
+spec:
+  crVersion: 3.1.0
+  image: docker.io/percona/percona-distribution-postgresql:18.6.1-3
+  postgresVersion: 18
+  users: [{name: app, databases: [app]}]
+  standby: {enabled: true, repoName: repo1}
+  instances:
+  - name: instance1
+    replicas: 1
+    dataVolumeClaimSpec: {accessModes: [ReadWriteOnce], resources: {requests: {storage: 1Gi}}}
+  proxy: {pgBouncer: {replicas: 1, image: docker.io/percona/percona-pgbouncer:1.25.2-8}}
+  backups:
+    pgbackrest:
+      image: docker.io/percona/percona-pgbackrest:2.59.1-2
+      configuration: [{secret: {name: dr-pgbackrest}}]
+      global: {repo1-path: /pgbackrest/dr/repo1, repo1-s3-uri-style: path, repo1-storage-port: "9000", repo1-storage-verify-tls: "n"}
+      repos: [{name: repo1, s3: {bucket: percona, endpoint: minio.minio.svc, region: us-east-1}}]

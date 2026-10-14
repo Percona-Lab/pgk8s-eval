@@ -1,0 +1,15 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata: {name: dr-a, namespace: site-a}
+spec:
+  instances: 1
+  storage: {size: 1Gi}
+  enableSuperuserAccess: true
+  superuserSecret: {name: dr-super}
+  bootstrap: {initdb: {database: app, owner: app}}
+  plugins:
+  - {name: barman-cloud.cloudnative-pg.io, isWALArchiver: true, parameters: {barmanObjectName: store-a}}
+  replica: {self: dr-a, primary: dr-a, source: dr-b}
+  externalClusters:
+  - {name: dr-a, plugin: {name: barman-cloud.cloudnative-pg.io, parameters: {barmanObjectName: store-a, serverName: dr-a}}}
+  - {name: dr-b, plugin: {name: barman-cloud.cloudnative-pg.io, parameters: {barmanObjectName: store-b, serverName: dr-b}}}

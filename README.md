@@ -31,6 +31,7 @@ Tests ran on 13–14 October 2026. A summary of results is in [FINDINGS.md](FIND
 | [`notes/`](notes/) | Documentation review (`docs_review.md`), split-brain research (`isolated_primary_research.md`), Crunchy status, CRD mapping and migration research (`crunchy_research.md`), and a snapshot of Percona's Crunchy migration guides as tested (`percona-migration-docs/`) |
 | [`issues/`](issues/) | Bodies of the GitHub issues and comments filed from this work |
 | [`crunchy/`](crunchy/) | Crunchy PGO v6.0.3 install kustomization, the `hippo` source cluster, Percona migration targets (`mig-restore`, `mig-standby`, `mig-volume`), failover scenarios (`k_*`) and migration scripts (`m2_cutover.sh`, `m3_volume.sh`) |
+| [`dr/`](dr/) | Cross-site DR switchover tests: two-site CNPG replica clusters (distributed topology) and Percona standby clusters (repo-only and streaming), runner, analyzer, scenarios |
 | [`reports/`](reports/) | Standalone HTML reports: the full comparison, and product/docs recommendations for Percona. Download and open them locally |
 
 ## Reproducing

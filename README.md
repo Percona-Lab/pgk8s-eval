@@ -1,11 +1,12 @@
-# pgk8s-eval: Percona Operator for PostgreSQL vs CloudNativePG
+# pgk8s-eval: Percona Operator for PostgreSQL vs CloudNativePG and Crunchy PGO
 
-Hands-on evaluation of two PostgreSQL operators for Kubernetes on identical hardware. Both were installed from their own documentation and then put through failover, split-brain, backup/PITR and troubleshooting scenarios.
+Hands-on evaluation of PostgreSQL operators for Kubernetes on identical hardware. It also covers migration from Crunchy PGO v6 to Percona. Both were installed from their own documentation and then put through failover, split-brain, backup/PITR and troubleshooting scenarios.
 
 | Operator | Version | HA | Backup |
 |---|---|---|---|
 | [Percona Operator for PostgreSQL](https://github.com/percona/percona-postgresql-operator) | 3.1.0 | Patroni 4.1.5, Kubernetes API as DCS | pgBackRest 2.59 |
 | [CloudNativePG](https://github.com/cloudnative-pg/cloudnative-pg) | 1.30.1 | Instance manager + operator, primary Lease | Barman Cloud plugin 0.15.1 |
+| [Crunchy Postgres for Kubernetes (PGO)](https://github.com/CrunchyData/postgres-operator) | 6.0.3 | Patroni (same design as Percona) | pgBackRest 2.59 |
 
 Tests ran on 13–14 October 2026. A summary of results is in [FINDINGS.md](FINDINGS.md). Every number in it can be traced to a log in [`results/`](results/).
 
@@ -27,8 +28,9 @@ Tests ran on 13–14 October 2026. A summary of results is in [FINDINGS.md](FIND
 | [`failover/`](failover/) | Write probe (`probe.sh`), outage analyzer (`analyze.py`), scenario runner (`run.sh`) and the scenario scripts in [`failover/scenarios/`](failover/scenarios/) (`p_*` = Percona, `c_*` = CloudNativePG) |
 | [`splitbrain/`](splitbrain/) | Split-brain harness: persistent-connection writers (`writer.sh`, `writers.yaml.tpl`), pod-level partition (`isolate.sh`), control-plane-only "blind spot" fault (`blindspot.sh`), VM-pause approximation (`freeze.sh`), cleanup, runners (`run.sh`, `run_fault.sh`, `chain*.sh`) and the ledger analyzer (`analyze_sb.py`) |
 | [`results/`](results/) | Raw logs and per-run analyses (see the index below) |
-| [`notes/`](notes/) | Documentation review of both operators (`docs_review.md`), and research on public isolated-primary and split-brain reports (`isolated_primary_research.md`) |
+| [`notes/`](notes/) | Documentation review (`docs_review.md`), split-brain research (`isolated_primary_research.md`), Crunchy status, CRD mapping and migration research (`crunchy_research.md`), and a snapshot of Percona's Crunchy migration guides as tested (`percona-migration-docs/`) |
 | [`issues/`](issues/) | Bodies of the GitHub issues and comments filed from this work |
+| [`crunchy/`](crunchy/) | Crunchy PGO v6.0.3 install kustomization, the `hippo` source cluster, Percona migration targets (`mig-restore`, `mig-standby`, `mig-volume`), failover scenarios (`k_*`) and migration scripts (`m2_cutover.sh`, `m3_volume.sh`) |
 | [`reports/`](reports/) | Standalone HTML reports: the full comparison, and product/docs recommendations for Percona. Download and open them locally |
 
 ## Reproducing
@@ -66,10 +68,23 @@ Scripts assume the host names `pk-cp`, `pk-w1..3` in an SSH config, plus the nam
 | Split-brain (pod partition, persistent clients) | `sb_cnpg-default`, `sb_cnpg-sst0`, `sb_cnpg-sst0-fd30`, `sb_cnpg-syncquorum`, `sb_pct-direct`, `sb_pct-bouncer` |
 | Control-plane-only "blind spot" | `sb_cnpg-blindspot`, `sb_pct-blindspot` |
 | VM-pause approximation | `sb_cnpg-freeze30`, `sb_cnpg-freeze120`, `sb_pct-freeze120` |
+| Crunchy install, config/extension diff vs Percona, v6 features | `crunchy_install.log`, `crunchy_cluster.log`, `crunchy_vs_percona_config.txt`, `crunchy_vs_percona_sql.txt`, `crunchy_v6_features.txt` |
+| Crunchy failover and split-brain | `k1_*`, `k3_*`, `k4_*`, `sb_crunchy-direct` |
+| Crunchy → Percona migration: backup/restore | `mig_source_backup.log`, `mig1_restore_validation.txt`, `mig1_pgcron_enable.txt` |
+| Crunchy → Percona migration: standby + cutover + rollback | `mig2_standby_setup.log`, `m2_standby_cutover.log`, `mig2_standby_validation.txt`, `mig2_rollback.log`, `mig2_shared_repo_after_rollback.txt` |
+| Crunchy → Percona migration: volume reuse | `m3_volume_reuse.log` |
 
 Each `sb_*` directory holds the writer ledgers (`c1..c3.log`), the final table (`final.txt`), cluster status every 10 s (`status.log`), and `analysis.txt`. In runs where no failover happened (`sb_cnpg-blindspot`, `sb_cnpg-freeze30`), the "old primary" simply stayed primary.
 
 `sb_INVALID_hostns_partition` is kept for transparency. A script bug applied the partition to the whole node instead of the pod, so it is excluded from all findings.
+
+## Crunchy PGO
+
+Crunchy images come from the Crunchy Developer Portal and are subject to the [Crunchy Developer Program terms](https://www.crunchydata.com/developers/terms-of-use); they were used here for evaluation only.
+
+The Crunchy operator was installed cluster-wide into namespace `pgo` with `kubectl apply --server-side -k` on a kustomization over `config/default` at tag v6.0.3. The cluster `hippo` ran in namespace `crunchy`, next to the Percona operator in `postgres-operator`.
+
+The three migration methods followed [Percona's guides](https://docs.percona.com/percona-operator-for-postgresql/latest/migrate-from-crunchy.html), which are written for Crunchy 5.8.x, and then fixed where they failed. The volume-reuse test deletes the Crunchy cluster.
 
 ## Limitations
 

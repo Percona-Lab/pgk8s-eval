@@ -1,0 +1,20 @@
+== crunchy timeline/LSN
+7
+000000070000000000000036||0
+== percona timeline
+6
+000000060000000000000037||0
+== pgbackrest info on shared repo
+stanza: db
+    status: ok
+    cipher: none
+
+    db (current)
+        wal archive min/max (18): 000000010000000000000001/000000070000000000000036
+
+        full backup: 20261014-111132F
+            timestamp start/stop: 2026-10-14 11:11:32+00 / 2026-10-14 11:11:55+00
+            wal start/stop: 000000050000000000000029 / 000000050000000000000029
+            database size: 332MB, database backup size: 332MB
+            repo1: backup set size: 20.6MB, backup size: 20.6MB
+== archive errors (crunchy log)

@@ -1,0 +1,11 @@
+secret/hippo-cluster-cert created
+secret/hippo-replication-cert created
+perconapgcluster.pgv2.percona.com/mig-standby created
+mig-standby state=ready after 55s
+mig-standby-instance1-g6b2-0                   4/4     Running     0             53s
+mig-standby-instance1-spp2-0                   4/4     Running     0             53s
+mig-standby-pgbouncer-69977b9477-c6lt6         2/2     Running     0             51s
+mig-standby-repo-host-0                        2/2     Running     0             52s
+hippo-instance1-rnf6-0|10.42.2.40|streaming|0|00:00:00.002594
+hippo-instance1-lkfb-0|10.42.3.55|streaming|0|00:00:00.002232
+mig-standby-instance1-g6b2-0|10.42.1.62|streaming|0|

@@ -1,0 +1,18 @@
+Percona generated a NEW password in mig-standby-pguser-hippo
+-- login with OLD Crunchy password:
+connection to server at "mig-standby-primary" (10.43.51.69), port 5432 failed: FATAL:  no pg_hba.conf entry for host "10.42.1.1", user "hippo", database "hippo", no encryption
+psql: error: connection to server at "mig-standby-primary" (10.43.51.69), port 5432 failed: FATAL:  password authentication failed for user "hippo"
+-- login with NEW Percona-secret password:
+login with Crunchy password OK as hippo
+-- extensions:
+pg_cron,pg_partman,pg_stat_statements,pgaudit,plpgsql,plpython3u,set_user
+postgres
+pg_stat_statements,pgaudit,pg_cron,set_user
+-- TLS cert served by Percona primary (issuer/subject SANs):
+subject=CN = hippo-primary.crunchy.svc.cluster.local.
+issuer=CN = postgres-operator-ca
+notAfter=Oct 14 10:49:11 2027 GMT
+X509v3 Subject Alternative Name: 
+    DNS:hippo-primary.crunchy.svc.cluster.local., DNS:hippo-primary.crunchy.svc, DNS:hippo-primary.crunchy, DNS:hippo-primary, DNS:hippo-replicas.crunchy.svc.cluster.local., DNS:hippo-replicas.crunchy.svc, DNS:hippo-replicas.crunchy, DNS:hippo-replicas
+-- backup repo after promotion:
+[{"name":"repo1","replicaCreateBackupComplete":true,"repoOptionsHash":"8f5b975b5","stanzaCreated":true}]

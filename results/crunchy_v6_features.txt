@@ -1,0 +1,17 @@
+== v6 defaults observed on hippo
+/pgdata/logs/postgres
+   PGO_FEATURE_GATES = None
+== enable pgMonitor exporter + autoGrow (v6) on hippo
+postgrescluster.postgres-operator.crunchydata.com/hippo patched
+containers now: database replication-cert-copy pgbackrest pgbackrest-config exporter
+exporter metrics: 0 ccp_* lines
+== pgAdmin CRD (v6 standalone)
+pgadmin.postgres-operator.crunchydata.com/rhino created
+pgadmin-9832853e-29b1-4a31-83bb-e7b82747feb9-0   1/1     Running     0          60s
+== same PGAdmin kind under Percona upstream group:
+v1beta1
+0
+
+hippo-instance1-8r7n-pgdata                    Bound    pvc-560cd4b9-3fe2-46a4-bd19-133278258773   1Gi        RWO            local-path     <unset>                 38m
+hippo-instance1-lkfb-pgdata                    Bound    pvc-71b73ba1-e17c-4912-b2e8-346b68c7683c   1Gi        RWO            local-path     <unset>                 38m
+hippo-instance1-rnf6-pgdata                    Bound    pvc-b1115366-5726-4177-aaf8-1b2121d34af1   1Gi        RWO            local-path     <unset>                 38m

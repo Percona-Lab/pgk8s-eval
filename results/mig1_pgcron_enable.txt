@@ -1,0 +1,15 @@
+perconapgcluster.pgv2.percona.com/mig-restore patched
+preload: pg_stat_statements,pgaudit,pg_cron
+postgres
+postgres,template1,template0,hippo
+-- postgres db cron jobs:
+0
+-- hippo db cron jobs + runs:
+partman-maintenance
+heartbeat
+0
+source data loaded|2026-10-14 10:53:28.13466+00
+before M1 restore|2026-10-14 11:12:31.120941+00
+cron heartbeat|2026-10-14 11:12:00.007768+00
+-- extensions now:
+plpgsql,pgaudit,pg_partman,plpython3u,pg_cron,pg_stat_statements

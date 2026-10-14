@@ -1,0 +1,21 @@
+T=1791975287417
+crunchy primary hippo-instance1-lkfb-0
+pod "hippo-instance1-lkfb-0" deleted from crunchy namespace
+new primary hippo-instance1-rnf6-0 labelled at +4s, all 3 ready at +11s
+== cdirect
+main outage 2.4s starting +1.0s; 1 interval(s), total 2.4s; primary 10.42.3.54 -> 10.42.2.40
+   +1.0s .. +3.5s  (2.4s, 9 fails) top error: Is the server running on that host and accepting TCP/IP connections?
+DISRUPT +1.0s..+3.5s = 2.4s (9 fails)
+== cbouncer
+main outage 3.5s starting +1.3s; 10 interval(s), total 10.2s; primary 10.42.3.54 -> 10.42.2.40
+   +1.3s .. +4.8s  (3.5s, 4 fails) top error: connection to server at "hippo-pgbouncer.crunchy.svc" (10.43.204.121),
+   +5.5s .. +6.0s  (0.5s, 1 fails) top error: connection to server at "hippo-pgbouncer.crunchy.svc" (10.43.204.121),
+   +6.0s .. +6.5s  (0.5s, 1 fails) top error: connection to server at "hippo-pgbouncer.crunchy.svc" (10.43.204.121),
+   +7.1s .. +8.2s  (1.2s, 3 fails) top error: connection to server at "hippo-pgbouncer.crunchy.svc" (10.43.204.121),
+   +8.9s .. +10.1s  (1.2s, 4 fails) top error: connection to server at "hippo-pgbouncer.crunchy.svc" (10.43.204.121),
+   +10.1s .. +10.5s  (0.5s, 1 fails) top error: connection to server at "hippo-pgbouncer.crunchy.svc" (10.43.204.121),
+   +11.6s .. +12.2s  (0.6s, 1 fails) top error: connection to server at "hippo-pgbouncer.crunchy.svc" (10.43.204.121),
+   +12.9s .. +13.4s  (0.5s, 1 fails) top error: connection to server at "hippo-pgbouncer.crunchy.svc" (10.43.204.121),
+   +13.4s .. +14.5s  (1.1s, 3 fails) top error: connection to server at "hippo-pgbouncer.crunchy.svc" (10.43.204.121),
+   +16.3s .. +17.0s  (0.7s, 2 fails) top error: connection to server at "hippo-pgbouncer.crunchy.svc" (10.43.204.121),
+DISRUPT +1.3s..+17.0s = 15.7s (21 fails)

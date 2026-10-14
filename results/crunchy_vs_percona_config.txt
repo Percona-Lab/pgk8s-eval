@@ -1,0 +1,135 @@
+################ crunchy/hippo
+== services
+hippo-ha ClusterIP 5432/TCP
+hippo-ha-config ClusterIP <none>
+hippo-pgbouncer ClusterIP 5432/TCP
+hippo-pods ClusterIP <none>
+hippo-primary ClusterIP 5432/TCP
+hippo-replicas ClusterIP 5432/TCP
+== secrets
+hippo-cluster-cert hippo-instance1-8r7n-certs hippo-instance1-lkfb-certs hippo-instance1-rnf6-certs hippo-pgbackrest hippo-pgbackrest-secrets hippo-pgbouncer hippo-pguser-hippo hippo-replication-cert 
+== user secret hippo-pguser-hippo keys: ['dbname', 'host', 'jdbc-uri', 'password', 'pgbouncer-host', 'pgbouncer-jdbc-uri', 'pgbouncer-port', 'pgbouncer-uri', 'port', 'uri', 'user', 'verifier']
+== primary pod/hippo-instance1-lkfb-0 labels:
+   apps.kubernetes.io/pod-index = 0
+   controller-revision-hash = hippo-instance1-lkfb-7ff67d855f
+   postgres-operator.crunchydata.com/cluster = hippo
+   postgres-operator.crunchydata.com/data = postgres
+   postgres-operator.crunchydata.com/instance = hippo-instance1-lkfb
+   postgres-operator.crunchydata.com/instance-set = instance1
+   postgres-operator.crunchydata.com/patroni = hippo-ha
+   postgres-operator.crunchydata.com/role = master
+   statefulset.kubernetes.io/pod-name = hippo-instance1-lkfb-0
+== containers: database replication-cert-copy pgbackrest pgbackrest-config | init: postgres-startup nss-wrapper-init
+== images:
+database=registry.developers.crunchydata.com/crunchydata/crunchy-postgres:ubi9-18.6-2633
+pgbackrest-config=registry.developers.crunchydata.com/crunchydata/crunchy-pgbackrest:ubi9-2.59.0-2633
+pgbackrest=registry.developers.crunchydata.com/crunchydata/crunchy-pgbackrest:ubi9-2.59.0-2633
+replication-cert-copy=registry.developers.crunchydata.com/crunchydata/crunchy-postgres:ubi9-18.6-2633
+== resources db: {}
+== PG version/extensions:
+PostgreSQL 18.6 on x86_64-pc-linux-gnu, compiled by gcc (GCC) 11.5.0 20240719 (Red Hat 11.5.0-14), 64-bit
+ERROR:  column ',' does not exist
+LINE 1: select string_agg(name,',' order by name) from pg_available_...
+                               ^
+command terminated with exit code 1
+== shared_preload_libraries / key settings:
+ERROR:  column '=' does not exist
+LINE 1: select name||'='||setting from pg_settings where name in ('s...
+                     ^
+command terminated with exit code 1
+== patroni config:
+loop_wait: 10
+postgresql:
+  parameters:
+    archive_command: pgbackrest --stanza=db archive-push '%p'
+    archive_mode: 'on'
+    archive_timeout: 60s
+    huge_pages: 'off'
+    jit: 'off'
+    log_directory: /pgdata/logs/postgres
+    log_file_mode: '0660'
+    password_encryption: scram-sha-256
+    restore_command: pgbackrest --stanza=db archive-get %f '%p'
+    shared_preload_libraries: pgaudit
+    ssl: 'on'
+    ssl_ca_file: /pgconf/tls/ca.crt
+    ssl_cert_file: /pgconf/tls/tls.crt
+    ssl_key_file: /pgconf/tls/tls.key
+    unix_socket_directories: /tmp/postgres
+    wal_level: logical
+  use_pg_rewind: true
+  use_slots: false
+ttl: 30
+
+################ postgres-operator/cluster1
+== services
+cluster1-ha ClusterIP 5432/TCP
+cluster1-ha-config ClusterIP <none>
+cluster1-pgbouncer ClusterIP 5432/TCP
+cluster1-pods ClusterIP <none>
+cluster1-primary ClusterIP 5432/TCP
+cluster1-replicas ClusterIP 5432/TCP
+== secrets
+cluster1-cluster-ca-cert cluster1-cluster-cert cluster1-instance1-7z2t-certs cluster1-instance1-px4v-certs cluster1-instance1-txcs-certs cluster1-pgbackrest cluster1-pgbackrest-secrets cluster1-pgbouncer cluster1-pguser-cluster1 cluster1-replication-cert 
+== user secret cluster1-pguser-cluster1 keys: ['dbname', 'host', 'jdbc-uri', 'password', 'pgbouncer-host', 'pgbouncer-jdbc-uri', 'pgbouncer-port', 'pgbouncer-uri', 'port', 'uri', 'user', 'verifier']
+== primary pod/cluster1-instance1-txcs-0 labels:
+   app.kubernetes.io/component = pg
+   app.kubernetes.io/instance = cluster1
+   app.kubernetes.io/managed-by = percona-postgresql-operator
+   app.kubernetes.io/name = percona-postgresql
+   app.kubernetes.io/part-of = percona-postgresql
+   apps.kubernetes.io/pod-index = 0
+   controller-revision-hash = cluster1-instance1-txcs-799d9fff9b
+   pgv2.percona.com/version = 3.1.0
+   postgres-operator.crunchydata.com/cluster = cluster1
+   postgres-operator.crunchydata.com/data = postgres
+   postgres-operator.crunchydata.com/instance = cluster1-instance1-txcs
+   postgres-operator.crunchydata.com/instance-set = instance1
+   postgres-operator.crunchydata.com/patroni = cluster1-ha
+   postgres-operator.crunchydata.com/role = primary
+   statefulset.kubernetes.io/pod-name = cluster1-instance1-txcs-0
+== containers: database replication-cert-copy logs logrotate pgbackrest pgbackrest-config | init: database-init postgres-startup nss-wrapper-init-logcollector nss-wrapper-init
+== images:
+database=docker.io/percona/percona-distribution-postgresql:18.6.1-3
+logrotate=docker.io/percona/fluentbit:5.1.1-1
+logs=docker.io/percona/fluentbit:5.1.1-1
+pgbackrest-config=docker.io/percona/percona-pgbackrest:2.59.1-2
+pgbackrest=docker.io/percona/percona-pgbackrest:2.59.1-2
+replication-cert-copy=docker.io/percona/percona-distribution-postgresql:18.6.1-3
+== resources db: {}
+== PG version/extensions:
+PostgreSQL 18.6 - Percona Server for PostgreSQL 18.6.1 on x86_64-pc-linux-gnu, compiled by gcc (GCC) 14.2.1 20250110 (Red Hat 14.2.1-13), 64-bit
+ERROR:  column ',' does not exist
+LINE 1: select string_agg(name,',' order by name) from pg_available_...
+                               ^
+command terminated with exit code 1
+== shared_preload_libraries / key settings:
+ERROR:  column '=' does not exist
+LINE 1: select name||'='||setting from pg_settings where name in ('s...
+                     ^
+command terminated with exit code 1
+== patroni config:
+loop_wait: 10
+postgresql:
+  parameters:
+    archive_command: pgbackrest --stanza=db archive-push '%p' && timestamp=$(pg_waldump -r Transaction '%p' | grep -oP 'COMMIT \K[^;]+' | sed -E 's/([0-9]{4}-[0-9]{2}-[0-9]{2}) ([0-9]{2}:[0-9]{2}:[0-9]{2}\.[0-9]{6})
+      (UTC|[\\+\\-][0-9]{2})/\1T\2\3/' | sed 's/UTC/Z/' | tail -n 1 | grep -E '^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}\.[0-9]{6}(Z|[\+\-][0-9]{2})$'); if [ ! -z ${timestamp} ]; then echo
+      ${timestamp} > /pgdata/latest_commit_timestamp.txt; fi
+    archive_mode: 'on'
+    archive_timeout: 60s
+    huge_pages: 'off'
+    jit: 'off'
+    password_encryption: scram-sha-256
+    restore_command: /opt/crunchy/bin/restore-command-wrapper.sh pgbackrest --stanza=db archive-get %f '%p'
+    shared_preload_libraries: pgaudit
+    ssl: 'on'
+    ssl_ca_file: /pgconf/tls/ca.crt
+    ssl_cert_file: /pgconf/tls/tls.crt
+    ssl_key_file: /pgconf/tls/tls.key
+    track_commit_timestamp: 'true'
+    unix_socket_directories: /tmp/postgres
+    wal_level: logical
+  use_pg_rewind: true
+  use_slots: false
+ttl: 30
+

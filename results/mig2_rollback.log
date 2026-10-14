@@ -1,0 +1,7 @@
+postgrescluster.postgres-operator.crunchydata.com/hippo patched
+crunchy back to read-write=yes after 13s
+first write on percona
+last write before cutover
+hippo-instance1-8r7n-0             4/4     Running           0          14s
+hippo-instance1-lkfb-0             0/4     PodInitializing   0          3s
+hippo-instance1-rnf6-0             0/4     Init:1/2          0          3s

@@ -1,0 +1,20 @@
+T=1791976828519
+percona standby leader pod/mig-standby-instance1-g6b2-0
+postgrescluster.postgres-operator.crunchydata.com/hippo patched
++2s crunchy patched to standby
++11s crunchy in recovery=t
+postgrescluster.postgres-operator.crunchydata.com/hippo patched
++11s crunchy shutdown requested
++15s percona replay LSN stable at 0/340000A0
+perconapgcluster.pgv2.percona.com/mig-standby patched
++16s percona promote requested
++20s percona writable (pg_is_in_recovery=f) on pod/mig-standby-instance1-g6b2-0
+INSERT 0 1
+first write on percona
+last write before cutover
+cron heartbeat
++22s percona state=ready
+== cdirect
+main outage 192.8s starting +7.2s; 1 interval(s), total 192.8s; primary 10.42.1.52 -> NOT RECOVERED
+   +7.2s .. +200.0s  (192.8s, 61 fails) top error: Is the server running on that host and accepting TCP/IP connections?
+DISRUPT +7.2s..+200.0s = 192.8s (61 fails)

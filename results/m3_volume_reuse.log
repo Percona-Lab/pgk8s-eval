@@ -1,0 +1,36 @@
+T=1791977399412
++2s last write on crunchy (stop writes = downtime starts)
+primary hippo-instance1-rnf6-0 pvc hippo-instance1-rnf6-pgdata pv pvc-b1115366-5726-4177-aaf8-1b2121d34af1
+persistentvolume/pvc-b1115366-5726-4177-aaf8-1b2121d34af1 patched
+postgrescluster.postgres-operator.crunchydata.com/hippo patched
+postgrescluster.postgres-operator.crunchydata.com "hippo" deleted from crunchy namespace
++5s crunchy cluster deleted
++20s PV Released
+persistentvolume/pvc-b1115366-5726-4177-aaf8-1b2121d34af1 patched
+persistentvolume/pvc-b1115366-5726-4177-aaf8-1b2121d34af1 condition met
+persistentvolume/pvc-b1115366-5726-4177-aaf8-1b2121d34af1 labeled
+perconapgcluster.pgv2.percona.com/mig-volume created
++21s percona cluster created
++292s percona writable on 
++608s percona state=initializing
+error: pod, type/name or --filename must be specified
+error: pod, type/name or --filename must be specified
+error: pod, type/name or --filename must be specified
+== cdirect
+main outage 573.7s starting +-563.7s; 1 interval(s), total 573.7s; primary 10.42.1.52 -> NOT RECOVERED
+   +-563.7s .. +10.0s  (573.7s, 27 fails) top error: connection to server at "hippo-primary.crunchy.svc" (10.43.11.173), po
+DISRUPT +-563.7s..+10.0s = 573.7s (27 fails)
+perconapgcluster.pgv2.percona.com/mig-volume patched
+persistentvolumeclaim "mig-volume-instance1-vzj2-pgdata" deleted from postgres-operator namespace
+pod "mig-volume-instance1-vzj2-0" deleted from postgres-operator namespace
+percona writable on pod/mig-volume-instance1-vzj2-0 26s after the fix
+state=ready
+last write before volume migration
+cron heartbeat
+pg_cron,pg_partman,pg_stat_statements,pgaudit,plpgsql,plpython3u,set_user
+2000000
+postgres
+login with Crunchy password OK as hippo
+CREATE TABLE
+unqualified CREATE TABLE went to schema: hippo
+"$user", public

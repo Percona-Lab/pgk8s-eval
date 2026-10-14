@@ -1,0 +1,6 @@
+postgrescluster.postgres-operator.crunchydata.com/hippo patched
+postgrescluster.postgres-operator.crunchydata.com/hippo annotated
+manual backup succeeded=1 in 32s
+    status: ok
+        full backup: 20261014-111132F
+            repo2: backup set size: 20.6MB, backup size: 20.6MB

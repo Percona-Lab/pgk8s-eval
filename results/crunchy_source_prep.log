@@ -1,0 +1,19 @@
+CREATE FUNCTION
+ py | events | accounts | partman_cfg 
+----+--------+----------+-------------
+ OK |   1000 |  2000000 |           1
+(1 row)
+
+postgres|c|2.34
+template1|c|2.34
+template0|c|
+hippo|c|2.34
+ldd (GNU libc) 2.34
+Red Hat Enterprise Linux release 9.8 (Plow)
+ldd (GNU libc) 2.34
+Red Hat Enterprise Linux release 9.8 (Plow)
+postgres|2.34
+template1|2.34
+template0|
+cluster1|2.34
+bench|2.34

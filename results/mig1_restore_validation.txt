@@ -1,0 +1,47 @@
+primary pod/mig-restore-instance1-78f4-0
+Output format is unaligned.
+-- data
+accounts=2000000 events=1000 migmark=4 last_mark=before M1 restore
+-- extensions installed in hippo db
+pg_cron 1.6, pg_partman 5.5.0, pgaudit 18.0, plpgsql 1.0, plpython3u 1.0
+-- shared_preload_libraries
+pgaudit
+-- cron schema / jobs
+cron jobs: partman-maintenance,heartbeat
+-- plpython function
+-- pg_partman maintenance
+ERROR:  could not access file "plpython3": No such file or directory
+CALL
+partman partitions: 10
+-- schemas
+cron,hippo,partman,pgbouncer,public
+-- search_path for hippo
+default
+-- password continuity
+secret password unchanged
+secret keys: ['dbname', 'host', 'jdbc-uri', 'password', 'pgbouncer-host', 'pgbouncer-jdbc-uri', 'pgbouncer-port', 'pgbouncer-uri', 'port', 'uri', 'user', 'verifier']
+command terminated with exit code 1
+-- unqualified create table as hippo lands in schema:
+command terminated with exit code 1
+-- errors in PG log:
+      1 pg_waldump: error: could not read file "00000006000000000000002E.00000028.backup": read 341 of 8192
+      1 pg_waldump: error: could not read file "00000006000000000000002D.00000170.backup": read 374 of 8192
+      1 2026-10-14 11:15:17.074 UTC [1097] ERROR:  trailing junk after numeric literal at or near "1092newtab1092" at character 78
+      1 2026-10-14 11:15:16.668 UTC [1091] ERROR:  trailing junk after numeric literal at or near "1085login" at character 8
+      1 2026-10-14 11:15:15.480 UTC [1081] ERROR:  could not access file "plpython3": No such file or directory
+      1 2026-10-14 11:13:12.857 P00  ERROR: [103]: unable to find a valid repository:
+      1 2026-10-14 11:13:10.653 P00  ERROR: [103]: unable to find a valid repository:
+-- operator log mentions of extensions for mig-restore:
+== Percona target
+login with Crunchy password OK as hippo
+CREATE TABLE
+unqualified CREATE TABLE went to schema: hippo
+"$user", public
+== Crunchy source (same test)
+login with Crunchy password OK as hippo
+ERROR:  permission denied for schema public
+LINE 1: create table newtab(x int)
+                     ^
+"$user", public
+ERROR:  table "newtab" does not exist
+public,pgbouncer,partman,cron

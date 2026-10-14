@@ -1,0 +1,18 @@
+namespace/pgo created
+serviceaccount/pgo serverside-applied
+clusterrole.rbac.authorization.k8s.io/postgres-operator serverside-applied
+clusterrolebinding.rbac.authorization.k8s.io/postgres-operator serverside-applied
+deployment.apps/pgo serverside-applied
+Waiting for deployment "pgo" rollout to finish: 0 out of 1 new replicas have been updated...
+Waiting for deployment "pgo" rollout to finish: 0 of 1 updated replicas are available...
+deployment "pgo" successfully rolled out
+operator ready in 27s
+NAME                  READY   UP-TO-DATE   AVAILABLE   AGE   CONTAINERS   IMAGES                                                                           SELECTOR
+deployment.apps/pgo   1/1     1            1           23s   operator     registry.developers.crunchydata.com/crunchydata/postgres-operator:ubi9-6.0.3-0   postgres-operator.crunchydata.com/control-plane=postgres-operator
+
+NAME                       READY   STATUS    RESTARTS   AGE   IP           NODE    NOMINATED NODE   READINESS GATES
+pod/pgo-6f777d74f5-d626r   1/1     Running   0          22s   10.42.3.52   pk-w3   <none>           <none>
+pgadmins.postgres-operator.crunchydata.com           2026-10-14T10:48:23Z
+pgupgrades.postgres-operator.crunchydata.com         2026-10-14T10:48:23Z
+postgresclusters.postgres-operator.crunchydata.com   2026-10-14T10:48:25Z
+registry.developers.crunchydata.com/crunchydata/postgres-operator:ubi9-6.0.3-0

@@ -61,3 +61,42 @@ Both default backups wait for a spread checkpoint (~5 min).
 | Operator ready | 36 s | 14 s |
 | Sample cluster ready | 240 s | 112 s |
 | Backups out of the box | yes (PVC repo, first full backup automatic) | no (needs cert-manager + plugin + object store) |
+
+## Crunchy PGO v6.0.3 vs Percona 3.1.0
+
+Both run Patroni with the Kubernetes API as DCS and behaved the same under faults.
+
+| Scenario | Crunchy 6.0.3 | Percona 3.1.0 |
+|---|---|---|
+| Operator ready / 3-instance cluster ready | 27 s / 147 s | 36 s / 240 s |
+| Primary pod deleted (direct / pgBouncer) | 2.4 / 15.7 s | 2.4 / 13.1 s |
+| Planned switchover | 2.6 s | 2.4 s |
+| Primary deleted, operator down | 2.5 s (fails over) | 3.4 s (fails over) |
+| Pod partition with persistent clients: old primary stops / new promoted / overlap / lost | +13.8 / +27.0 / none / 394 | +13.6 / +26.9 / none / 391 |
+
+**Generated configuration is identical.** That covers PostgreSQL defaults, pgBouncer, internal roles, Service and Secret names and keys, and the pgBackRest stanza.
+
+**Differences:**
+- The primary label is `role=master` on Crunchy and `role=primary` on Percona.
+- Only the Crunchy image ships `pg_partman`, `pg_jobmon`, `timescaledb`, `orafce`, `plpython3u` (plus 3 transforms), `hypopg`, `passwordpolicy`, `pg_parquet` and `pgnodemx`.
+- Only the Percona image ships `pg_repack`, `pg_stat_monitor` and `pg_tde`.
+- v6 writes logs to `/pgdata/logs/postgres`.
+
+## Crunchy → Percona migration (source: Crunchy 6.0.3, 332 MB, pg_partman, plpython3u, pg_stat_statements, set_user, 2 pg_cron jobs)
+
+| Method (Percona docs, written for 5.8.x) | Result | Traps found |
+|---|---|---|
+| Backup and restore from Crunchy S3 repo | Ready in 50 s; all data | Crunchy S3 repo was `repo2`, so it must be mapped to dataSource `repo1`; `pg_stat_statements` and `set_user` **dropped in all DBs** (disabled built-ins are dropped); pg_cron not preloaded, and when enabled `cron.database_name` is forced to `postgres`, so jobs in the app DB never run; plpython3u function fails; `autoCreateUserSchema` default sends new tables to a per-user schema |
+| Standby cluster + promote | Streaming in 55 s; **13 s** write downtime; zero loss | **Password rotated** at promotion unless the Secret is pre-copied; Crunchy-issued certificate kept (Crunchy hostnames, not renewed); **documented rollback replays Percona's WAL** from the shared repo, then both clusters archive into one repo on diverging timelines |
+| Reuse data volume | ~45 s once working; all data | PVC `selector` deadlocks on `WaitForFirstConsumer` storage (pod scheduled away from the PV, provisioner rejects the selector): hung 10 min until the instance was pinned to the PV's node; Crunchy deleted without a clean-shutdown step |
+
+## Crunchy v6 features Percona 3.1 lacks
+
+- `v1` API manifests: a translation is needed, and the docs cover v5.8 only.
+- pgMonitor exporter and its dashboards stack.
+- OpenTelemetry.
+- A PGAdmin controller (the CRD exists without one).
+- Auto-grow on by default, with thresholds.
+- PostGIS 3.6.
+- The extensions listed above.
+- `volumes.temp`, Patroni logging, and Service traffic/IP-family policies.

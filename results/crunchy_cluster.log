@@ -1,0 +1,16 @@
+namespace/crunchy created
+secret/hippo-pgbackrest-secrets created
+postgrescluster.postgres-operator.crunchydata.com/hippo created
+3 instances ready in 147s
+NAME                                                      AGE
+postgrescluster.postgres-operator.crunchydata.com/hippo   2m28s
+
+NAME                                   READY   STATUS      RESTARTS   AGE     IP           NODE    NOMINATED NODE   READINESS GATES
+pod/hippo-backup-pxdx-fjtr2            0/1     Completed   0          2m1s    10.42.2.41   pk-w2   <none>           <none>
+pod/hippo-instance1-8r7n-0             4/4     Running     0          2m27s   10.42.1.50   pk-w1   <none>           <none>
+pod/hippo-instance1-lkfb-0             4/4     Running     0          2m27s   10.42.3.54   pk-w3   <none>           <none>
+pod/hippo-instance1-rnf6-0             4/4     Running     0          2m27s   10.42.2.40   pk-w2   <none>           <none>
+pod/hippo-pgbouncer-5f5d864f9c-9f264   2/2     Running     0          2m26s   10.42.1.48   pk-w1   <none>           <none>
+pod/hippo-pgbouncer-5f5d864f9c-xvj46   2/2     Running     0          2m26s   10.42.1.46   pk-w1   <none>           <none>
+pod/hippo-repo-host-0                  2/2     Running     0          2m27s   10.42.1.51   pk-w1   <none>           <none>
+PGBackRestRepoHostReady PGBackRestReplicaRepoReady PGBackRestReplicaCreate ProxyAvailable=True True False True

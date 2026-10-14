@@ -119,7 +119,7 @@ footer{border-top:1px solid var(--hair);margin-top:56px;padding-block:24px 40px;
     <div class="slash" aria-hidden="true"></div>
     <div class="label">Product and documentation recommendations</div>
     <h1 class="h" style="margin-top:14px">Win on reliability. <em>Fix what hides it.</em></h1>
-    <p class="lede">In a hands-on comparison, Percona's Patroni-based HA restored writes faster than CloudNativePG in 7 of 8 failure scenarios and kept failing over with the operator down. The same tests found two defects that turn a 30-second failover into minutes, status that reports <code>ready</code> while backups are broken, and documentation that is silent on failure behaviour. Follow-up tests on 14 Oct added a differentiator to protect: under a partition that left CloudNativePG 1.30.1 running two primaries for 129 s, Patroni never overlapped. They also showed what it still costs: with async replication, writes acknowledged in the 10–19 s before demotion are lost. These 34 recommendations close the gaps, protect the lead and remove the tooling gap against CloudNativePG. Cross-site DR items (P16–P19, D15) come from a follow-up switchover test.</p>
+    <p class="lede">In a hands-on comparison, Percona's Patroni-based HA restored writes faster than CloudNativePG in 7 of 8 failure scenarios and kept failing over with the operator down. The same tests found two defects that turn a 30-second failover into minutes, status that reports <code>ready</code> while backups are broken, and documentation that is silent on failure behaviour. Follow-up tests on 14 Oct added a differentiator to protect: under a partition that left CloudNativePG 1.30.1 running two primaries for 129 s, Patroni never overlapped. They also showed what it still costs: with async replication, writes acknowledged in the 10–19 s before demotion are lost. These 36 recommendations close the gaps, protect the lead and remove the tooling gap against CloudNativePG. Cross-site DR items (P16–P21, D15) come from follow-up switchover and unplanned site-loss tests.</p>
     <div class="stats">
       <div class="stat"><div class="n">271 s</div><p>failover when the pgBackRest repo-host dies with the primary, vs ~30 s otherwise</p></div>
       <div class="stat"><div class="n">+10–15 s</div><p>added to every failover by pgBouncer's default retry setting</p></div>
@@ -223,6 +223,17 @@ footer{border-top:1px solid var(--hair);margin-top:56px;padding-block:24px 40px;
       <tr><td>CloudNativePG, leftover token blocked the demotion</td><td class="num">two primaries 170 s</td><td class="num">5,604</td><td>Diverged, rebuilt</td></tr>
     </tbody>
   </table></div>
+  <h3 style="margin:32px 0 10px;font-size:17px">Unplanned site loss, 14 Oct 2026</h3>
+  <p style="font-size:14px">Two k3s clusters in different regions (20 ms apart), S3 and clients at a third site. All site-A VMs powered off at once; site B promoted 60 s later; site A powered back on and left alone, then told to follow B.</p>
+  <div class="tbl"><table>
+    <thead><tr><th>Run</th><th>Acked writes lost</th><th>Promote → writable</th><th>Dead site on return</th><th>Rejoin / rebuild</th></tr></thead>
+    <tbody>
+      <tr><td>Percona, streaming + repo</td><td class="num">0 of 1,261</td><td class="num">5.2 s</td><td>Second primary, 5,174 writes; archived timeline 3 into the shared repo, which blocked a new replica at site B</td><td>Rejoin failed; volume wipe 56 s after deleting timeline 3 from S3 by hand</td></tr>
+      <tr><td>Percona, repo only</td><td class="num">990 (last 50 s)</td><td class="num">5.1 s</td><td>Crash loop on site B's timeline; no writes</td><td>Rejoin failed; volume wipe 57 s</td></tr>
+      <tr><td>CloudNativePG, streaming</td><td class="num">0 of 1,262</td><td class="num">4.5 s</td><td>Second primary, 3,193 writes; "healthy"</td><td>Rejoin failed; rebuild needed a new serverName</td></tr>
+      <tr><td>CloudNativePG, object store only</td><td class="num">1,252 (all 64 s)</td><td class="num">6.7 s</td><td>Second primary, 3,831 writes; "healthy"</td><td>Rejoin failed; rebuild 84 s</td></tr>
+    </tbody>
+  </table></div>
   <p style="font-size:13px;color:var(--muted)">Details: <a href="cross-site-dr.html">Cross-Site DR Comparison</a>.</p>
   <p style="font-size:13px;color:var(--muted)">One run per scenario. Full comparison: <a href="pg-operators-compared.html">Postgres Operators Compared</a>. Issues: percona-postgresql-operator <a href="https://github.com/percona/percona-postgresql-operator/issues/1848">#1848</a>, <a href="https://github.com/percona/percona-postgresql-operator/issues/1849">#1849</a>, <a href="https://github.com/percona/percona-postgresql-operator/issues/1850">#1850</a>, <a href="https://github.com/percona/percona-postgresql-operator/issues/1851">#1851</a>, <a href="https://github.com/percona/percona-postgresql-operator/issues/1852">#1852</a>, <a href="https://github.com/percona/k8spg-docs/issues/450">k8spg-docs #450</a>, <a href="https://github.com/percona/k8spg-docs/issues/451">#451</a>. Split-brain results: <a href="https://github.com/percona/k8spg-docs/issues/450#issuecomment-6165733819">k8spg-docs #450 comment</a>, <a href="https://github.com/cloudnative-pg/cloudnative-pg/issues/11280#issuecomment-6165732927">cloudnative-pg #11280 comment</a>.</p>
 </section>
@@ -303,6 +314,14 @@ const R=[
  'After deleting and recreating a cluster with the same name, a leftover <code>PerconaPGBackup</code> (no owner) made the new cluster report its initial backup as complete. The repo was empty, and its DR standby failed with "no backup set found to restore".',
  ['Own or clean up backup objects with their cluster','Check the repo, not object names, before reporting replicaCreateBackupComplete'],
  'A recreated cluster always takes and reports its own first backup.',[['#1867',GH+'1867']]],
+['P20','prod','Fence a returning site and protect the shared repo','now','High','Medium','bet',
+ 'After unplanned site loss and promotion of site B, the dead site came back as a writable second primary in one of two Percona runs (5,174 writes, about 6 minutes) and archived its own timeline 3 into the shared pgBackRest repo. A new replica at the surviving site then picked timeline 3 and could not start until files were deleted from S3 by hand. CloudNativePG keeps a separate archive path per site, so its survivor was unaffected, but it also let the dead site return as primary.',
+ ['Before any member starts as primary, check the repo for a newer timeline and start fenced (read-only, <code>Fenced</code> condition, Event) if one exists','Refuse <code>archive-push</code> from a superseded timeline','Bootstrap replicas on the cluster\'s own current timeline, not the newest one in the repo'],
+ 'In the site-loss test the returning site starts read-only, accepts no writes, and the surviving site\'s repo stays clean.',[['#1869',GH+'1869']]],
+['P21','prod','Rejoin a former primary site with one action','next','High','Medium','win',
+ 'After unplanned failover, setting <code>standby.enabled: true</code> on the returning site failed in both runs: members looped on "requested timeline … does not contain minimum recovery point", and <code>patronictl reinit</code> refused with "Cluster has no leader". Only deleting the instance volumes worked (56–57 s). CloudNativePG needed a fresh backup plus a new <code>serverName</code> (84 s, about 11 min the first time).',
+ ['A supported reinit for a standby cluster with no leader: pg_rewind from the streaming source when possible, otherwise restore from the repo','Surface the diverged state as a condition and point to the action'],
+ 'The returning site follows the new primary after one documented action, without deleting PVCs.',[['#1869',GH+'1869']]],
 ['P14','prod','Make synchronous replication a first-class setting','next','High','Medium','bet',
  'With async replication, every partition run lost the writes the isolated primary acknowledged before Patroni demoted it: 305–391 writes, 10–19 s of traffic. CloudNativePG\'s quorum-sync run (<code>dataDurability: required</code>) lost none. In Percona, sync replication is only reachable through raw <code>patroni.dynamicConfiguration</code>.',
  ['Add a CR field for synchronous mode: number of sync standbys, strict vs best-effort, mapped to Patroni <code>synchronous_mode</code>/<code>synchronous_node_count</code>/<code>synchronous_mode_strict</code>','Expose the current sync set in status and in <code>kubectl get pg</code>','Validate that failover only promotes a synchronous standby'],
@@ -313,7 +332,7 @@ const R=[
  'A release cannot ship if any test shows overlapping primaries.',[]],
 ['D15','doc','Document cross-site DR as it really works','now','High','Low','win',
  'There is no planned role-swap procedure. The measured behaviour differs sharply by standby type: over object storage the old primary diverges; with streaming it rejoins and self-repairs. The RPO is bounded by the 1-minute archive interval.',
- ['Role-swap procedure per standby type with the exact wait condition','Recommend streaming + repo for cross-site DR','RPO guidance and a dual-primary warning'],
+ ['Role-swap procedure per standby type with the exact wait condition','Recommend streaming + repo for cross-site DR','RPO guidance and a dual-primary warning','A site-loss runbook: promote the survivor, keep the dead site isolated from clients and the repo before it powers on, then rebuild it. Measured RPO: 0 with streaming, up to the 1-minute archive interval without'],
  'A DR runbook can be written from the docs alone.',[['docs #458',DG+'458']]],
 ['D1','doc','Add a failure-scenarios page with timings','now','High','Low','win',
  'No page says what happens, or how long it takes, when a primary pod dies, postgres crashes, a node is lost or partitioned, or the operator is down. CloudNativePG documents detection timing and scores 9 here; Percona scores 5. The follow-up tests give the strongest content: with clients still connected to a partitioned primary, Patroni demoted it at +10–19 s and promoted a replica at +22–33 s, with no overlap.',

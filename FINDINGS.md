@@ -117,3 +117,18 @@ Three writer clients per site log every acknowledged commit. Write downtime runs
 Neither operator blocks a second primary across clusters. CNPG's token handshake (`.partial` WAL archived on demotion plus a promotion that waits for that LSN) is the safe path for **archive-only** DR. Percona has no equivalent there and no documented role-reversal procedure. With streaming between sites, Percona's switchover worked without a rebuild and self-healed through pg_rewind.
 
 Side finding: after deleting and recreating a PerconaPGCluster with the same name, a leftover `PerconaPGBackup` (no owner reference) made the new cluster report `replicaCreateBackupComplete: true` without taking a backup. The repo was empty, and the standby failed with "no backup set found to restore".
+
+## Unplanned site loss (two k3s clusters in different regions, S3 + clients at a third site, 2 instances per site)
+
+All four site-A VMs were powered off at once. Site B was promoted 60 s later (CNPG `replica.primary: dr-b` without a token; Percona `standby.enabled: false`). Site A was powered back on after ~5 min, left alone for 4.5–6 min, then told to follow B. Persistent writer clients ran at the third site, 2 to A and 1 to B.
+
+| Run | Acked writes lost | Promote → writable | Site A on return (untouched) | Rejoin (follow B) | Repair |
+|---|---|---|---|---|---|
+| Percona, streaming + shared repo | 0 of 1,261 | 5.2 s | **Second primary**, 5,174 writes; promoted to timeline 3 and archived it into the shared repo | Failed ("requested timeline 3 does not contain minimum recovery point"); `patronictl reinit` refused ("Cluster has no leader") | Delete timeline 3 from S3 by hand, then wipe instance PVCs: 56 s |
+| CNPG, streaming + per-site object store | 0 of 1,262 | 4.5 s | **Second primary**, 3,193 writes; "Cluster in healthy state" | Failed ("requested timeline 2 is not a child of this server's history"); status still healthy | Recreate from a B backup failed with "Expected empty archive"; new `serverName` + forced WAL switch: ~11 min |
+| Percona, repo only | 990 of 1,251 (last 50 s; 1-min archive_timeout) | 5.1 s | Crash loop after fetching B's timeline from the shared repo; 0 writes | Failed | Wipe instance PVCs: 57 s |
+| CNPG, object store only | 1,252 of 1,252 (all 64 s of the test; 5-min archive_timeout) | 6.7 s | **Second primary**, 3,831 writes; healthy | Failed | B backup + recreate with new `serverName`: 84 s |
+
+Side effect at the surviving site (Percona, streaming run): a new site-B replica restored from the shared repo picked the returning site's timeline 3 and looped on "highest timeline 2 of the primary is behind recovery timeline 3" until the timeline-3 files were deleted from S3 and the pod restarted. CNPG archives each site to its own path; site B scaled from 2 to 3 instances without problems.
+
+Zombie-write counts depend on when the clients' dead TCP sessions were reset (1.5–3 min after site A's API returned). Any write the returning site accepted is lost.

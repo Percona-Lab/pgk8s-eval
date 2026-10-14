@@ -1,0 +1,72 @@
+1791996093675 writers_started
+cnpg-B replay_lag=363.1s receiving=0
+pod/drb-instance1-8kfl-0 replay_lag=50.4s receiving=1
+pod/drb-instance1-tv26-0 replay_lag=50.6s receiving=0
+1791996155691 SITE_A_LOST
+1791996217264 PROMOTE_B
+cluster.postgresql.cnpg.io/dr-b patched
+perconapgcluster.pgv2.percona.com/drb patched
+1791996222380 PCT_B_WRITABLE
+1791996223930 CNPG_B_WRITABLE
+1791996464163 BOOT_SITE_A
+1791996559657 SITE_A_K8S_API_UP
+1791996558381 A-STATE cnpg: Cluster in healthy state/dr-a-1 pods=dr-a-1:Running:2/2 dr-a-2:Running:2/2  | pct: ready pods=dra-instance1-btjr-0:Running:replica dra-instance1-k9n9-0:Running:primary 
+1791996579172 A-STATE cnpg: Cluster in healthy state/dr-a-1 pods=dr-a-1:Running:2/2 dr-a-2:Running:2/2  | pct: ready pods=dra-instance1-btjr-0:Running:replica dra-instance1-k9n9-0:Running:primary 
+1791996599375 A-STATE cnpg: Cluster in healthy state/dr-a-1 pods=dr-a-1:Unknown:0/2 dr-a-2:Unknown:0/2  | pct: ready pods=dra-instance1-btjr-0:Unknown:replica dra-instance1-k9n9-0:Unknown:primary 
+1791996615739 A-STATE cnpg: Cluster in healthy state/dr-a-1 pods=dr-a-1:Running:2/2 dr-a-2:Running:2/2  | pct: ready pods=dra-instance1-btjr-0:Running:ago) dra-instance1-k9n9-0:Running:ago) 
+1791996632156 A-STATE cnpg: Cluster in healthy state/dr-a-1 pods=dr-a-1:Running:2/2 dr-a-2:Running:2/2  | pct: ready pods=dra-instance1-btjr-0:Running:ago) dra-instance1-k9n9-0:Running:ago) 
+1791996648541 A-STATE cnpg: Cluster in healthy state/dr-a-1 pods=dr-a-1:Running:2/2 dr-a-2:Running:2/2  | pct: ready pods=dra-instance1-btjr-0:Running:ago) dra-instance1-k9n9-0:Running:ago) 
+1791996665535 A-STATE cnpg: Cluster in healthy state/dr-a-1 pods=dr-a-1:Running:2/2 dr-a-2:Running:2/2  | pct: ready pods=dra-instance1-btjr-0:Running:ago) dra-instance1-k9n9-0:Running:ago) 
+1791996681975 A-STATE cnpg: Cluster in healthy state/dr-a-1 pods=dr-a-1:Running:2/2 dr-a-2:Running:2/2  | pct: initializing pods=dra-instance1-btjr-0:Running:ago) dra-instance1-k9n9-0:Running:ago) 
+1791996698246 A-STATE cnpg: Cluster in healthy state/dr-a-1 pods=dr-a-1:Running:2/2 dr-a-2:Running:2/2  | pct: initializing pods=dra-instance1-btjr-0:Running:ago) dra-instance1-k9n9-0:Running:ago) 
+1791996714500 A-STATE cnpg: Cluster in healthy state/dr-a-1 pods=dr-a-1:Running:2/2 dr-a-2:Running:2/2  | pct: initializing pods=dra-instance1-btjr-0:Running:ago) dra-instance1-k9n9-0:Running:ago) 
+1791996731349 A-STATE cnpg: Cluster in healthy state/dr-a-1 pods=dr-a-1:Running:2/2 dr-a-2:Running:2/2  | pct: initializing pods=dra-instance1-btjr-0:Running:ago) dra-instance1-k9n9-0:Running:ago) 
+1791996747622 A-STATE cnpg: Cluster in healthy state/dr-a-1 pods=dr-a-1:Running:2/2 dr-a-2:Running:2/2  | pct: initializing pods=dra-instance1-btjr-0:Running:ago) dra-instance1-k9n9-0:Running:ago) 
+1791996763897 A-STATE cnpg: Cluster in healthy state/dr-a-1 pods=dr-a-1:Running:2/2 dr-a-2:Running:2/2  | pct: initializing pods=dra-instance1-btjr-0:Running:ago) dra-instance1-k9n9-0:Running:ago) 
+1791996780108 A-STATE cnpg: Cluster in healthy state/dr-a-1 pods=dr-a-1:Running:2/2 dr-a-2:Running:2/2  | pct: initializing pods=dra-instance1-btjr-0:Running:ago) dra-instance1-k9n9-0:Running:ago) 
+1791996796842 A-STATE cnpg: Cluster in healthy state/dr-a-1 pods=dr-a-1:Running:2/2 dr-a-2:Running:2/2  | pct: initializing pods=dra-instance1-btjr-0:Running:ago) dra-instance1-k9n9-0:Running:ago) 
+1791996813035 A-STATE cnpg: Cluster in healthy state/dr-a-1 pods=dr-a-1:Running:2/2 dr-a-2:Running:2/2  | pct: initializing pods=dra-instance1-btjr-0:Running:ago) dra-instance1-k9n9-0:Running:ago) 
+1791996828734 REJOIN_A
+cluster.postgresql.cnpg.io/dr-a patched
+perconapgcluster.pgv2.percona.com/dra patched
+1791996829880 A-STATE cnpg: Applying configuration/dr-a-1 pods=dr-a-1:Running:2/2:1 dr-a-2:Running:2/2:1  | pct: initializing pods=dra-instance1-btjr-0:Running:ago):4 dra-instance1-k9n9-0:Running:ago):4 
+1791996846171 A-STATE cnpg: Cluster in healthy state/dr-a-1 pods=dr-a-1:Running:2/2:1 dr-a-2:Running:2/2:1  | pct: initializing pods=dra-instance1-btjr-0:Running:ago):4 dra-instance1-k9n9-0:Running:ago):4 
+1791996863124 A-STATE cnpg: Cluster in healthy state/dr-a-1 pods=dr-a-1:Running:1/2:1 dr-a-2:Running:2/2:1  | pct: initializing pods=dra-instance1-btjr-0:Running:ago):4 dra-instance1-k9n9-0:Running:ago):4 
+1791996879467 A-STATE cnpg: Cluster in healthy state/dr-a-1 pods=dr-a-1:Running:1/2:1 dr-a-2:Running:2/2:1  | pct: initializing pods=dra-instance1-btjr-0:Running:ago):4 dra-instance1-k9n9-0:Running:ago):4 
+1791996895771 A-STATE cnpg: Cluster in healthy state/dr-a-1 pods=dr-a-1:Running:1/2:1 dr-a-2:Running:2/2:1  | pct: initializing pods=dra-instance1-btjr-0:Running:ago):4 dra-instance1-k9n9-0:Running:ago):4 
+1791996912731 A-STATE cnpg: Cluster in healthy state/dr-a-1 pods=dr-a-1:Running:1/2:1 dr-a-2:Running:2/2:1  | pct: initializing pods=dra-instance1-btjr-0:Running:ago):4 dra-instance1-k9n9-0:Running:ago):4 
+1791996930085 A-STATE cnpg: Cluster in healthy state/dr-a-1 pods=dr-a-1:Running:1/2:1 dr-a-2:Running:2/2:1  | pct: initializing pods=dra-instance1-btjr-0:Running:ago):4 dra-instance1-k9n9-0:Running:ago):4 
+1791996946448 A-STATE cnpg: Cluster in healthy state/dr-a-1 pods=dr-a-1:Running:1/2:1 dr-a-2:Running:2/2:1  | pct: initializing pods=dra-instance1-btjr-0:Running:ago):4 dra-instance1-k9n9-0:Running:ago):4 
+1791996963181 A-STATE cnpg: Cluster in healthy state/dr-a-1 pods=dr-a-1:Running:1/2:1 dr-a-2:Running:2/2:1  | pct: initializing pods=dra-instance1-btjr-0:Running:ago):4 dra-instance1-k9n9-0:Running:ago):4 
+1791996979596 A-STATE cnpg: Cluster in healthy state/dr-a-1 pods=dr-a-1:Running:1/2:1 dr-a-2:Running:2/2:1  | pct: initializing pods=dra-instance1-btjr-0:Running:ago):4 dra-instance1-k9n9-0:Running:ago):4 
+1791996996341 A-STATE cnpg: Cluster in healthy state/dr-a-1 pods=dr-a-1:Running:1/2:1 dr-a-2:Running:2/2:1  | pct: initializing pods=dra-instance1-btjr-0:Running:ago):4 dra-instance1-k9n9-0:Running:ago):4 
+1791997012666 A-STATE cnpg: Cluster in healthy state/dr-a-1 pods=dr-a-1:Running:1/2:1 dr-a-2:Running:2/2:1  | pct: initializing pods=dra-instance1-btjr-0:Running:ago):4 dra-instance1-k9n9-0:Running:ago):4 
+1791997029136 A-STATE cnpg: Cluster in healthy state/dr-a-1 pods=dr-a-1:Running:1/2:1 dr-a-2:Running:2/2:1  | pct: initializing pods=dra-instance1-btjr-0:Running:ago):4 dra-instance1-k9n9-0:Running:ago):4 
+1791997045496 A-STATE cnpg: Cluster in healthy state/dr-a-1 pods=dr-a-1:Running:1/2:1 dr-a-2:Running:2/2:1  | pct: initializing pods=dra-instance1-btjr-0:Running:ago):4 dra-instance1-k9n9-0:Running:ago):4 
+1791997062311 A-STATE cnpg: Cluster in healthy state/dr-a-1 pods=dr-a-1:Running:1/2:1 dr-a-2:Running:2/2:1  | pct: initializing pods=dra-instance1-btjr-0:Running:ago):4 dra-instance1-k9n9-0:Running:ago):4 
+1791997078526 A-STATE cnpg: Cluster in healthy state/dr-a-1 pods=dr-a-1:Running:1/2:1 dr-a-2:Running:2/2:1  | pct: initializing pods=dra-instance1-btjr-0:Running:ago):4 dra-instance1-k9n9-0:Running:ago):4 
+1791997095231 A-STATE cnpg: Cluster in healthy state/dr-a-1 pods=dr-a-1:Running:1/2:1 dr-a-2:Running:2/2:1  | pct: initializing pods=dra-instance1-btjr-0:Running:ago):4 dra-instance1-k9n9-0:Running:ago):4 
+1791997112504 A-STATE cnpg: Cluster in healthy state/dr-a-1 pods=dr-a-1:Running:1/2:1 dr-a-2:Running:2/2:1  | pct: initializing pods=dra-instance1-btjr-0:Running:ago):4 dra-instance1-k9n9-0:Running:ago):4 
+1791997129228 A-STATE cnpg: Cluster in healthy state/dr-a-1 pods=dr-a-1:Running:1/2:1 dr-a-2:Running:2/2:1  | pct: initializing pods=dra-instance1-btjr-0:Running:ago):4 dra-instance1-k9n9-0:Running:ago):4 
+1791997146131 A-STATE cnpg: Cluster in healthy state/dr-a-1 pods=dr-a-1:Running:1/2:1 dr-a-2:Running:2/2:1  | pct: initializing pods=dra-instance1-btjr-0:Running:ago):4 dra-instance1-k9n9-0:Running:ago):4 
+1791997162751 A-STATE cnpg: Cluster in healthy state/dr-a-1 pods=dr-a-1:Running:1/2:1 dr-a-2:Running:2/2:1  | pct: initializing pods=dra-instance1-btjr-0:Running:ago):4 dra-instance1-k9n9-0:Running:ago):4 
+1791997179318 A-STATE cnpg: Cluster in healthy state/dr-a-1 pods=dr-a-1:Running:1/2:1 dr-a-2:Running:2/2:1  | pct: initializing pods=dra-instance1-btjr-0:Running:ago):4 dra-instance1-k9n9-0:Running:ago):4 
+1791997196099 A-STATE cnpg: Cluster in healthy state/dr-a-1 pods=dr-a-1:Running:1/2:1 dr-a-2:Running:2/2:1  | pct: initializing pods=dra-instance1-btjr-0:Running:ago):4 dra-instance1-k9n9-0:Running:ago):4 
+1791997212466 A-STATE cnpg: Cluster in healthy state/dr-a-1 pods=dr-a-1:Running:1/2:1 dr-a-2:Running:2/2:1  | pct: initializing pods=dra-instance1-btjr-0:Running:ago):4 dra-instance1-k9n9-0:Running:ago):4 
+1791997228844 A-STATE cnpg: Cluster in healthy state/dr-a-1 pods=dr-a-1:Running:1/2:1 dr-a-2:Running:2/2:1  | pct: initializing pods=dra-instance1-btjr-0:Running:ago):4 dra-instance1-k9n9-0:Running:ago):4 
+1791997245305 A-STATE cnpg: Cluster in healthy state/dr-a-1 pods=dr-a-1:Running:1/2:1 dr-a-2:Running:2/2:1  | pct: initializing pods=dra-instance1-btjr-0:Running:ago):4 dra-instance1-k9n9-0:Running:ago):4 
+1791997262153 A-STATE cnpg: Cluster in healthy state/dr-a-1 pods=dr-a-1:Running:1/2:1 dr-a-2:Running:2/2:1  | pct: initializing pods=dra-instance1-btjr-0:Running:ago):4 dra-instance1-k9n9-0:Running:ago):4 
+1791997278461 A-STATE cnpg: Cluster in healthy state/dr-a-1 pods=dr-a-1:Running:1/2:1 dr-a-2:Running:2/2:1  | pct: initializing pods=dra-instance1-btjr-0:Running:ago):4 dra-instance1-k9n9-0:Running:ago):4 
+1791997294802 A-STATE cnpg: Cluster in healthy state/dr-a-1 pods=dr-a-1:Running:1/2:1 dr-a-2:Running:2/2:1  | pct: initializing pods=dra-instance1-btjr-0:Running:ago):4 dra-instance1-k9n9-0:Running:ago):4 
+1791997311079 A-STATE cnpg: Cluster in healthy state/dr-a-1 pods=dr-a-1:Running:1/2:1 dr-a-2:Running:2/2:1  | pct: initializing pods=dra-instance1-btjr-0:Running:ago):4 dra-instance1-k9n9-0:Running:ago):4 
+1791997327858 A-STATE cnpg: Cluster in healthy state/dr-a-1 pods=dr-a-1:Running:1/2:1 dr-a-2:Running:2/2:1  | pct: initializing pods=dra-instance1-btjr-0:Running:ago):4 dra-instance1-k9n9-0:Running:ago):4 
+1791997344149 A-STATE cnpg: Cluster in healthy state/dr-a-1 pods=dr-a-1:Running:1/2:1 dr-a-2:Running:2/2:1  | pct: initializing pods=dra-instance1-btjr-0:Running:ago):4 dra-instance1-k9n9-0:Running:ago):4 
+1791997360393 A-STATE cnpg: Cluster in healthy state/dr-a-1 pods=dr-a-1:Running:1/2:1 dr-a-2:Running:2/2:1  | pct: initializing pods=dra-instance1-btjr-0:Running:ago):4 dra-instance1-k9n9-0:Running:ago):4 
+1791997376668 A-STATE cnpg: Cluster in healthy state/dr-a-1 pods=dr-a-1:Running:1/2:1 dr-a-2:Running:2/2:1  | pct: initializing pods=dra-instance1-btjr-0:Running:ago):4 dra-instance1-k9n9-0:Running:ago):4 
+1791997393434 A-STATE cnpg: Cluster in healthy state/dr-a-1 pods=dr-a-1:Running:1/2:1 dr-a-2:Running:2/2:1  | pct: initializing pods=dra-instance1-btjr-0:Running:ago):4 dra-instance1-k9n9-0:Running:ago):4 
+1791997409680 A-STATE cnpg: Cluster in healthy state/dr-a-1 pods=dr-a-1:Running:1/2:1 dr-a-2:Running:2/2:1  | pct: initializing pods=dra-instance1-btjr-0:Running:ago):4 dra-instance1-k9n9-0:Running:ago):4 
+1791997425960 A-STATE cnpg: Cluster in healthy state/dr-a-1 pods=dr-a-1:Running:1/2:1 dr-a-2:Running:2/2:1  | pct: initializing pods=dra-instance1-btjr-0:Running:ago):4 dra-instance1-k9n9-0:Running:ago):4 
+1791997442315 A-STATE cnpg: Cluster in healthy state/dr-a-1 pods=dr-a-1:Running:1/2:1 dr-a-2:Running:2/2:1  | pct: initializing pods=dra-instance1-btjr-0:Running:ago):4 dra-instance1-k9n9-0:Running:ago):4 
+1791997459115 A-STATE cnpg: Cluster in healthy state/dr-a-1 pods=dr-a-1:Running:1/2:1 dr-a-2:Running:2/2:1  | pct: initializing pods=dra-instance1-btjr-0:Running:ago):4 dra-instance1-k9n9-0:Running:ago):4 
+1791997475862 A-STATE cnpg: Cluster in healthy state/dr-a-1 pods=dr-a-1:Running:1/2:1 dr-a-2:Running:2/2:1  | pct: initializing pods=dra-instance1-btjr-0:Running:ago):4 dra-instance1-k9n9-0:Running:ago):4 
+1791997491728 STOP_WRITERS

@@ -32,6 +32,7 @@ Tests ran on 13–14 October 2026. A summary of results is in [FINDINGS.md](FIND
 | [`issues/`](issues/) | Bodies of the GitHub issues and comments filed from this work |
 | [`crunchy/`](crunchy/) | Crunchy PGO v6.0.3 install kustomization, the `hippo` source cluster, Percona migration targets (`mig-restore`, `mig-standby`, `mig-volume`), failover scenarios (`k_*`) and migration scripts (`m2_cutover.sh`, `m3_volume.sh`) |
 | [`dr/`](dr/) | Cross-site DR switchover tests: two-site CNPG replica clusters (distributed topology) and Percona standby clusters (repo-only and streaming), runner, analyzer, scenarios |
+| [`siteloss/`](siteloss/) | Unplanned site-loss tests across two separate k3s clusters in different regions (object storage and clients at a third site): manifests per site, `setup.sh`, `sitelost.sh` (power off site A, promote B, power A back on, rejoin), `rebuild_a.sh`, `analyze.py`. Results in `results/siteloss/` |
 | [`reports/`](reports/) | Standalone HTML reports: the full comparison, and product/docs recommendations for Percona. Download and open them locally |
 
 ## Reproducing
@@ -92,7 +93,8 @@ The three migration methods followed [Percona's guides](https://docs.percona.com
 - Each scenario was run once on small VMs.
 - Storage was local-path. Network-attached volumes would change node-loss recovery.
 - The VM pause is approximated by freezing the pod cgroup and SIGSTOPping the k3s agent.
-- PMM, major upgrades, cross-cluster DR and pg_tde were assessed from the documentation only.
+- PMM, major upgrades and pg_tde were assessed from the documentation only.
+- Planned DR switchovers used two namespaces in one cluster. Unplanned site loss used two clusters in different Linode regions (us-southeast, us-east; ~20 ms) with S3 and clients in us-central; data was ~30 MB, so rebuild times are a lower bound.
 
 ## Issues filed
 

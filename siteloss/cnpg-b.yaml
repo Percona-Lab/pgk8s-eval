@@ -1,0 +1,49 @@
+apiVersion: barmancloud.cnpg.io/v1
+kind: ObjectStore
+metadata: {name: store-a, namespace: site-b}
+spec:
+  configuration:
+    destinationPath: s3://cnpg/RUN/
+    endpointURL: https://<s3-site-ip>:30900
+    endpointCA: {name: s3x-ca, key: ca.crt}
+    s3Credentials:
+      accessKeyId: {name: s3-creds, key: ACCESS_KEY_ID}
+      secretAccessKey: {name: s3-creds, key: ACCESS_SECRET_KEY}
+    wal: {compression: gzip}
+---
+apiVersion: barmancloud.cnpg.io/v1
+kind: ObjectStore
+metadata: {name: store-b, namespace: site-b}
+spec:
+  configuration:
+    destinationPath: s3://cnpg/RUN/
+    endpointURL: https://<s3-site-ip>:30900
+    endpointCA: {name: s3x-ca, key: ca.crt}
+    s3Credentials:
+      accessKeyId: {name: s3-creds, key: ACCESS_KEY_ID}
+      secretAccessKey: {name: s3-creds, key: ACCESS_SECRET_KEY}
+    wal: {compression: gzip}
+---
+apiVersion: v1
+kind: Service
+metadata: {name: dr-b-np, namespace: site-b}
+spec: {type: NodePort, selector: {cnpg.io/cluster: dr-b, cnpg.io/instanceRole: primary}, ports: [{port: 5432, nodePort: 31002}]}
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata: {name: dr-b, namespace: site-b}
+spec:
+  instances: 2
+  storage: {size: 2Gi}
+  enableSuperuserAccess: true
+  superuserSecret: {name: dr-super}
+  bootstrap: {recovery: {source: dr-a}}
+  plugins:
+  - {name: barman-cloud.cloudnative-pg.io, isWALArchiver: true, parameters: {barmanObjectName: store-b}}
+  replica: {self: dr-b, primary: dr-a, source: dr-a}
+  externalClusters:
+  - name: dr-a
+    plugin: {name: barman-cloud.cloudnative-pg.io, parameters: {barmanObjectName: store-a, serverName: dr-a}}
+#STREAM_A
+  - {name: dr-b, plugin: {name: barman-cloud.cloudnative-pg.io, parameters: {barmanObjectName: store-b, serverName: dr-b}}}
+

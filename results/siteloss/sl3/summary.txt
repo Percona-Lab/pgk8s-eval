@@ -1,0 +1,23 @@
+events (relative to site-A power-off): SITE_A_LOST +0.0s, PROMOTE_B +61.6s, PCT_B_WRITABLE +66.7s, CNPG_B_WRITABLE +68.2s, BOOT_SITE_A +308.5s, A-STATE +402.7s, SITE_A_K8S_API_UP +404.0s, REJOIN_A +673.0s, STOP_WRITERS +1336.0s
+
+== CloudNativePG
+  acked on A before loss: 1252; last A ack -0.0s
+  LOST (acked on A, missing on promoted B): 1252  -> acked from -63.7s to -0.0s (RPO ~63.7s of writes)
+  B writable (SQL check) +68.2s  = 6.7s after promote command
+  first write acked on B +66.9s = 5.3s after promote; total write outage 66.9s (incl. 62s decision delay)
+  ZOMBIE writes accepted by returning site A: 3831 (first +478.2s, +74.3s vs A API up; last +674.3s, +1.3s vs rejoin cmd); in B final: 0
+
+== Percona
+  acked on A before loss: 1251; last A ack -0.1s
+  LOST (acked on A, missing on promoted B): 990  -> acked from -50.5s to -0.1s (RPO ~50.5s of writes)
+  B writable (SQL check) +66.7s  = 5.1s after promote command
+  first write acked on B +65.7s = 4.2s after promote; total write outage 65.8s (incl. 62s decision delay)
+  zombie writes on returning site A: 0
+== pod/dr-a-1 command terminated with exit code 2
+== pod/dr-a-2 t|5106|5118|0
+== pod/dra-instance1-btjr-0 command terminated with exit code 2
+== pod/dra-instance1-k9n9-0 command terminated with exit code 2
+
+B counts: 1920|1920
+12667|12670
+
